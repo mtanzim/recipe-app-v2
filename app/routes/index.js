@@ -54,4 +54,9 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
+		
+	app.route('/test')
+		.get(function(req, res) {
+	    	res.send('Hello World!');
+		});
 };
