@@ -1,0 +1,18 @@
+.card {
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+
+
+td {
+  /*border: 1px solid black;*/
+}
+
+th {
+  border-bottom: 1px solid black;
+}
+
+
+.card {
+	min-width:280px;
+}

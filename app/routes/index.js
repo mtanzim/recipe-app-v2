@@ -35,6 +35,11 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 			res.sendFile(path + '/public/profile.html');
 		});
+		
+	app.route('/recipeHolder')
+	.get(isLoggedIn, function (req, res) {
+		res.sendFile(path + '/public/recipe.html');
+	});
 
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
