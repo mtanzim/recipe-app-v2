@@ -19,7 +19,10 @@
     "boilerplate"
   ],
   "scripts": {
-  "start": "node server.js"
+    "server": "node server.js",
+    "db": "mongod --smallfiles",
+    "client": "cd client && npm start",
+    "start": "concurrently \"mongod --smallfiles\" \"npm run server\" \"cd client && npm start\""
   },
   "author": "Blake Johnston",
   "license": "MIT",
@@ -30,5 +33,8 @@
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-github": "^1.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1"
   }
 }
