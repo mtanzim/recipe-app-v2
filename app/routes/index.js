@@ -67,4 +67,15 @@ module.exports = function (app, passport) {
 		.get(function(req, res) {
 	    	res.send('Hello World!');
 		});
+		
+	/* test react proxy*/
+	app.get('/testReact', function(req, res, next) {
+	  res.json([{
+	  	id: 1,
+	  	username: "mtanzim"
+	  }, {
+	  	id: 2,
+	  	username: "tmokamme"
+	  }]);
+	});
 };
