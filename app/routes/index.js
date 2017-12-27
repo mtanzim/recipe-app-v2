@@ -76,20 +76,9 @@ module.exports = function (app, passport) {
 		
 		Recipes.find({}, function(err, recipe) {
 			if (err) throw err;
-			// object of all the users
 			res.json(recipe);
 		});
 		
-		//res.send(JSON.stringify());
-		/*
-	  res.json([{
-	  	id: 1,
-	  	username: "mtanzim"
-	  }, {
-	  	id: 2,
-	  	username: "tmokamme"
-	  }]);
-	  */
 	});
 	
 	

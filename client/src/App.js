@@ -3,14 +3,17 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  state = {users: []}
+  state = {recipes: []}
   
   componentDidMount() {
     fetch('/testReact')
       .then(res => res.json())
-      .then(users => this.setState({ users }));
+      .then(recipes => this.setState({ recipes }));
+      
+    //console.log(this.state.recipes);
   }
   render() {
+    console.log(this.state.recipes);
     return (
       <div className="App">
         <header className="App-header">
@@ -20,9 +23,14 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <h1>Users</h1>
-        {this.state.users.map(user =>
-          <div key={user.id}>{user.username}</div>
+        <h1>Recipes</h1>
+        {this.state.recipes.map(recipe =>
+          <div key={recipe._id}>
+            <h4>{recipe.title}</h4>
+            {recipe.ingredients.map (ing => 
+              <div key={ing._id}>{ing.title} {ing.qty} {ing.unit}</div>
+            )}
+          </div>
         )}
       </div>
     );

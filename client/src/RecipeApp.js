@@ -9,6 +9,7 @@ class RecipeApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			recipeInit:[],
 			recipes: [],
 			numRecipes:2,
 			newRecipeName: '',
@@ -33,7 +34,15 @@ class RecipeApp extends React.Component {
 		this.editIngredient = this.editIngredient.bind(this);
 		//this.renderAddRecipeForm = this.renderAddRecipeForm.bind(this);
 
-
+	}
+	componentDidMount() {
+		fetch('/testReact')
+		.then(res => res.json())
+		.then(recipesInit =>
+			//console.log(recipesInit)
+			this.setState({recipes:recipesInit})
+		);
+	//console.log(this.state.recipes);
 	}
 	toggleAddRecipe() {
 		this.setState({
@@ -56,7 +65,7 @@ class RecipeApp extends React.Component {
 	}
 
 	addRecipe() {
-		var updatedRecipe = this.state.recipes.concat([{id:(new Date).getTime(), title:this.state.newRecipeName, ing:[{}]}])
+		var updatedRecipe = this.state.recipes.concat([{id:(new Date).getTime(), title:this.state.newRecipeName, ingredients:[{}]}])
 		this.setState({
 			recipes:updatedRecipe,
 			numRecipes: this.state.numRecipes+1,
@@ -120,8 +129,8 @@ class RecipeApp extends React.Component {
 		console.log();
 		var recipeUpdated = this.state.recipes.map(function(recipe){
 			if (recipe.id===id){
-				var addedIng=recipe.ing.concat(newIng);
-				return {...recipe,ing:addedIng};
+				var addedIng=recipe.ingredients.concat(newIng);
+				return {...recipe,ingredients:addedIng};
 			} else {
 				return recipe;
 			}
@@ -133,6 +142,8 @@ class RecipeApp extends React.Component {
 		});
 
 		console.log(recipeUpdated);
+		console.log(this.state.recipes);
+		console.log(this.state.recipesInit);
 	}
 
 	delIngredient(id, ingId) {
@@ -141,7 +152,7 @@ class RecipeApp extends React.Component {
 		this.state.recipes.forEach(function(recipe, index){
 			if (recipe.id===id){
 				recIndexToDel=index;
-				recipe.ing.forEach(function(ing,ingIndex){
+				recipe.ingredients.forEach(function(ing,ingIndex){
 					if (ing.id===ingId){
 						ingIndexToDel=ingIndex;
 					}
@@ -150,7 +161,7 @@ class RecipeApp extends React.Component {
 		});
 
 		var recipeUpdated = this.state.recipes;
-		recipeUpdated[recIndexToDel].ing.splice(ingIndexToDel,1);
+		recipeUpdated[recIndexToDel].ingredients.splice(ingIndexToDel,1);
 		this.setState({
 			recipes:recipeUpdated
 		});
@@ -162,7 +173,7 @@ class RecipeApp extends React.Component {
 		this.state.recipes.forEach(function(recipe, index){
 			if (recipe.id===id){
 				recIndexToEdit=index;
-				recipe.ing.forEach(function(ing,ingIndex){
+				recipe.ingredients.forEach(function(ing,ingIndex){
 					if (ing.id===ingId){
 						ingIndexToEdit=ingIndex;
 					}
@@ -171,7 +182,7 @@ class RecipeApp extends React.Component {
 		});
 
 		var recipeUpdated = this.state.recipes;
-		recipeUpdated[recIndexToEdit].ing[ingIndexToEdit]=editedIng;
+		recipeUpdated[recIndexToEdit].ingredients[ingIndexToEdit]=editedIng;
 		console.log(recipeUpdated);	
 		this.setState({
 			recipes:recipeUpdated
@@ -183,7 +194,7 @@ class RecipeApp extends React.Component {
 		var recipeUpdated = this.state.recipes.map(function(recipe){
 			if (recipe.id===id){
 				var emptyArr=[];
-				return {...recipe,ing:emptyArr};
+				return {...recipe,ingredients:emptyArr};
 			} else {
 				return recipe;
 			}
@@ -204,7 +215,7 @@ class RecipeApp extends React.Component {
 				key={recipe.id}
 				id={recipe.id}
 				title={recipe.title}
-				ingredients={recipe.ing}
+				ingredients={recipe.ingredients}
 				addIng={this.addIngredient}
 				remRecipe={this.remRecipe}
 				delAllIng={this.delAllIngredient}
