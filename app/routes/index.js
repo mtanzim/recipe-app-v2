@@ -2,6 +2,8 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+//testing recipes
+var Recipes=require(path + '/app/models/recipes.js');
 
 module.exports = function (app, passport) {
 
@@ -68,8 +70,18 @@ module.exports = function (app, passport) {
 	    	res.send('Hello World!');
 		});
 		
-	/* test react proxy*/
+	//1.test react proxy
+	//2 test Mongoose Recipe schema
 	app.get('/testReact', function(req, res, next) {
+		
+		Recipes.find({}, function(err, recipe) {
+			if (err) throw err;
+			// object of all the users
+			res.json(recipe);
+		});
+		
+		//res.send(JSON.stringify());
+		/*
 	  res.json([{
 	  	id: 1,
 	  	username: "mtanzim"
@@ -77,5 +89,8 @@ module.exports = function (app, passport) {
 	  	id: 2,
 	  	username: "tmokamme"
 	  }]);
+	  */
 	});
+	
+	
 };
