@@ -73,6 +73,23 @@ module.exports = function (app, passport) {
 	//1.test react proxy
 	//2 test Mongoose Recipe schema
 	app.get('/testReact', function(req, res, next) {
+		//hack to easily create entries in database
+		/*
+		var newRecipe = new Recipes({
+		  title: 'Pho Ga',
+		  ingredients: [{
+		  	title:'Chicken',
+		  	qty:50,
+		  	unit:'g'
+		  	
+		  }]
+		});
+		
+		newRecipe.save(function(err) {
+			if (err) throw err;
+			console.log('Initial Recipe saved successfully!');
+		});
+		*/
 		
 		Recipes.find({}, function(err, recipe) {
 			if (err) throw err;
@@ -80,6 +97,5 @@ module.exports = function (app, passport) {
 		});
 		
 	});
-	
 	
 };

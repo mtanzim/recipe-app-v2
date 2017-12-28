@@ -3,14 +3,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Ingredients=new Schema({
-	title:String,
-	qty:Number,
-	unit:String
-})
+
+var path = process.cwd();
+var Ingredients=require(path + '/app/models/ingredients.js');
 var Recipes = new Schema({
 	title: String,
-	ingredients: [Ingredients]
+	ingredients: [Ingredients.schema]
 });
 
 
