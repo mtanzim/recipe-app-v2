@@ -13,7 +13,7 @@ class RecipeApp extends React.Component {
 			recipes: [],
 			numRecipes:2,
 			newRecipeName: '',
-			newIng: {id:0, title:'', qty:0, unit:''},
+			newIng: {_id:0, title:'', qty:0, unit:''},
 			editing:false,
 			//addRecipeStyleState: {display:'none'}
 		};
@@ -52,7 +52,7 @@ class RecipeApp extends React.Component {
 	editRecipName(id,newName) {
 		console.log(newName+ ' for '+id);
 		var recipeUpdated = this.state.recipes.map(
-			recipe => (recipe.id !== id) ?
+			recipe => (recipe._id !== id) ?
 				recipe :
 				{...recipe,
 					title:newName} 
@@ -65,7 +65,7 @@ class RecipeApp extends React.Component {
 	}
 
 	addRecipe() {
-		var updatedRecipe = this.state.recipes.concat([{id:(new Date).getTime(), title:this.state.newRecipeName, ingredients:[{}]}])
+		var updatedRecipe = this.state.recipes.concat([{_id:(new Date).getTime(), title:this.state.newRecipeName, ingredients:[{}]}])
 		this.setState({
 			recipes:updatedRecipe,
 			numRecipes: this.state.numRecipes+1,
@@ -99,7 +99,7 @@ class RecipeApp extends React.Component {
 	remRecipe(id) {
 		var indexToDel=-1;
 		this.state.recipes.forEach(function(recipe, index){
-			if (recipe.id===id){
+			if (recipe._id===id){
 				indexToDel=index;
 			}
 		});
@@ -125,10 +125,10 @@ class RecipeApp extends React.Component {
 
 	addIngredient(id) {
 		//var newIng = [{id:(new Date).getTime(), name: this.state.newIng.title, qty: 2, unit: 'ml'}];
-		var newIng = {...this.state.newIng,id:(new Date).getTime()}
+		var newIng = {...this.state.newIng,_id:(new Date).getTime()}
 		console.log();
 		var recipeUpdated = this.state.recipes.map(function(recipe){
-			if (recipe.id===id){
+			if (recipe._id===id){
 				var addedIng=recipe.ingredients.concat(newIng);
 				return {...recipe,ingredients:addedIng};
 			} else {
@@ -138,7 +138,7 @@ class RecipeApp extends React.Component {
 
 		this.setState({
 			recipes:recipeUpdated,
-			newIng: {id:0, title:'', qty:0, unit:''}
+			newIng: {_id:0, title:'', qty:0, unit:''}
 		});
 
 		console.log(recipeUpdated);
@@ -150,7 +150,7 @@ class RecipeApp extends React.Component {
 		var recIndexToDel=-1;
 		var ingIndexToDel=-1;
 		this.state.recipes.forEach(function(recipe, index){
-			if (recipe.id===id){
+			if (recipe._id===id){
 				recIndexToDel=index;
 				recipe.ingredients.forEach(function(ing,ingIndex){
 					if (ing.id===ingId){
@@ -171,10 +171,10 @@ class RecipeApp extends React.Component {
 		var recIndexToEdit=-1;
 		var ingIndexToEdit=-1;
 		this.state.recipes.forEach(function(recipe, index){
-			if (recipe.id===id){
+			if (recipe._id===id){
 				recIndexToEdit=index;
 				recipe.ingredients.forEach(function(ing,ingIndex){
-					if (ing.id===ingId){
+					if (ing._id===ingId){
 						ingIndexToEdit=ingIndex;
 					}
 				});
@@ -192,7 +192,7 @@ class RecipeApp extends React.Component {
 
 	delAllIngredient(id) {
 		var recipeUpdated = this.state.recipes.map(function(recipe){
-			if (recipe.id===id){
+			if (recipe._id===id){
 				var emptyArr=[];
 				return {...recipe,ingredients:emptyArr};
 			} else {
@@ -212,8 +212,8 @@ class RecipeApp extends React.Component {
 	eachRecipe(recipe){
 		return (
 			<RecipeCard
-				key={recipe.id}
-				id={recipe.id}
+				key={recipe._id}
+				id={recipe._id}
 				title={recipe.title}
 				ingredients={recipe.ingredients}
 				addIng={this.addIngredient}
@@ -274,8 +274,8 @@ class RecipeCard extends React.Component {
 		if (Object.keys(ing).length !== 0){
 			return (
 				<Ingredient ing={ing}
-									  key={ing.id}
-									  id={ing.id}
+									  key={ing._id}
+									  id={ing._id}
 									  parentId={this.props.id}
 									  delIng={this.props.delIng}
 									  handleIngTitle={this.props.handleIngTitle} 
@@ -463,7 +463,7 @@ class Ingredient extends React.Component {
 		});
 	}
 	handleClickSaveEdit() {
-		var updatedIngredient = {id:this.props.ing.id,title:this.state.editedTitle, qty:this.state.editedQty, unit:this.state.editedUnit}
+		var updatedIngredient = {_id:this.props.ing._id,title:this.state.editedTitle, qty:this.state.editedQty, unit:this.state.editedUnit}
 		console.log(this.props.ing);
 		console.log(updatedIngredient);
 		this.props.saveEdit(this.props.parentId, this.props.id, updatedIngredient);
