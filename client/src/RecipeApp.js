@@ -4,6 +4,7 @@ Nov 2017
 */
 import React, { Component } from 'react';
 import './style.css';
+import axios from 'axios';
 
 class RecipeApp extends React.Component {
 	constructor(props) {
@@ -66,12 +67,39 @@ class RecipeApp extends React.Component {
 
 	addRecipe() {
 		var updatedRecipe = this.state.recipes.concat([{_id:(new Date).getTime(), title:this.state.newRecipeName, ingredients:[{}]}])
-		this.setState({
-			recipes:updatedRecipe,
-			numRecipes: this.state.numRecipes+1,
-			newRecipeName: ''
-		});
-		this.toggleAddRecipe();
+		var newState={
+				recipes:updatedRecipe,
+				numRecipes: this.state.numRecipes+1,
+				newRecipeName: ''
+			};
+		console.log(JSON.stringify({newState}));
+		/*
+		fetch('/api/:id/recipe', {
+		  method: 'POST',
+		  headers: {
+		    Accept: 'application/json, text/plain',
+		    'Content-Type': 'application/json',
+		  },
+		  body: newState,
+		}).then(res=>res.json()).then(res => console.log(res));
+		
+		*/
+		
+		axios.post('/api/:id/recipe', updatedRecipe)
+		 .then(res => {
+			console.log(res);
+			this.setState({
+				recipes:updatedRecipe,
+				numRecipes: this.state.numRecipes+1,
+				newRecipeName: ''
+			});
+			this.toggleAddRecipe();
+		 })
+		 .catch(err => {
+			console.error(err);
+		 });
+		
+		
 	}
 
 	handleAddIngTitle (event){
