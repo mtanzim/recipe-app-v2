@@ -70,11 +70,18 @@ module.exports = function (app, passport) {
 	    	res.send('Hello World!');
 		});
 	
-	app.post('/api/:id/recipe', function(req,res){
-		console.log(req.body);
-		//console.log(req);
-		res.send({'message':'Recipe added to database'});
+	app.route('/api/:id/recipe')
+		.post( function(req,res){
+			//console.log(req.body);
+			var newRecipe=new Recipes(req.body);
+			newRecipe.save(function(err) {
+				if (err) throw err;
+				console.log('New Recipe saved successfully!');
+				res.json(newRecipe);
+		});
+		
 	});
+	
 	//1.test react proxy
 	//2 test Mongoose Recipe schema
 	app.get('/testReact', function(req, res, next) {
