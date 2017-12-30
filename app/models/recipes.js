@@ -8,7 +8,8 @@ var path = process.cwd();
 var Ingredients=require(path + '/app/models/ingredients.js');
 var Recipes = new Schema({
 	title: String,
-	ingredients: [Ingredients.schema]
+	//ingredients: [Ingredients.schema]
+	ingredients: { type: [Ingredients.schema], default: [] }
 });
 
 

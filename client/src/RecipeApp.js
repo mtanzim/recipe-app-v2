@@ -14,7 +14,7 @@ class RecipeApp extends React.Component {
 			recipes: [],
 			numRecipes:2,
 			newRecipeName: '',
-			newIng: {_id:0, title:'', qty:0, unit:''},
+			newIng: {title:'', qty:0, unit:''},
 			editing:false,
 			//addRecipeStyleState: {display:'none'}
 		};
@@ -37,12 +37,12 @@ class RecipeApp extends React.Component {
 
 	}
 	componentDidMount() {
-		fetch('/testReact')
+		fetch('/getRecipes')
 		.then(res => res.json())
-		.then(recipesInit =>
-			//console.log(recipesInit)
-			this.setState({recipes:recipesInit})
-		);
+		.then(recipesInit => {
+			console.log(recipesInit);
+			this.setState({recipes:recipesInit});
+		});
 	//console.log(this.state.recipes);
 	}
 	toggleAddRecipe() {
@@ -66,13 +66,13 @@ class RecipeApp extends React.Component {
 	}
 
 	addRecipe() {
-		
-		var newRecipe={title:this.state.newRecipeName, ingredients:[{}]};
-		
+		//var newRecipe={title:this.state.newRecipeName, ingredients:[{}]};
+		var newRecipe={title:this.state.newRecipeName};
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
 			console.log(typeof(JSON.stringify(res.data)));
-			var updatedRecipe = this.state.recipes.concat([res.data])
+			var updatedRecipe = [res.data].concat(this.state.recipes);
+			//var updatedRecipe = this.state.recipes.concat([res.data])
 			this.setState({
 				recipes:updatedRecipe,
 				numRecipes: this.state.numRecipes+1,
@@ -84,8 +84,6 @@ class RecipeApp extends React.Component {
 		 .catch(err => {
 			console.error(err);
 		 });
-		
-		
 	}
 
 	handleAddIngTitle (event){
@@ -111,23 +109,26 @@ class RecipeApp extends React.Component {
 	}
 
 	remRecipe(id) {
-		var indexToDel=-1;
-		this.state.recipes.forEach(function(recipe, index){
-			if (recipe._id===id){
-				indexToDel=index;
-			}
-		});
-
-		console.log(`index to del is ${indexToDel}`);
-
-		var recipeUpdated = this.state.recipes;
-		this.state.recipes.splice(indexToDel,1);
-		
-		this.setState({
-			recipes:recipeUpdated
-		});
-
-		console.log(recipeUpdated);
+		//post to the server and delete from the database; delete the same item locally
+		axios.delete(`/api/:id/recipe/${id}`)
+		 .then(res => {
+		 		console.log(res.data);
+				var indexToDel=-1;
+				this.state.recipes.forEach(function(recipe, index){
+					if (recipe._id===id){
+						indexToDel=index;
+					}
+				});
+				console.log(`index to del is ${indexToDel}`);
+				var recipeUpdated = this.state.recipes;
+				recipeUpdated.splice(indexToDel,1);
+				this.setState({
+					recipes:recipeUpdated
+				});
+		 })
+		 .catch(err => {
+			console.error(err);
+		 });
 	}
 
 	removeAll(){
@@ -138,6 +139,13 @@ class RecipeApp extends React.Component {
 	} 
 
 	addIngredient(id) {
+		
+		//send new ingredient to the database, and the id of the recipe being added
+		axios.put(`/api/:id/recipe/${id}`,this.state.newIng)
+			.then(res =>{
+				console.log(res.data);
+			});
+		
 		//var newIng = [{id:(new Date).getTime(), name: this.state.newIng.title, qty: 2, unit: 'ml'}];
 		var newIng = {...this.state.newIng,_id:(new Date).getTime()}
 		console.log();
@@ -152,12 +160,12 @@ class RecipeApp extends React.Component {
 
 		this.setState({
 			recipes:recipeUpdated,
-			newIng: {_id:0, title:'', qty:0, unit:''}
+			newIng: {title:'', qty:0, unit:''}
 		});
 
 		console.log(recipeUpdated);
 		console.log(this.state.recipes);
-		console.log(this.state.recipesInit);
+		//console.log(this.state.recipesInit);
 	}
 
 	delIngredient(id, ingId) {

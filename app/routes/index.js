@@ -73,18 +73,42 @@ module.exports = function (app, passport) {
 	app.route('/api/:id/recipe')
 		.post( function(req,res){
 			//console.log(req.body);
-			var newRecipe=new Recipes(req.body);
-			newRecipe.save(function(err) {
-				if (err) throw err;
-				console.log('New Recipe saved successfully!');
-				res.json(newRecipe);
+		var newRecipe=new Recipes(req.body);
+		newRecipe.save(function(err) {
+			if (err) throw err;
+			console.log('New Recipe saved successfully!');
+			res.json(newRecipe);
 		});
 		
+	});
+	app.route('/api/:id/recipe/:recipeID')
+		.put(function(req,res){
+			console.log(req.params.recipeID);
+			console.log(req.body);
+			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+				if (err) res.send(err);
+				console.log(recipe);
+				recipe.ingredients.push(req.body);
+				recipe.save(function(err) {
+					if (err) throw err;
+					console.log('New ingredient added successfully!');
+					res.json(recipe);
+				});
+			})
+			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
+		})
+		.delete( function(req,res){
+			console.log(req.params.recipeID);
+			Recipes.remove({ _id: req.params.recipeID }, function(err, recipe) {
+				 if (err)
+				 res.send(err);
+				 res.json({ message: 'Comment ' +req.params.recipeID + ' has been deleted' });
+			 });
 	});
 	
 	//1.test react proxy
 	//2 test Mongoose Recipe schema
-	app.get('/testReact', function(req, res, next) {
+	app.get('/getRecipes', function(req, res, next) {
 		//hack to easily create entries in database
 		/*
 		var newRecipe = new Recipes({
