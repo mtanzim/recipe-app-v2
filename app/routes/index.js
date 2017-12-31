@@ -81,6 +81,7 @@ module.exports = function (app, passport) {
 		});
 		
 	});
+	//delete one ingredient
 	app.route('/api/:id/recipe/:recipeID/:ingID')
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
@@ -89,10 +90,40 @@ module.exports = function (app, passport) {
 				if (err) res.send(err);
 				console.log(recipe);
 				recipe.ingredients.id(req.params.ingID).remove();
+				console.log(recipe);
 				recipe.save(function(err) {
 					if (err) throw err;
 					console.log('Ingredient removed successfully!');
-					res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
+					res.json(recipe);
+					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
+				});
+			});
+	});
+	//delete all ingredients
+	//currently not working
+	app.route('/api/:id/recipeDelAll/:recipeID')
+		.delete( function(req,res){
+			//console.log(req.params.recipeID);
+			//console.log(req.params.ingID);
+			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+				if (err) res.send(err);
+				
+				//below methods don't work
+				/*
+				//console.log(recipe);
+				//recipe.ingredients=[];
+				recipe.ingredients.forEach(eachIng => {
+					console.log(eachIng);
+					recipe.ingredients.id(eachIng._id).remove();
+				});
+				console.log('New Recipe:');
+				console.log(recipe);
+				*/
+				recipe.save(function(err) {
+					if (err) throw err;
+					console.log('All ingredients removed successfully!');
+					res.json(recipe);
+					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 				});
 			});
 	});
