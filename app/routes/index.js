@@ -81,6 +81,21 @@ module.exports = function (app, passport) {
 		});
 		
 	});
+	app.route('/api/:id/recipe/:recipeID/:ingID')
+		.delete( function(req,res){
+			//console.log(req.params.recipeID);
+			//console.log(req.params.ingID);
+			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+				if (err) res.send(err);
+				console.log(recipe);
+				recipe.ingredients.id(req.params.ingID).remove();
+				recipe.save(function(err) {
+					if (err) throw err;
+					console.log('Ingredient removed successfully!');
+					res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
+				});
+			});
+	});
 	app.route('/api/:id/recipe/:recipeID')
 		.put(function(req,res){
 			console.log(req.params.recipeID);

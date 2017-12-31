@@ -70,7 +70,7 @@ class RecipeApp extends React.Component {
 		var newRecipe={title:this.state.newRecipeName};
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
-			console.log(typeof(JSON.stringify(res.data)));
+			//console.log(typeof(JSON.stringify(res.data)));
 			var updatedRecipe = [res.data].concat(this.state.recipes);
 			//var updatedRecipe = this.state.recipes.concat([res.data])
 			this.setState({
@@ -169,6 +169,12 @@ class RecipeApp extends React.Component {
 	}
 
 	delIngredient(id, ingId) {
+		
+		axios.delete(`/api/:id/recipe/${id}/${ingId}`)
+		 .then(res => {
+		 		console.log(res.data);
+		 })
+		
 		var recIndexToDel=-1;
 		var ingIndexToDel=-1;
 		this.state.recipes.forEach(function(recipe, index){
