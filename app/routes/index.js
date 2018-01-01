@@ -81,8 +81,24 @@ module.exports = function (app, passport) {
 		});
 		
 	});
-	//delete one ingredient
+	
+	//delete one ingredient; edit ingredient name
 	app.route('/api/:id/recipe/:recipeID/:ingID')
+		.put (function(req, res){
+			console.log(req.body);
+			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+				if (err) res.send(err);
+				//console.log(recipe);
+				recipe.ingredients.id(req.params.ingID).set(req.body);
+				//console.log(recipe);
+				recipe.save(function(err) {
+					if (err) throw err;
+					console.log('Ingredient edited successfully!');
+					res.json(req.body);
+					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
+				});
+			});
+		})
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
@@ -99,26 +115,23 @@ module.exports = function (app, passport) {
 				});
 			});
 	});
+
+		
+			
 	//delete all ingredients
-	//currently not working
-	app.route('/api/:id/recipeDelAll/:recipeID')
+	app.route('/api/:id/recipeDelAllIng/:recipeID')
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
 			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
 				if (err) res.send(err);
 				
-				//below methods don't work
-				/*
-				//console.log(recipe);
-				//recipe.ingredients=[];
-				recipe.ingredients.forEach(eachIng => {
-					console.log(eachIng);
-					recipe.ingredients.id(eachIng._id).remove();
-				});
+				var ingredientL=recipe.ingredients.length-1;
+				for (let i=ingredientL; i > -1 ; i--){
+					recipe.ingredients.id(recipe.ingredients[i]._id).remove();
+				};
 				console.log('New Recipe:');
 				console.log(recipe);
-				*/
 				recipe.save(function(err) {
 					if (err) throw err;
 					console.log('All ingredients removed successfully!');
@@ -127,8 +140,33 @@ module.exports = function (app, passport) {
 				});
 			});
 	});
+	//delete all recipes
+	app.route('/api/:id/recipeDelAll')
+		.delete( function(req,res){
+			Recipes.remove({}, function(err, recipe) {
+				 if (err)
+				 res.send(err);
+				 res.json({ message: 'All recipes deleted'});
+			 });
+		});
+	//add new ingredients, edit recipe name, or delete recipe
 	app.route('/api/:id/recipe/:recipeID')
-		.put(function(req,res){
+		.put (function(req, res){
+			console.log(req.params.recipeID);
+			console.log(req.body);
+			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+				if (err) res.send(err);
+				console.log(recipe);
+				recipe.title=req.body.title;
+				recipe.save(function(err) {
+					if (err) throw err;
+					console.log('New ingredient added successfully!');
+					res.json(recipe);
+				});
+			})
+			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
+		})
+		.post(function(req,res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
 			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
@@ -155,28 +193,10 @@ module.exports = function (app, passport) {
 	//1.test react proxy
 	//2 test Mongoose Recipe schema
 	app.get('/getRecipes', function(req, res, next) {
-		//hack to easily create entries in database
-		/*
-		var newRecipe = new Recipes({
-		  title: 'Pho Ga',
-		  ingredients: [{
-		  	title:'Chicken',
-		  	qty:50,
-		  	unit:'g'
-		  	
-		  }]
-		});
-		
-		newRecipe.save(function(err) {
-			if (err) throw err;
-			console.log('Initial Recipe saved successfully!');
-		});
-		*/
 		Recipes.find({}, function(err, recipe) {
 			if (err) throw err;
 			res.json(recipe);
 		});
-		
 	});
 	
 };

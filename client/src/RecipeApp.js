@@ -50,20 +50,6 @@ class RecipeApp extends React.Component {
 			editing:!this.state.editing
 		});
 	}
-	editRecipName(id,newName) {
-		console.log(newName+ ' for '+id);
-		var recipeUpdated = this.state.recipes.map(
-			recipe => (recipe._id !== id) ?
-				recipe :
-				{...recipe,
-					title:newName} 
-		);
-		this.setState({
-			recipes:recipeUpdated
-		});
-
-		//console.log(this.state.recipes)
-	}
 
 	handleAddIngTitle (event){
 		this.setState({
@@ -128,13 +114,26 @@ class RecipeApp extends React.Component {
 			console.error(err);
 		 });
 	}
-
-
-
+	editRecipName(id,newName) {
+		axios.put(`/api/:id/recipe/${id}`,{'title':newName})
+			.then (res => {
+				console.log(res.data);
+				var recipeUpdated = this.state.recipes.map(
+					recipe => (recipe._id !== id) ?
+						recipe : res.data
+				);
+				this.setState({
+					recipes:recipeUpdated
+				});
+			})
+			.catch(err => {
+				console.error(err);
+		 });
+	}
 	addIngredient(id) {
 		
 		//send new ingredient to the database, and the id of the recipe being added
-		axios.put(`/api/:id/recipe/${id}`,this.state.newIng)
+		axios.post(`/api/:id/recipe/${id}`,this.state.newIng)
 			.then(res =>{
 				console.log(res.data);
 				//var newIng = res.data.ingredients;
@@ -151,30 +150,10 @@ class RecipeApp extends React.Component {
 					recipes:recipeUpdated,
 					newIng: {title:'', qty:0, unit:''}
 				});
-			});
-		
-		//var newIng = [{id:(new Date).getTime(), name: this.state.newIng.title, qty: 2, unit: 'ml'}];
-		/*
-		var newIng = {...this.state.newIng,_id:(new Date).getTime()};
-		console.log();
-		var recipeUpdated = this.state.recipes.map(function(recipe){
-			if (recipe._id===id){
-				var addedIng=recipe.ingredients.concat(newIng);
-				return {...recipe,ingredients:addedIng};
-			} else {
-				return recipe;
-			}
-		});
-
-		this.setState({
-			recipes:recipeUpdated,
-			newIng: {title:'', qty:0, unit:''}
-		});
-
-		console.log(recipeUpdated);
-		console.log(this.state.recipes);
-		//console.log(this.state.recipesInit);
-		*/
+			})
+			.catch(err => {
+				console.error(err);
+		 });
 	}
 
 	delIngredient(id, ingId) {
@@ -194,58 +173,55 @@ class RecipeApp extends React.Component {
 				this.setState({
 					recipes:recipeUpdated
 				});
-		 		/*
-	 			var recIndexToDel=-1;
-				var ingIndexToDel=-1;
+		})
+		.catch(err => {
+				console.error(err);
+		 });
+	}
+	
+	editIngredient(id, ingId, editedIng) {
+		axios.put(`/api/:id/recipe/${id}/${ingId}`, editedIng)
+			.then(res=>{
+				console.log(res.data);
+				var recIndexToEdit=-1;
+				var ingIndexToEdit=-1;
 				this.state.recipes.forEach(function(recipe, index){
 					if (recipe._id===id){
-						recIndexToDel=index;
+						recIndexToEdit=index;
 						recipe.ingredients.forEach(function(ing,ingIndex){
-							if (ing.id===ingId){
-								ingIndexToDel=ingIndex;
+							if (ing._id===ingId){
+								ingIndexToEdit=ingIndex;
 							}
 						});
 					}
-				})
+				});
+
 				var recipeUpdated = this.state.recipes;
-				recipeUpdated[recIndexToDel].ingredients.splice(ingIndexToDel,1);
+				recipeUpdated[recIndexToEdit].ingredients[ingIndexToEdit]=res.data;
+				console.log(recipeUpdated);	
 				this.setState({
 					recipes:recipeUpdated
 				});
-				*/
-		});
+			})
+			.catch(err => {
+					console.error(err);
+			 });
 	}
 	removeAll(){
-		this.setState({
-			recipes:[],
-			numRecipes:0
-		});
+		axios.delete(`/api/:id/recipeDelAll`)
+		 .then(res => {
+		 	console.log (res);
+			this.setState({
+				recipes:[],
+				numRecipes:0
+			});
+		 })
+		 .catch(err => {
+				console.error(err);
+		 });
 	} 
-	editIngredient(id, ingId, editedIng) {
-		var recIndexToEdit=-1;
-		var ingIndexToEdit=-1;
-		this.state.recipes.forEach(function(recipe, index){
-			if (recipe._id===id){
-				recIndexToEdit=index;
-				recipe.ingredients.forEach(function(ing,ingIndex){
-					if (ing._id===ingId){
-						ingIndexToEdit=ingIndex;
-					}
-				});
-			}
-		});
-
-		var recipeUpdated = this.state.recipes;
-		recipeUpdated[recIndexToEdit].ingredients[ingIndexToEdit]=editedIng;
-		console.log(recipeUpdated);	
-		this.setState({
-			recipes:recipeUpdated
-		});
-
-	}
-
 	delAllIngredient(id) {
-		axios.delete(`/api/:id/recipeDelAll/${id}`)
+		axios.delete(`/api/:id/recipeDelAllIng/${id}`)
 		 .then(res => {
 		 		console.log(res.data);
  				var recipeUpdated = this.state.recipes.map(function(recipe){
@@ -260,23 +236,10 @@ class RecipeApp extends React.Component {
 				this.setState({
 					recipes:recipeUpdated
 				});
+		 })
+		 .catch(err => {
+				console.error(err);
 		 });
-		/*
-		var recipeUpdated = this.state.recipes.map(function(recipe){
-			if (recipe._id===id){
-				var emptyArr=[];
-				return {...recipe,ingredients:emptyArr};
-			} else {
-				return recipe;
-			}
-		});
-
-		this.setState({
-			recipes:recipeUpdated
-		});
-
-		console.log(recipeUpdated);
-		*/
 	}
 
 	eachRecipe(recipe){

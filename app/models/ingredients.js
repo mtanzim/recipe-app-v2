@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 var Ingredients=new Schema({
 	title:String,
-	qty:Number,
+	qty:String,
 	unit:String
 })
 
