@@ -10,6 +10,7 @@ class RecipeApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user:{},
 			recipeInit:[],
 			recipes: [],
 			numRecipes:2,
@@ -37,13 +38,30 @@ class RecipeApp extends React.Component {
 
 	}
 	componentDidMount() {
+		
+		 axios.get('/api/:id')
+		 .then(res => {
+		 	console.log(res.data);
+
+			this.setState({user:res.data});
+		 	axios.get('/getRecipes')
+			 .then(res => {
+			 	this.setState({recipes:res.data,});
+			 }).catch(err => {
+					console.error(err);
+				});
+		 }).catch(err => {
+				console.error(err);
+		 });
+		/*
 		fetch('/getRecipes')
 		.then(res => res.json())
 		.then(recipesInit => {
 			console.log(recipesInit);
 			this.setState({recipes:recipesInit});
 		});
-	//console.log(this.state.recipes);
+		*/
+		//console.log(this.state.recipes);
 	}
 	toggleAddRecipe() {
 		this.setState({
@@ -265,7 +283,9 @@ class RecipeApp extends React.Component {
 	render () {
 		return (
 			<div className="container">
+
 				<h1 className="mt-4">Recipe List</h1>
+				<UserInfo userObj={this.state.user}/>
 				<button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
 				<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
 				{this.state.editing && (<div className="mt-4">
@@ -280,6 +300,21 @@ class RecipeApp extends React.Component {
 }
 
 
+//need to fix user links
+class UserInfo extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	render () {
+		return (
+			<div>
+				<p className="mt-2">Welcome, <span id="display-name">{this.props.userObj.displayName}</span>!</p>
+				<a href={"https://fccwebapps-mtanzim.c9users.io"+"/profile"} target="_blank">Profile</a>
+				<a className="ml-2" href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"} target="_blank">Logout</a>
+			</div>
+		);
+	}
+}
 
 class RecipeCard extends React.Component {
 	constructor(props) {
@@ -410,6 +445,10 @@ class RecipeCard extends React.Component {
 		);
 	}
 }
+
+
+
+
 
 class AddRecipeForm extends React.Component {
 	constructor(props) {

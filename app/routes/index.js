@@ -2,7 +2,6 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
-//testing recipes
 var Recipes=require(path + '/app/models/recipes.js');
 
 module.exports = function (app, passport) {
@@ -70,6 +69,17 @@ module.exports = function (app, passport) {
 	    	res.send('Hello World!');
 		});
 	
+	
+	//get all recipes, no user req aka guest user (not checking for users yet)
+	app.route('/getRecipes')
+		.get(function(req, res) {
+			Recipes.find({}, function(err, recipe) {
+				if (err) throw err;
+				res.json(recipe);
+			});
+	});
+	
+	//add recipe
 	app.route('/api/:id/recipe')
 		.post( function(req,res){
 			//console.log(req.body);
@@ -192,11 +202,5 @@ module.exports = function (app, passport) {
 	
 	//1.test react proxy
 	//2 test Mongoose Recipe schema
-	app.get('/getRecipes', function(req, res, next) {
-		Recipes.find({}, function(err, recipe) {
-			if (err) throw err;
-			res.json(recipe);
-		});
-	});
-	
+
 };
