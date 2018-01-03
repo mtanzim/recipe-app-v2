@@ -10,6 +10,7 @@ class RecipeApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			isLoggedIn:false,
 			user:{},
 			recipeInit:[],
 			recipes: [],
@@ -42,17 +43,23 @@ class RecipeApp extends React.Component {
 		 axios.get('/api/:id')
 		 .then(res => {
 		 	console.log(res.data);
-
 			this.setState({user:res.data});
-		 	axios.get('/getRecipes')
-			 .then(res => {
-			 	this.setState({recipes:res.data,});
-			 }).catch(err => {
-					console.error(err);
-				});
+			console.log(typeof(res.data)==='object');
+			if ((typeof(res.data)==='object') && this.state.user.id!==null){
+				console.log('User found');
+				this.setState({isLoggedIn:true});
+			 	axios.get('/getRecipes')
+				 .then(res => {
+				 	this.setState({recipes:res.data,});
+				 }).catch(err => {
+						console.error(err);
+					});
+			}
 		 }).catch(err => {
 				console.error(err);
 		 });
+	}
+
 		/*
 		fetch('/getRecipes')
 		.then(res => res.json())
@@ -62,7 +69,6 @@ class RecipeApp extends React.Component {
 		});
 		*/
 		//console.log(this.state.recipes);
-	}
 	toggleAddRecipe() {
 		this.setState({
 			editing:!this.state.editing
@@ -285,11 +291,13 @@ class RecipeApp extends React.Component {
 	render () {
 		return (
 			<div className="container">
-
 				<h1 className="mt-4">Recipe List</h1>
-				<UserInfo userObj={this.state.user}/>
-				<button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
+				<UserInfo userObj={this.state.user} isLoggedIn={this.state.isLoggedIn}/>
+				{this.state.isLoggedIn &&
+				(
+				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
 				<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+				</div>)}
 				{this.state.editing && (<div className="mt-4">
 					<AddRecipeForm onChange={this.handleAddRecipe} onSaveButton={this.addRecipe}/>
 				</div>)}
@@ -301,7 +309,31 @@ class RecipeApp extends React.Component {
 	}
 }
 
+/*
 
+class GitLogin extends React.Component {
+		constructor(props) {
+		super(props);
+	}
+	render () {
+		return(
+			<div >
+				<img src="/public/img/clementine_150.png" />
+				<br />
+				<p>Clementine.js</p>
+				<a href="/auth/github">
+					<div>
+						<img src="/public/img/github_32px.png" alt="github logo" />
+						<p>LOGIN WITH GITHUB</p>
+					</div>
+				</a>
+			</div>
+	);
+		
+	}
+}
+
+*/
 //need to fix user links
 class UserInfo extends React.Component {
 	constructor(props) {
@@ -310,9 +342,15 @@ class UserInfo extends React.Component {
 	render () {
 		return (
 			<div>
-				<p className="mt-2">Welcome, <span id="display-name">{this.props.userObj.displayName}</span>!</p>
-				<a href={"https://fccwebapps-mtanzim.c9users.io"+"/profile"} target="_blank">Profile</a>
-				<a className="ml-2" href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"} target="_blank">Logout</a>
+				{this.props.isLoggedIn ?
+					(<div><p className="mt-2">Welcome, <span id="display-name">{this.props.userObj.displayName}</span>!</p>
+						<a href={"https://fccwebapps-mtanzim.c9users.io"+"/profile"} target="_blank">Profile</a>
+						<a className="ml-2" href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"} target="">Logout</a></div>
+					): (
+						<a href={"https://fccwebapps-mtanzim.c9users.io"+"/login"} target="">Please log in with Github!</a>
+
+					)}
+				
 			</div>
 		);
 	}

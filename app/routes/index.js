@@ -11,6 +11,7 @@ module.exports = function (app, passport) {
 		if (req.isAuthenticated()) {
 			return next();
 		} else {
+			console.log(req.url);
 			res.redirect('/login');
 		}
 	}
@@ -127,39 +128,53 @@ module.exports = function (app, passport) {
 				for (let i=recipeL; i > -1 ; i--){
 					user.recipes.id(user.recipes[i]._id).remove();
 				};
-				res.json({ message: 'All recipes deleted'});
+				user.save(function(err) {
+					if (err) throw err;
+					res.json({ message: 'All recipes deleted'});
+				});
+				
 			});
 		});
 	
 	//delete one ingredient; edit ingredient name
 	app.route('/api/:id/recipe/:recipeID/:ingID')
+		//edit ingredient name
 		.put (function(req, res){
 			console.log(req.body);
-			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
 				if (err) res.send(err);
+				var editRecipe= user.recipes.id(req.params.recipeID);
 				//console.log(recipe);
-				recipe.ingredients.id(req.params.ingID).set(req.body);
+				editRecipe.ingredients.id(req.params.ingID).set(req.body);
 				//console.log(recipe);
-				recipe.save(function(err) {
+				user.save(function(err) {
+					if (err) throw err;
+					console.log('Ingredient edited successfully!');
+					res.json(req.body);
+				});
+				/*
+				editRecipe.save(function(err) {
 					if (err) throw err;
 					console.log('Ingredient edited successfully!');
 					res.json(req.body);
 					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 				});
+				*/
 			});
 		})
+		//delete ingredient
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
 				if (err) res.send(err);
-				console.log(recipe);
-				recipe.ingredients.id(req.params.ingID).remove();
-				console.log(recipe);
-				recipe.save(function(err) {
+				var editRecipe= user.recipes.id(req.params.recipeID);
+				editRecipe.ingredients.id(req.params.ingID).remove();
+				console.log(editRecipe);
+				user.save(function(err) {
 					if (err) throw err;
 					console.log('Ingredient removed successfully!');
-					res.json(recipe);
+					res.json(editRecipe);
 					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 				});
 			});
@@ -169,19 +184,19 @@ module.exports = function (app, passport) {
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
 				if (err) res.send(err);
-				
-				var ingredientL=recipe.ingredients.length-1;
+				var editRecipe= user.recipes.id(req.params.recipeID);
+				var ingredientL=editRecipe.ingredients.length-1;
 				for (let i=ingredientL; i > -1 ; i--){
-					recipe.ingredients.id(recipe.ingredients[i]._id).remove();
+					editRecipe.ingredients.id(editRecipe.ingredients[i]._id).remove();
 				};
 				console.log('New Recipe:');
-				console.log(recipe);
-				recipe.save(function(err) {
+				console.log(editRecipe);
+				user.save(function(err) {
 					if (err) throw err;
 					console.log('All ingredients removed successfully!');
-					res.json(recipe);
+					res.json(editRecipe);
 					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 				});
 			});
@@ -192,14 +207,14 @@ module.exports = function (app, passport) {
 		.put (function(req, res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
 				if (err) res.send(err);
-				console.log(recipe);
-				recipe.title=req.body.title;
-				recipe.save(function(err) {
+				var editRecipe= user.recipes.id(req.params.recipeID);
+				editRecipe.title=req.body.title;
+				user.save(function(err) {
 					if (err) throw err;
 					console.log('New ingredient added successfully!');
-					res.json(recipe);
+					res.json(editRecipe);
 				});
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
@@ -207,25 +222,34 @@ module.exports = function (app, passport) {
 		.post(function(req,res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Recipes.findOne({ '_id':req.params.recipeID}, function (err, recipe) {
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
 				if (err) res.send(err);
-				console.log(recipe);
-				recipe.ingredients.push(req.body);
-				recipe.save(function(err) {
+				var editRecipe= user.recipes.id(req.params.recipeID);
+				console.log(editRecipe);
+				editRecipe.ingredients.push(req.body);
+				user.save(function(err) {
 					if (err) throw err;
 					console.log('New ingredient added successfully!');
-					res.json(recipe);
+					res.json(editRecipe);
 				});
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
 		.delete( function(req,res){
-			console.log(req.params.recipeID);
-			Recipes.remove({ _id: req.params.recipeID }, function(err, recipe) {
-				 if (err)
-				 res.send(err);
-				 res.json({ message: 'Comment ' +req.params.recipeID + ' has been deleted' });
-			 });
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+				if (err) res.send(err);
+				var editRecipe= user.recipes.id(req.params.recipeID);
+				console.log(editRecipe);
+				editRecipe.remove({ _id: req.params.recipeID }, function(err, recipe) {
+					 if (err)
+					 res.send(err);
+					 user.save(function(err) {
+						if (err) throw err;
+						res.json({ message: 'Recipe ' +req.params.recipeID + ' has been deleted' });
+					});
+					 
+				 });
+			});
 	});
 	
 	//1.test react proxy
