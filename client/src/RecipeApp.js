@@ -96,7 +96,9 @@ class RecipeApp extends React.Component {
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
 			//console.log(typeof(JSON.stringify(res.data)));
-			var updatedRecipe = [res.data].concat(this.state.recipes);
+			console.log(res.data);
+			//var updatedRecipe = [res.data].concat(this.state.recipes);
+			var updatedRecipe = res.data;
 			//var updatedRecipe = this.state.recipes.concat([res.data])
 			this.setState({
 				recipes:updatedRecipe,

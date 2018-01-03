@@ -2,6 +2,7 @@
 
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
+var Users=require(path + '/app/models/users.js');
 var Recipes=require(path + '/app/models/recipes.js');
 
 module.exports = function (app, passport) {
@@ -70,19 +71,45 @@ module.exports = function (app, passport) {
 		});
 	
 	
-	//get all recipes, no user req aka guest user (not checking for users yet)
+	//get all recipes for user
 	app.route('/getRecipes')
+		.get(isLoggedIn, function(req, res) {
+		    Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+		    	if (err) res.send(err);
+		    	res.json(user.recipes);
+		    });
+		})
+	/*
 		.get(function(req, res) {
 			Recipes.find({}, function(err, recipe) {
 				if (err) throw err;
 				res.json(recipe);
 			});
 	});
+	*/
 	
 	//add recipe
 	app.route('/api/:id/recipe')
+		.post(function (req, res){
+			//console.log(req.params.recipeID);
+			console.log(req.body);
+			//console.log(req.params.id);
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+				if (err) res.send(err);
+				console.log(user);
+				user.recipes.unshift(req.body);
+				user.save(function(err) {
+					if (err) throw err;
+					console.log('New recipe added successfully!');
+					res.json(user.recipes);
+				});
+			})
+			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
+		})
+		/*
 		.post( function(req,res){
-			//console.log(req.body);
+		console.log(req.user.github);
+		//console.log(req.body);
 		var newRecipe=new Recipes(req.body);
 		newRecipe.save(function(err) {
 			if (err) throw err;
@@ -91,6 +118,18 @@ module.exports = function (app, passport) {
 		});
 		
 	});
+	*/
+	//delete all recipes
+	app.route('/api/:id/recipeDelAll')
+		.delete( function(req,res){
+			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+				var recipeL=user.recipes.length-1;
+				for (let i=recipeL; i > -1 ; i--){
+					user.recipes.id(user.recipes[i]._id).remove();
+				};
+				res.json({ message: 'All recipes deleted'});
+			});
+		});
 	
 	//delete one ingredient; edit ingredient name
 	app.route('/api/:id/recipe/:recipeID/:ingID')
@@ -125,9 +164,6 @@ module.exports = function (app, passport) {
 				});
 			});
 	});
-
-		
-			
 	//delete all ingredients
 	app.route('/api/:id/recipeDelAllIng/:recipeID')
 		.delete( function(req,res){
@@ -150,15 +186,7 @@ module.exports = function (app, passport) {
 				});
 			});
 	});
-	//delete all recipes
-	app.route('/api/:id/recipeDelAll')
-		.delete( function(req,res){
-			Recipes.remove({}, function(err, recipe) {
-				 if (err)
-				 res.send(err);
-				 res.json({ message: 'All recipes deleted'});
-			 });
-		});
+
 	//add new ingredients, edit recipe name, or delete recipe
 	app.route('/api/:id/recipe/:recipeID')
 		.put (function(req, res){
