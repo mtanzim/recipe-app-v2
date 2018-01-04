@@ -3,7 +3,7 @@
 var path = process.cwd();
 var ClickHandler = require(path + '/app/controllers/clickHandler.server.js');
 var Users=require(path + '/app/models/users.js');
-var Recipes=require(path + '/app/models/recipes.js');
+//var Recipes=require(path + '/app/models/recipes.js');
 
 module.exports = function (app, passport) {
 
@@ -38,14 +38,6 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, function (req, res) {
 			res.sendFile(path + '/public/profile.html');
 		});
-	
-	/*	
-	app.route('/recipeHolder')
-	.get(isLoggedIn, function (req, res) {
-		res.sendFile(path + '/public/recipe.html');
-	});
-	*/
-	//https://fccwebapps-mtanzim.c9users.io:8081/
 
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
@@ -80,15 +72,6 @@ module.exports = function (app, passport) {
 		    	res.json(user.recipes);
 		    });
 		})
-	/*
-		.get(function(req, res) {
-			Recipes.find({}, function(err, recipe) {
-				if (err) throw err;
-				res.json(recipe);
-			});
-	});
-	*/
-	
 	//add recipe
 	app.route('/api/:id/recipe')
 		.post(function (req, res){
@@ -105,21 +88,7 @@ module.exports = function (app, passport) {
 					res.json(user.recipes);
 				});
 			})
-			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
-		/*
-		.post( function(req,res){
-		console.log(req.user.github);
-		//console.log(req.body);
-		var newRecipe=new Recipes(req.body);
-		newRecipe.save(function(err) {
-			if (err) throw err;
-			console.log('New Recipe saved successfully!');
-			res.json(newRecipe);
-		});
-		
-	});
-	*/
 	//delete all recipes
 	app.route('/api/:id/recipeDelAll')
 		.delete( function(req,res){
@@ -152,14 +121,6 @@ module.exports = function (app, passport) {
 					console.log('Ingredient edited successfully!');
 					res.json(req.body);
 				});
-				/*
-				editRecipe.save(function(err) {
-					if (err) throw err;
-					console.log('Ingredient edited successfully!');
-					res.json(req.body);
-					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
-				});
-				*/
 			});
 		})
 		//delete ingredient
@@ -197,7 +158,6 @@ module.exports = function (app, passport) {
 					if (err) throw err;
 					console.log('All ingredients removed successfully!');
 					res.json(editRecipe);
-					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 				});
 			});
 	});
@@ -251,8 +211,5 @@ module.exports = function (app, passport) {
 				 });
 			});
 	});
-	
-	//1.test react proxy
-	//2 test Mongoose Recipe schema
 
 };

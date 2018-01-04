@@ -2,7 +2,7 @@
 mtanzim@gmail.com
 Nov 2017
 */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './style.css';
 import axios from 'axios';
 
@@ -60,15 +60,6 @@ class RecipeApp extends React.Component {
 		 });
 	}
 
-		/*
-		fetch('/getRecipes')
-		.then(res => res.json())
-		.then(recipesInit => {
-			console.log(recipesInit);
-			this.setState({recipes:recipesInit});
-		});
-		*/
-		//console.log(this.state.recipes);
 	toggleAddRecipe() {
 		this.setState({
 			editing:!this.state.editing
@@ -309,31 +300,6 @@ class RecipeApp extends React.Component {
 	}
 }
 
-/*
-
-class GitLogin extends React.Component {
-		constructor(props) {
-		super(props);
-	}
-	render () {
-		return(
-			<div >
-				<img src="/public/img/clementine_150.png" />
-				<br />
-				<p>Clementine.js</p>
-				<a href="/auth/github">
-					<div>
-						<img src="/public/img/github_32px.png" alt="github logo" />
-						<p>LOGIN WITH GITHUB</p>
-					</div>
-				</a>
-			</div>
-	);
-		
-	}
-}
-
-*/
 //need to fix user links
 class UserInfo extends React.Component {
 	constructor(props) {
@@ -608,5 +574,3 @@ class Ingredient extends React.Component {
 }
 
 export default RecipeApp;
-
-//ReactDOM.render(<RecipeApp/>, document.getElementById('react-container'));
