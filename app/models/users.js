@@ -13,6 +13,13 @@ var User = new Schema({
 		username: String,
         publicRepos: Number
 	},
+	//Facebook login db schema
+	//taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
+	facebook         : {
+        id           : String,
+        token        : String,
+        name         : String
+    },
    nbrClicks: {
       clicks: Number
    },

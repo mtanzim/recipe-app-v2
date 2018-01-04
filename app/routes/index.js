@@ -39,9 +39,11 @@ module.exports = function (app, passport) {
 			res.sendFile(path + '/public/profile.html');
 		});
 
+
+	//replace github with facebook
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.github);
+			res.json(req.user.facebook);
 		});
 
 	app.route('/auth/github')
@@ -52,6 +54,19 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
+		
+		
+		//facebook login routes
+		app.get('/auth/facebook', passport.authenticate('facebook', { 
+      scope : ['public_profile', 'email']
+    }));
+
+    // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect: 'https://fccwebapps-mtanzim.c9users.io:8081',
+						failureRedirect: '/login'
+        }));
 
 	app.route('/api/:id/clicks')
 		.get(isLoggedIn, clickHandler.getClicks)
@@ -67,8 +82,9 @@ module.exports = function (app, passport) {
 	//get all recipes for user
 	app.route('/getRecipes')
 		.get(isLoggedIn, function(req, res) {
-		    Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+		    Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 		    	if (err) res.send(err);
+		    	console.log(user);
 		    	res.json(user.recipes);
 		    });
 		})
@@ -78,9 +94,10 @@ module.exports = function (app, passport) {
 			//console.log(req.params.recipeID);
 			console.log(req.body);
 			//console.log(req.params.id);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				console.log(user);
+				
 				user.recipes.unshift(req.body);
 				user.save(function(err) {
 					if (err) throw err;
@@ -92,7 +109,8 @@ module.exports = function (app, passport) {
 	//delete all recipes
 	app.route('/api/:id/recipeDelAll')
 		.delete( function(req,res){
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+				console.log(user);
 				var recipeL=user.recipes.length-1;
 				for (let i=recipeL; i > -1 ; i--){
 					user.recipes.id(user.recipes[i]._id).remove();
@@ -110,7 +128,7 @@ module.exports = function (app, passport) {
 		//edit ingredient name
 		.put (function(req, res){
 			console.log(req.body);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				//console.log(recipe);
@@ -127,7 +145,7 @@ module.exports = function (app, passport) {
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				editRecipe.ingredients.id(req.params.ingID).remove();
@@ -145,7 +163,7 @@ module.exports = function (app, passport) {
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				var ingredientL=editRecipe.ingredients.length-1;
@@ -167,7 +185,7 @@ module.exports = function (app, passport) {
 		.put (function(req, res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				editRecipe.title=req.body.title;
@@ -182,7 +200,7 @@ module.exports = function (app, passport) {
 		.post(function(req,res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				console.log(editRecipe);
@@ -196,7 +214,7 @@ module.exports = function (app, passport) {
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
 		.delete( function(req,res){
-			Users.findOne({ 'github.id': req.user.github.id }, function (err, user) {
+			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) res.send(err);
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				console.log(editRecipe);
