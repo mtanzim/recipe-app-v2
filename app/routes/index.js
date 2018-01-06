@@ -12,7 +12,8 @@ module.exports = function (app, passport) {
 			return next();
 		} else {
 			console.log(req.url);
-			res.redirect('/login');
+			//res.redirect('/login');
+			res.json({message:'Not logged in'});
 		}
 	}
 

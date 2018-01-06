@@ -44,8 +44,8 @@ class RecipeApp extends React.Component {
 		 .then(res => {
 		 	console.log(res.data);
 			this.setState({user:res.data});
-			console.log(typeof(res.data)==='object');
-			if ((typeof(res.data)==='object') && this.state.user.id!==null){
+			console.log((typeof(res.data)==='object') && this.state.user.id!==undefined);
+			if ((typeof(res.data)==='object') && this.state.user.id!==undefined){
 				console.log('User found');
 				this.setState({isLoggedIn:true});
 			 	axios.get('/getRecipes')
