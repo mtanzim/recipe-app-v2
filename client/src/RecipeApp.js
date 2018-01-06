@@ -309,12 +309,21 @@ class UserInfo extends React.Component {
 		return (
 			<div>
 				{this.props.isLoggedIn ?
-					(<div><p className="mt-2">Welcome, <span id="display-name">{this.props.userObj.name}</span>!</p>
-						{/*<a href={"https://fccwebapps-mtanzim.c9users.io"+"/profile"} target="_blank">Profile</a>*/}
-						<a className="ml-2" href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"} target="">Logout</a></div>
+					(<div className='row'><div className='col-sm-6'>
+							<h5>{this.props.userObj.name}
+								<a href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"}>
+									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
+										<i className="fa fa-sign-out" aria-hidden="true"></i>
+									</button>
+								</a>
+							</h5>
+					</div></div>
 					): (
-						<a href={"https://fccwebapps-mtanzim.c9users.io"+"/auth/facebook/"} target="">Please log in with Facebook!</a>
-
+						<a href={"https://fccwebapps-mtanzim.c9users.io"+"/auth/facebook/"} target="">
+							<button className="loginBtn loginBtn--facebook">
+						  	Login with Facebook
+							</button>
+						</a>
 					)}
 				
 			</div>
