@@ -84,9 +84,12 @@ module.exports = function (app, passport) {
 	app.route('/getRecipes')
 		.get(isLoggedIn, function(req, res) {
 		    Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-		    	if (err) res.send(err);
-		    	console.log(user);
-		    	res.json(user.recipes);
+		    	if (err) {
+		    		res.json({isError:true});
+		    	} else {
+			    	console.log(user);
+		    		res.json({isError:false, content:user.recipes});
+		    	}
 		    });
 		})
 	//add recipe
@@ -101,9 +104,13 @@ module.exports = function (app, passport) {
 				
 				user.recipes.unshift(req.body);
 				user.save(function(err) {
-					if (err) throw err;
-					console.log('New recipe added successfully!');
-					res.json(user.recipes);
+					if (err)  {
+						res.json({isError:true, content:err});
+						
+					} else {
+						console.log('New recipe added successfully!');
+						res.json({isError:false, content:user.recipes});
+					}
 				});
 			})
 		})
@@ -118,7 +125,8 @@ module.exports = function (app, passport) {
 				};
 				user.save(function(err) {
 					if (err) throw err;
-					res.json({ message: 'All recipes deleted'});
+					//res.json({ message: 'All recipes deleted'});
+					res.json({isError:false, content:'All recipes deleted'});
 				});
 				
 			});
@@ -191,9 +199,13 @@ module.exports = function (app, passport) {
 				var editRecipe= user.recipes.id(req.params.recipeID);
 				editRecipe.title=req.body.title;
 				user.save(function(err) {
-					if (err) throw err;
-					console.log('New ingredient added successfully!');
-					res.json(editRecipe);
+					if (err){
+						res.json({isError:true, content:err});
+					} else {
+						console.log('New ingredient added successfully!');
+						res.json({isError:false, content:editRecipe});
+					} 
+					//res.json(editRecipe);
 				});
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
@@ -207,9 +219,12 @@ module.exports = function (app, passport) {
 				console.log(editRecipe);
 				editRecipe.ingredients.push(req.body);
 				user.save(function(err) {
-					if (err) throw err;
-					console.log('New ingredient added successfully!');
-					res.json(editRecipe);
+					if (err){
+						res.json({isError:true, content:err});
+					} else {
+						console.log('New ingredient added successfully!');
+						res.json({isError:false, content:editRecipe});
+					} 
 				});
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
@@ -223,8 +238,12 @@ module.exports = function (app, passport) {
 					 if (err)
 					 res.send(err);
 					 user.save(function(err) {
-						if (err) throw err;
-						res.json({ message: 'Recipe ' +req.params.recipeID + ' has been deleted' });
+	 					if (err){
+							res.json({isError:true, content:err});
+						} else {
+							//res.json({isError:false, content:editRecipe});
+							res.json({isError:false, content: 'Recipe ' +req.params.recipeID + ' has been deleted' });
+						} 
 					});
 					 
 				 });

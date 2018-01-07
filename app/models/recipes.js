@@ -7,7 +7,7 @@ var Schema = mongoose.Schema;
 var path = process.cwd();
 var Ingredients=require(path + '/app/models/ingredients.js');
 var Recipes = new Schema({
-	title: String,
+	title: { type: String, maxlength:10},
 	//ingredients: [Ingredients.schema]
 	ingredients: { type: [Ingredients.schema], default: [] }
 });

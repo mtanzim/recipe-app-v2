@@ -50,7 +50,7 @@ class RecipeApp extends React.Component {
 				this.setState({isLoggedIn:true});
 			 	axios.get('/getRecipes')
 				 .then(res => {
-				 	this.setState({recipes:res.data,});
+				 	this.setState({recipes:res.data.content});
 				 }).catch(err => {
 						console.error(err);
 					});
@@ -92,18 +92,21 @@ class RecipeApp extends React.Component {
 		var newRecipe={title:this.state.newRecipeName};
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
-			//console.log(typeof(JSON.stringify(res.data)));
-			console.log(res.data);
-			//var updatedRecipe = [res.data].concat(this.state.recipes);
-			var updatedRecipe = res.data;
-			//var updatedRecipe = this.state.recipes.concat([res.data])
-			this.setState({
-				recipes:updatedRecipe,
-				numRecipes: this.state.numRecipes+1,
-				newRecipeName: ''
-			});
-			console.log(this.state.recipes);
-			this.toggleAddRecipe();
+				console.log(res.data);
+				if (res.data.isError===false){
+					var updatedRecipe = res.data.content;
+					this.setState({
+						recipes:updatedRecipe,
+						numRecipes: this.state.numRecipes+1,
+						newRecipeName: ''
+					});
+					console.log(this.state.recipes);
+					this.toggleAddRecipe();
+				} else {
+					//alert(JSON.stringify(res.data.content.errors));
+					alert(this.state.newRecipeName+ ' is too long.');
+					this.setState({isError:false});
+				}
 		 })
 		 .catch(err => {
 			console.error(err);
@@ -135,13 +138,18 @@ class RecipeApp extends React.Component {
 		axios.put(`/api/:id/recipe/${id}`,{'title':newName})
 			.then (res => {
 				console.log(res.data);
-				var recipeUpdated = this.state.recipes.map(
-					recipe => (recipe._id !== id) ?
-						recipe : res.data
-				);
-				this.setState({
-					recipes:recipeUpdated
-				});
+				if (res.data.isError===false){
+					var recipeUpdated = this.state.recipes.map(
+						recipe => (recipe._id !== id) ?
+							recipe : res.data.content
+					);
+					this.setState({
+						recipes:recipeUpdated
+					});
+				} else {
+					alert(newName+ ' is too long.');
+					//alert(JSON.stringify(res.data.content.errors));
+				}
 			})
 			.catch(err => {
 				console.error(err);
@@ -152,24 +160,30 @@ class RecipeApp extends React.Component {
 		//send new ingredient to the database, and the id of the recipe being added
 		axios.post(`/api/:id/recipe/${id}`,this.state.newIng)
 			.then(res =>{
+				
 				console.log(res.data);
-				//var newIng = res.data.ingredients;
-				var recipeUpdated = this.state.recipes.map(function(recipe){
-					if (recipe._id===id){
-						//var addedIng=recipe.ingredients.concat(newIng);
-						var newIng = res.data.ingredients;
-						return {...recipe,ingredients:newIng};
-					} else {
-						return recipe;
-					}
-				});
-				this.setState({
-					recipes:recipeUpdated,
-					newIng: {title:'', qty:0, unit:''}
-				});
+				if(res.data.isError===false){
+					//var newIng = res.data.ingredients;
+					var recipeUpdated = this.state.recipes.map(function(recipe){
+						if (recipe._id===id){
+							//var addedIng=recipe.ingredients.concat(newIng);
+							var newIng = res.data.content.ingredients;
+							return {...recipe,ingredients:newIng};
+						} else {
+							return recipe;
+						}
+					});
+					this.setState({
+						recipes:recipeUpdated,
+						newIng: {title:'', qty:0, unit:''}
+					});
+				} else {
+					alert(JSON.stringify(this.state.newIng)+ ' is too long.');
+					//alert(JSON.stringify(res.data.content.errors));
+				}
 			})
 			.catch(err => {
-				console.error(err);
+				//console.error(err);
 		 });
 	}
 
@@ -178,18 +192,22 @@ class RecipeApp extends React.Component {
 		axios.delete(`/api/:id/recipe/${id}/${ingId}`)
 		 .then(res => {
 		 		console.log(res.data);
- 				var recipeUpdated = this.state.recipes.map(function(recipe){
-					if (recipe._id===id){
-						//var addedIng=recipe.ingredients.concat(newIng);
-						var newIng = res.data.ingredients;
-						return {...recipe,ingredients:newIng};
-					} else {
-						return recipe;
-					}
-				});
-				this.setState({
-					recipes:recipeUpdated
-				});
+		 		if(res.data.isError===false){
+	 				var recipeUpdated = this.state.recipes.map(function(recipe){
+						if (recipe._id===id){
+							//var addedIng=recipe.ingredients.concat(newIng);
+							var newIng = res.data.ingredients;
+							return {...recipe,ingredients:newIng};
+						} else {
+							return recipe;
+						}
+					});
+					this.setState({
+						recipes:recipeUpdated
+					});
+		 		} else {
+		 			alert(JSON.stringify(res.data.errors));
+		 		}
 		})
 		.catch(err => {
 				console.error(err);

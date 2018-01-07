@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Ingredients=new Schema({
-	title:String,
+	title:{ type: String, maxlength:20},
 	qty:String,
 	unit:String
 })
