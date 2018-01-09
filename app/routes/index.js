@@ -99,35 +99,43 @@ module.exports = function (app, passport) {
 			console.log(req.body);
 			//console.log(req.params.id);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
 				console.log(user);
-				
-				user.recipes.unshift(req.body);
-				user.save(function(err) {
-					if (err)  {
-						res.json({isError:true, content:err});
-						
-					} else {
-						console.log('New recipe added successfully!');
-						res.json({isError:false, content:user.recipes});
-					}
-				});
-			})
+				if (err){
+					res.json({isError:true, content:err});
+				} else {
+					user.recipes.unshift(req.body);
+					user.save(function(err) {
+						if (err) {
+							res.json({isError:true, content:err});
+						} else {
+							console.log('New recipe added successfully!');
+							res.json({isError:false, content:user.recipes});
+						}
+					});
+				}
+			});
 		})
 	//delete all recipes
 	app.route('/api/:id/recipeDelAll')
 		.delete( function(req,res){
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				console.log(user);
-				var recipeL=user.recipes.length-1;
-				for (let i=recipeL; i > -1 ; i--){
-					user.recipes.id(user.recipes[i]._id).remove();
-				};
-				user.save(function(err) {
-					if (err) throw err;
-					//res.json({ message: 'All recipes deleted'});
-					res.json({isError:false, content:'All recipes deleted'});
-				});
+				if (err){
+					res.json({isError:true, content:err});
+				} else {
+					console.log(user);
+					var recipeL=user.recipes.length-1;
+					for (let i=recipeL; i > -1 ; i--){
+						user.recipes.id(user.recipes[i]._id).remove();
+					};
+					user.save(function(err) {
+						if (err) {
+							res.json({isError:true, content:err});
+						} else {
+						//res.json({ message: 'All recipes deleted'});
+							res.json({isError:false, content:'All recipes deleted'});
+						}
+					});
+				}
 				
 			});
 		});
@@ -138,16 +146,24 @@ module.exports = function (app, passport) {
 		.put (function(req, res){
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				//console.log(recipe);
-				editRecipe.ingredients.id(req.params.ingID).set(req.body);
-				//console.log(recipe);
-				user.save(function(err) {
-					if (err) throw err;
-					console.log('Ingredient edited successfully!');
-					res.json(req.body);
-				});
+				if (err){
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					//console.log(recipe);
+					editRecipe.ingredients.id(req.params.ingID).set(req.body);
+					//console.log(recipe);
+					user.save(function(err) {
+						if (err) {
+							res.json({isError:true, content:err});
+						} else {
+							console.log('Ingredient edited successfully!');
+							//res.json(req.body);
+							res.json({isError:false, content:req.body});
+						}
+					});
+				}
+
 			});
 		})
 		//delete ingredient
@@ -155,16 +171,23 @@ module.exports = function (app, passport) {
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				editRecipe.ingredients.id(req.params.ingID).remove();
-				console.log(editRecipe);
-				user.save(function(err) {
-					if (err) throw err;
-					console.log('Ingredient removed successfully!');
-					res.json(editRecipe);
-					//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
-				});
+				if (err) {
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					editRecipe.ingredients.id(req.params.ingID).remove();
+					console.log(editRecipe);
+					user.save(function(err) {
+						if (err) {
+							res.json({isError:true, content:err});
+						} else {
+							console.log('Ingredient removed successfully!');
+							//res.json(editRecipe);
+							res.json({isError:false, content:editRecipe});
+							//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
+						}
+					});
+				}
 			});
 	});
 	//delete all ingredients
@@ -173,19 +196,26 @@ module.exports = function (app, passport) {
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				var ingredientL=editRecipe.ingredients.length-1;
-				for (let i=ingredientL; i > -1 ; i--){
-					editRecipe.ingredients.id(editRecipe.ingredients[i]._id).remove();
-				};
-				console.log('New Recipe:');
-				console.log(editRecipe);
-				user.save(function(err) {
-					if (err) throw err;
-					console.log('All ingredients removed successfully!');
-					res.json(editRecipe);
-				});
+				if (err) {
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					var ingredientL=editRecipe.ingredients.length-1;
+					for (let i=ingredientL; i > -1 ; i--){
+						editRecipe.ingredients.id(editRecipe.ingredients[i]._id).remove();
+					};
+					console.log('New Recipe:');
+					console.log(editRecipe);
+					user.save(function(err) {
+						if (err) {
+							res.json({isError:true, content:err});
+						} else {
+							console.log('All ingredients removed successfully!');
+							//res.json(editRecipe);
+							res.json({isError:false, content:editRecipe});
+						}
+					});
+				}
 			});
 	});
 
@@ -195,18 +225,21 @@ module.exports = function (app, passport) {
 			console.log(req.params.recipeID);
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				editRecipe.title=req.body.title;
-				user.save(function(err) {
-					if (err){
-						res.json({isError:true, content:err});
-					} else {
-						console.log('New ingredient added successfully!');
-						res.json({isError:false, content:editRecipe});
-					} 
-					//res.json(editRecipe);
-				});
+				if (err) {
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					editRecipe.title=req.body.title;
+					user.save(function(err) {
+						if (err){
+							res.json({isError:true, content:err});
+						} else {
+							console.log('New ingredient added successfully!');
+							res.json({isError:false, content:editRecipe});
+						} 
+						//res.json(editRecipe);
+					});
+				}
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
@@ -214,39 +247,47 @@ module.exports = function (app, passport) {
 			console.log(req.params.recipeID);
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				console.log(editRecipe);
-				editRecipe.ingredients.push(req.body);
-				user.save(function(err) {
-					if (err){
-						res.json({isError:true, content:err});
-					} else {
-						console.log('New ingredient added successfully!');
-						res.json({isError:false, content:editRecipe});
-					} 
-				});
+				if (err) {
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					console.log(editRecipe);
+					editRecipe.ingredients.push(req.body);
+					user.save(function(err) {
+						if (err){
+							res.json({isError:true, content:err});
+						} else {
+							console.log('New ingredient added successfully!');
+							res.json({isError:false, content:editRecipe});
+						} 
+					});
+				}
 			})
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
 		.delete( function(req,res){
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-				if (err) res.send(err);
-				var editRecipe= user.recipes.id(req.params.recipeID);
-				console.log(editRecipe);
-				editRecipe.remove({ _id: req.params.recipeID }, function(err, recipe) {
-					 if (err)
-					 res.send(err);
-					 user.save(function(err) {
-	 					if (err){
-							res.json({isError:true, content:err});
-						} else {
-							//res.json({isError:false, content:editRecipe});
-							res.json({isError:false, content: 'Recipe ' +req.params.recipeID + ' has been deleted' });
-						} 
-					});
-					 
+				if (err) {
+					res.json({isError:true, content:err});
+				} else {
+					var editRecipe= user.recipes.id(req.params.recipeID);
+					console.log(editRecipe);
+					editRecipe.remove({ _id: req.params.recipeID }, function(err, recipe) {
+					 if (err) {
+						res.json({isError:true, content:err});
+					} else {
+						 user.save(function(err) {
+		 					if (err){
+								res.json({isError:true, content:err});
+							} else {
+								//res.json({isError:false, content:editRecipe});
+								res.json({isError:false, content: 'Recipe ' +req.params.recipeID + ' has been deleted' });
+							} 
+						});
+					}
+						 
 				 });
+				}	
 			});
 	});
 
