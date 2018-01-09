@@ -16,6 +16,21 @@ module.exports = function (app, passport) {
 			res.json({message:'Not logged in'});
 		}
 	}
+	
+	function parseMongooseErr (errMsg){
+		
+		console.log("START HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERERERERERERERR");
+		//console.log(typeof(errMsg.errors));
+		console.log(errMsg.errors);
+		var stringMsg='';
+		for (var error in errMsg.errors) {
+			console.log("TM error is" + errMsg.errors[error].message);
+			//stringMsg+=errMsg.errors[error].message;
+			stringMsg=stringMsg.concat(errMsg.errors[error].message).concat('\n');
+			//stringMsg=errMsg.errors[error].message;
+		}
+		return {errors:stringMsg};
+	}
 
 	var clickHandler = new ClickHandler();
 
@@ -101,12 +116,12 @@ module.exports = function (app, passport) {
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				console.log(user);
 				if (err){
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					user.recipes.unshift(req.body);
 					user.save(function(err) {
 						if (err) {
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('New recipe added successfully!');
 							res.json({isError:false, content:user.recipes});
@@ -120,7 +135,7 @@ module.exports = function (app, passport) {
 		.delete( function(req,res){
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err){
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					console.log(user);
 					var recipeL=user.recipes.length-1;
@@ -129,7 +144,7 @@ module.exports = function (app, passport) {
 					};
 					user.save(function(err) {
 						if (err) {
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 						//res.json({ message: 'All recipes deleted'});
 							res.json({isError:false, content:'All recipes deleted'});
@@ -147,7 +162,7 @@ module.exports = function (app, passport) {
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err){
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					//console.log(recipe);
@@ -155,7 +170,7 @@ module.exports = function (app, passport) {
 					//console.log(recipe);
 					user.save(function(err) {
 						if (err) {
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('Ingredient edited successfully!');
 							//res.json(req.body);
@@ -172,14 +187,14 @@ module.exports = function (app, passport) {
 			//console.log(req.params.ingID);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					editRecipe.ingredients.id(req.params.ingID).remove();
 					console.log(editRecipe);
 					user.save(function(err) {
 						if (err) {
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('Ingredient removed successfully!');
 							//res.json(editRecipe);
@@ -197,7 +212,7 @@ module.exports = function (app, passport) {
 			//console.log(req.params.ingID);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					var ingredientL=editRecipe.ingredients.length-1;
@@ -208,7 +223,7 @@ module.exports = function (app, passport) {
 					console.log(editRecipe);
 					user.save(function(err) {
 						if (err) {
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('All ingredients removed successfully!');
 							//res.json(editRecipe);
@@ -226,13 +241,13 @@ module.exports = function (app, passport) {
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					editRecipe.title=req.body.title;
 					user.save(function(err) {
 						if (err){
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('New ingredient added successfully!');
 							res.json({isError:false, content:editRecipe});
@@ -248,14 +263,14 @@ module.exports = function (app, passport) {
 			console.log(req.body);
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					console.log(editRecipe);
 					editRecipe.ingredients.push(req.body);
 					user.save(function(err) {
 						if (err){
-							res.json({isError:true, content:err});
+							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('New ingredient added successfully!');
 							res.json({isError:false, content:editRecipe});
@@ -268,17 +283,17 @@ module.exports = function (app, passport) {
 		.delete( function(req,res){
 			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
-					res.json({isError:true, content:err});
+					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					console.log(editRecipe);
 					editRecipe.remove({ _id: req.params.recipeID }, function(err, recipe) {
 					 if (err) {
-						res.json({isError:true, content:err});
+						res.json({isError:true, content:parseMongooseErr(err)});
 					} else {
 						 user.save(function(err) {
 		 					if (err){
-								res.json({isError:true, content:err});
+								res.json({isError:true, content:parseMongooseErr(err)});
 							} else {
 								//res.json({isError:false, content:editRecipe});
 								res.json({isError:false, content: 'Recipe ' +req.params.recipeID + ' has been deleted' });

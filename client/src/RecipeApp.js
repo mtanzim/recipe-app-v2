@@ -98,7 +98,7 @@ class RecipeApp extends React.Component {
 				console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 				if (res.data.isError===false){
 					var updatedRecipe = res.data.content;
@@ -123,7 +123,7 @@ class RecipeApp extends React.Component {
 		 		console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 		 		if (res.data.isError===false){
 					var indexToDel=-1;
@@ -150,7 +150,7 @@ class RecipeApp extends React.Component {
 				console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 				if (res.data.isError===false){
 					var recipeUpdated = this.state.recipes.map(
@@ -175,7 +175,7 @@ class RecipeApp extends React.Component {
 				console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 				if(res.data.isError===false){
 					//var newIng = res.data.ingredients;
@@ -205,7 +205,7 @@ class RecipeApp extends React.Component {
 		 		console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 		 		if(res.data.isError===false){
 	 				var recipeUpdated = this.state.recipes.map(function(recipe){
@@ -233,7 +233,7 @@ class RecipeApp extends React.Component {
 				console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 				if(res.data.isError===false){
 					var recIndexToEdit=-1;
@@ -269,7 +269,7 @@ class RecipeApp extends React.Component {
 		 	console.log (res.data);
 		 	this.setState({
 				isError:res.data.isError,
-				errMsg: JSON.stringify(res.data.content.errors)
+				errMsg: res.data.content.errors
 			});
 		 	if(res.data.isError===false){
 				this.setState({
@@ -288,7 +288,7 @@ class RecipeApp extends React.Component {
 		 		console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
-					errMsg: JSON.stringify(res.data.content.errors)
+					errMsg: res.data.content.errors
 				});
 		 		if(res.data.isError===false){
 	 				var recipeUpdated = this.state.recipes.map(function(recipe){
@@ -340,7 +340,7 @@ class RecipeApp extends React.Component {
 				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
 				<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
 				</div>)}
-				{this.state.isError && (<ErrorMessage errMsg={this.state.errMsg}/>)}
+				{this.state.isError && (<ErrorMessage isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
 				{this.state.editing && (<div className="mt-4">
 					<AddRecipeForm onChange={this.handleAddRecipe} onSaveButton={this.addRecipe}/>
 				</div>)}
@@ -356,14 +356,21 @@ class ErrorMessage extends React.Component {
 	constructor(props) {
 		super(props);
 	}
+	
+	/*
 	componentDidMount() {
 		console.log('Error initiated');
-		scrollToComponent(this.refs.ErrDiv);
+		if(this.props.isEdititing===false){
+			scrollToComponent(this.refs.ErrDiv);
+		}
 	}
 	componentDidUpdate() {
 		console.log('Error updated');
-		scrollToComponent(this.refs.ErrDiv);
+		if(this.props.isEdititing===false){
+			scrollToComponent(this.refs.ErrDiv);
+		}
 	}
+	*/
 	render () {
 		return (
 			<div ref="ErrDiv" className="alert alert-danger mt-4">{this.props.errMsg}</div>
