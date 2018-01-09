@@ -34,7 +34,8 @@
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-facebook": "^2.1.1",
-    "passport-github": "^1.0.0"
+    "passport-github": "^1.0.0",
+    "react-scroll-to-component": "^1.0.2"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",

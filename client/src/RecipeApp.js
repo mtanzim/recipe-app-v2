@@ -3,6 +3,7 @@ mtanzim@gmail.com
 Nov 2017
 */
 import React, {Component} from 'react';
+import scrollToComponent from 'react-scroll-to-component';
 import './style.css';
 import axios from 'axios';
 
@@ -11,6 +12,8 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
+			isError:false,
+			errMsg:'',
 			user:{},
 			recipeInit:[],
 			recipes: [],
@@ -93,20 +96,21 @@ class RecipeApp extends React.Component {
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
 				console.log(res.data);
+				this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 				if (res.data.isError===false){
 					var updatedRecipe = res.data.content;
 					this.setState({
 						recipes:updatedRecipe,
 						numRecipes: this.state.numRecipes+1,
-						newRecipeName: ''
+						newRecipeName: '',
+						isError:false
 					});
 					console.log(this.state.recipes);
 					this.toggleAddRecipe();
-				} else {
-					//alert(JSON.stringify(res.data.content.errors));
-					alert(this.state.newRecipeName+ ' is too long.');
-					this.setState({isError:false});
-				}
+				} 
 		 })
 		 .catch(err => {
 			console.error(err);
@@ -117,18 +121,24 @@ class RecipeApp extends React.Component {
 		axios.delete(`/api/:id/recipe/${id}`)
 		 .then(res => {
 		 		console.log(res.data);
-				var indexToDel=-1;
-				this.state.recipes.forEach(function(recipe, index){
-					if (recipe._id===id){
-						indexToDel=index;
-					}
+		 		this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
 				});
-				console.log(`index to del is ${indexToDel}`);
-				var recipeUpdated = this.state.recipes;
-				recipeUpdated.splice(indexToDel,1);
-				this.setState({
-					recipes:recipeUpdated
-				});
+		 		if (res.data.isError===false){
+					var indexToDel=-1;
+					this.state.recipes.forEach(function(recipe, index){
+						if (recipe._id===id){
+							indexToDel=index;
+						}
+					});
+					console.log(`index to del is ${indexToDel}`);
+					var recipeUpdated = this.state.recipes;
+					recipeUpdated.splice(indexToDel,1);
+					this.setState({
+						recipes:recipeUpdated
+					});
+	 			}
 		 })
 		 .catch(err => {
 			console.error(err);
@@ -138,6 +148,10 @@ class RecipeApp extends React.Component {
 		axios.put(`/api/:id/recipe/${id}`,{'title':newName})
 			.then (res => {
 				console.log(res.data);
+		 		this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 				if (res.data.isError===false){
 					var recipeUpdated = this.state.recipes.map(
 						recipe => (recipe._id !== id) ?
@@ -146,9 +160,6 @@ class RecipeApp extends React.Component {
 					this.setState({
 						recipes:recipeUpdated
 					});
-				} else {
-					//alert(newName+ ' is too long.');
-					alert(JSON.stringify(res.data.content.errors));
 				}
 			})
 			.catch(err => {
@@ -162,6 +173,10 @@ class RecipeApp extends React.Component {
 			.then(res =>{
 				
 				console.log(res.data);
+				this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 				if(res.data.isError===false){
 					//var newIng = res.data.ingredients;
 					var recipeUpdated = this.state.recipes.map(function(recipe){
@@ -177,9 +192,6 @@ class RecipeApp extends React.Component {
 						recipes:recipeUpdated,
 						newIng: {title:'', qty:0, unit:''}
 					});
-				} else {
-					//alert(JSON.stringify(this.state.newIng)+ ' is too long.');
-					alert(JSON.stringify(res.data.content.errors));
 				}
 			})
 			.catch(err => {
@@ -191,6 +203,10 @@ class RecipeApp extends React.Component {
 		axios.delete(`/api/:id/recipe/${id}/${ingId}`)
 		 .then(res => {
 		 		console.log(res.data);
+		 		this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 		 		if(res.data.isError===false){
 	 				var recipeUpdated = this.state.recipes.map(function(recipe){
 						if (recipe._id===id){
@@ -204,8 +220,6 @@ class RecipeApp extends React.Component {
 					this.setState({
 						recipes:recipeUpdated
 					});
-		 		} else {
-		 			alert(JSON.stringify(res.data.content.errors));
 		 		}
 		})
 		.catch(err => {
@@ -217,6 +231,10 @@ class RecipeApp extends React.Component {
 		axios.put(`/api/:id/recipe/${id}/${ingId}`, editedIng)
 			.then(res=>{
 				console.log(res.data);
+				this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 				if(res.data.isError===false){
 					var recIndexToEdit=-1;
 					var ingIndexToEdit=-1;
@@ -238,8 +256,6 @@ class RecipeApp extends React.Component {
 						recipes:recipeUpdated
 					});
 					
-				} else {
-					alert(JSON.stringify(res.data.content.errors));
 				}
 
 			})
@@ -251,13 +267,15 @@ class RecipeApp extends React.Component {
 		axios.delete(`/api/:id/recipeDelAll`)
 		 .then(res => {
 		 	console.log (res.data);
+		 	this.setState({
+				isError:res.data.isError,
+				errMsg: JSON.stringify(res.data.content.errors)
+			});
 		 	if(res.data.isError===false){
 				this.setState({
 					recipes:[],
 					numRecipes:0
 				});
-		 	} else {
-		 		alert(JSON.stringify(res.data.content.errors));
 		 	}
 		 })
 		 .catch(err => {
@@ -268,6 +286,10 @@ class RecipeApp extends React.Component {
 		axios.delete(`/api/:id/recipeDelAllIng/${id}`)
 		 .then(res => {
 		 		console.log(res.data);
+		 		this.setState({
+					isError:res.data.isError,
+					errMsg: JSON.stringify(res.data.content.errors)
+				});
 		 		if(res.data.isError===false){
 	 				var recipeUpdated = this.state.recipes.map(function(recipe){
 						if (recipe._id===id){
@@ -281,8 +303,6 @@ class RecipeApp extends React.Component {
 					this.setState({
 						recipes:recipeUpdated
 					});
-		 		} else {
-		 			alert(JSON.stringify(res.data.content.errors));
 		 		}
 		 })
 		 .catch(err => {
@@ -320,6 +340,7 @@ class RecipeApp extends React.Component {
 				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
 				<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
 				</div>)}
+				{this.state.isError && (<ErrorMessage errMsg={this.state.errMsg}/>)}
 				{this.state.editing && (<div className="mt-4">
 					<AddRecipeForm onChange={this.handleAddRecipe} onSaveButton={this.addRecipe}/>
 				</div>)}
@@ -327,6 +348,25 @@ class RecipeApp extends React.Component {
 					{this.state.recipes.map(this.eachRecipe)}
 				</div>
 			</div>
+		)
+	}
+}
+
+class ErrorMessage extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	componentDidMount() {
+		console.log('Error initiated');
+		scrollToComponent(this.refs.ErrDiv);
+	}
+	componentDidUpdate() {
+		console.log('Error updated');
+		scrollToComponent(this.refs.ErrDiv);
+	}
+	render () {
+		return (
+			<div ref="ErrDiv" className="alert alert-danger mt-4">{this.props.errMsg}</div>
 		)
 	}
 }
