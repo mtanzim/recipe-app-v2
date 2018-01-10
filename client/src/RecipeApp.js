@@ -195,7 +195,7 @@ class RecipeApp extends React.Component {
 				}
 			})
 			.catch(err => {
-				//console.error(err);
+				console.error(err);
 		 });
 	}
 
@@ -357,20 +357,18 @@ class ErrorMessage extends React.Component {
 		super(props);
 	}
 	
-	/*
+	
 	componentDidMount() {
 		console.log('Error initiated');
-		if(this.props.isEdititing===false){
-			scrollToComponent(this.refs.ErrDiv);
-		}
+		scrollToComponent(this.refs.ErrDiv);
 	}
 	componentDidUpdate() {
 		console.log('Error updated');
-		if(this.props.isEdititing===false){
+		//if(this.props.isEdititing===false){
 			scrollToComponent(this.refs.ErrDiv);
-		}
+		//}
 	}
-	*/
+	
 	render () {
 		return (
 			<div ref="ErrDiv" className="alert alert-danger mt-4">{this.props.errMsg}</div>
@@ -415,7 +413,7 @@ class RecipeCard extends React.Component {
 		this.state = {
 			editingName:false,
 			AddingIng:false,
-			editedRecipeName:'',
+			editedRecipeName:this.props.title,
 			editedIng:this.props.ingredients
 			//editRecipeStyleState: {display:'none'},
 			//addIngStyleState: {display:'none'}
@@ -500,7 +498,7 @@ class RecipeCard extends React.Component {
 							<form action='#'>
 				  				<div className="form-row">
 				    				<div className="form-group col">
-				      				<input autoFocus onChange={this.handleEditRecipeName} type="text" className="form-control" id="recipeEdit" placeholder="New Recipe Name"></input>
+				      				<input autoFocus onChange={this.handleEditRecipeName} type="text" className="form-control" id="recipeEdit" placeholder={this.props.title}></input>
 				    			</div>
 								</div>
 							</form>
