@@ -376,7 +376,37 @@ class ErrorMessage extends React.Component {
 	}
 }
 
+
+
+class UserInfo extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	render () {
+		return (
+			<div>
+				{this.props.isLoggedIn ?
+					(<div className='row'><div className='col-sm-6'>
+							<h5>{this.props.userObj.name}
+								<a href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"}>
+									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
+										<i className="fa fa-sign-out" aria-hidden="true"></i>
+									</button>
+								</a>
+							</h5>
+					</div></div>
+					): (
+					<p> Please <a href={"https://fccwebapps-mtanzim.c9users.io"+"/login"}>log in.</a></p>
+					)}
+			</div>
+		);
+	}
+}
+
 //need to fix user links
+
+
+/*
 class UserInfo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -406,6 +436,7 @@ class UserInfo extends React.Component {
 		);
 	}
 }
+*/
 
 class RecipeCard extends React.Component {
 	constructor(props) {

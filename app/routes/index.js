@@ -12,14 +12,14 @@ module.exports = function (app, passport) {
 			return next();
 		} else {
 			console.log(req.url);
-			//res.redirect('/login');
-			res.json({message:'Not logged in'});
+			res.redirect('/login');
+			//res.json({message:'Not logged in'});
 		}
 	}
 	
 	function parseMongooseErr (errMsg){
 		
-		console.log("START HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERERERERERERERR");
+		//console.log("START HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERERERERERERERR");
 		//console.log(typeof(errMsg.errors));
 		console.log(errMsg.errors);
 		var stringMsg='';
@@ -47,7 +47,8 @@ module.exports = function (app, passport) {
 	app.route('/logout')
 		.get(function (req, res) {
 			req.logout();
-			res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
+			res.redirect('/');
+			//res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
 		});
 
 	app.route('/profile')
@@ -80,7 +81,8 @@ module.exports = function (app, passport) {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            successRedirect: 'https://fccwebapps-mtanzim.c9users.io:8081',
+            //successRedirect: 'https://fccwebapps-mtanzim.c9users.io:8081',
+            successRedirect: '/',
 						failureRedirect: '/login'
         }));
 
