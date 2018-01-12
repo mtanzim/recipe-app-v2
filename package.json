@@ -22,8 +22,8 @@
     "server": "nodemon server.js",
     "db": "mongod --smallfiles",
     "client": "cd client && npm start",
-    "start": "concurrently \"mongod --smallfiles\" \"npm run server\" \"cd client && npm start\"",
-    "startnc": "concurrently \"mongod --smallfiles\" \"npm run server\""
+    "startwc": "concurrently \"mongod --smallfiles\" \"npm run server\" \"cd client && npm start\"",
+    "start": "concurrently \"mongod --smallfiles\" \"npm run server\""
   },
   "author": "Tanzim Mokammel",
   "license": "MIT",
