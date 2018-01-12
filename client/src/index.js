@@ -7,4 +7,4 @@ import registerServiceWorker from './registerServiceWorker';
 
 //ReactDOM.render(<App />, document.getElementById('root'));
 ReactDOM.render(<RecipeApp />, document.getElementById('root'));
-registerServiceWorker();
+//registerServiceWorker();

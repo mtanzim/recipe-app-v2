@@ -45,11 +45,12 @@ class RecipeApp extends React.Component {
 		
 		 axios.get('/api/:id')
 		 .then(res => {
-		 	console.log(res.data);
-			this.setState({user:res.data});
-			console.log((typeof(res.data)==='object') && this.state.user.id!==undefined);
-			if ((typeof(res.data)==='object') && this.state.user.id!==undefined){
+		 	//console.log(res.data);
+			
+			//console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
+			if ((typeof(res.data)==='object') && res.data.id!==undefined){
 				console.log('User found');
+				this.setState({user:res.data});
 				this.setState({isLoggedIn:true});
 			 	axios.get('/getRecipes')
 				 .then(res => {
@@ -378,33 +379,6 @@ class ErrorMessage extends React.Component {
 
 
 
-class UserInfo extends React.Component {
-	constructor(props) {
-		super(props);
-	}
-	render () {
-		return (
-			<div>
-				{this.props.isLoggedIn ?
-					(<div className='row'><div className='col-sm-6'>
-							<h5>{this.props.userObj.name}
-								<a href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"}>
-									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
-										<i className="fa fa-sign-out" aria-hidden="true"></i>
-									</button>
-								</a>
-							</h5>
-					</div></div>
-					): (
-					<p> Please <a href={"https://fccwebapps-mtanzim.c9users.io"+"/login"}>log in.</a></p>
-					)}
-			</div>
-		);
-	}
-}
-
-//need to fix user links
-
 
 /*
 class UserInfo extends React.Component {
@@ -417,7 +391,7 @@ class UserInfo extends React.Component {
 				{this.props.isLoggedIn ?
 					(<div className='row'><div className='col-sm-6'>
 							<h5>{this.props.userObj.name}
-								<a href={"https://fccwebapps-mtanzim.c9users.io"+"/logout"}>
+								<a href={""+"/logout"}>
 									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
 									</button>
@@ -425,7 +399,37 @@ class UserInfo extends React.Component {
 							</h5>
 					</div></div>
 					): (
-						<a href={"https://fccwebapps-mtanzim.c9users.io"+"/auth/facebook/"} target="">
+					<p> Please <a href={""+"/login"}>log in.</a></p>
+					)}
+			</div>
+		);
+	}
+}
+*/
+
+//need to fix user links
+
+
+
+class UserInfo extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	render () {
+		return (
+			<div>
+				{this.props.isLoggedIn ?
+					(<div className='row'><div className='col-sm-6'>
+							<h5>{this.props.userObj.name}
+								<a href="/logout">
+									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
+										<i className="fa fa-sign-out" aria-hidden="true"></i>
+									</button>
+								</a>
+							</h5>
+					</div></div>
+					): (
+						<a href="/auth/facebook/" target="">
 							<button className="loginBtn loginBtn--facebook">
 						  	Login with Facebook
 							</button>
@@ -436,7 +440,7 @@ class UserInfo extends React.Component {
 		);
 	}
 }
-*/
+
 
 class RecipeCard extends React.Component {
 	constructor(props) {

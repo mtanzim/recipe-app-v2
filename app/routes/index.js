@@ -12,8 +12,9 @@ module.exports = function (app, passport) {
 			return next();
 		} else {
 			console.log(req.url);
-			res.redirect('/login');
+			//res.redirect('/login');
 			//res.json({message:'Not logged in'});
+			res.redirect('/');
 		}
 	}
 	
@@ -35,14 +36,19 @@ module.exports = function (app, passport) {
 	var clickHandler = new ClickHandler();
 
 	app.route('/')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/index.html');
+		.get(function (req, res) {
+		//.get(isLoggedIn, function (req, res) {
+			//res.sendFile(path + '/public/index.html');
+			res.sendFile(path + '/client/build/index.html');
 		});
 
+
+	/*
 	app.route('/login')
 		.get(function (req, res) {
 			res.sendFile(path + '/public/login.html');
 		});
+		*/
 
 	app.route('/logout')
 		.get(function (req, res) {
@@ -51,11 +57,12 @@ module.exports = function (app, passport) {
 			//res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
 		});
 
+	/*
 	app.route('/profile')
 		.get(isLoggedIn, function (req, res) {
 			res.sendFile(path + '/public/profile.html');
 		});
-
+	*/
 
 	//replace github with facebook
 	app.route('/api/:id')
@@ -63,6 +70,8 @@ module.exports = function (app, passport) {
 			res.json(req.user.facebook);
 		});
 
+
+	/*
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
 
@@ -71,6 +80,7 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
+		*/
 		
 		
 		//facebook login routes
@@ -86,11 +96,13 @@ module.exports = function (app, passport) {
 						failureRedirect: '/login'
         }));
 
+
+	/*
 	app.route('/api/:id/clicks')
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
-		
+	*/
 	app.route('/test')
 		.get(function(req, res) {
 	    	res.send('Hello World!');

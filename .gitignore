@@ -11,7 +11,7 @@ client/node_modules
 client/coverage
 
 # production
-client/build
+#client/build
 
 # misc
 client/client.DS_Store

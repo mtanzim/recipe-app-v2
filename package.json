@@ -1,14 +1,14 @@
 {
-  "name": "clementinejs-fcc",
+  "name": "recipeapp",
   "version": "1.0.1",
-  "description": "The elegant and lightweight boilerplate for full stack JavaScript.",
+  "description": "A recipe catalogue developed for educational purposes",
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/johnstonbl01/clementinejs-fcc"
+    "url": "git+https://github.com/mtanzim/fccwebapps"
   },
-  "homepage": "http://www.clementinejs.com/",
-  "bugs": "https://github.com/johnstonbl01/clementinejs-fcc/issues",
+  "homepage": "https://fccwebapps-mtanzim.c9users.io/",
+  "bugs": "",
   "keywords": [
     "MongoDB",
     "Mongoose",
@@ -25,7 +25,7 @@
     "start": "concurrently \"mongod --smallfiles\" \"npm run server\" \"cd client && npm start\"",
     "startnc": "concurrently \"mongod --smallfiles\" \"npm run server\""
   },
-  "author": "Blake Johnston",
+  "author": "Tanzim Mokammel",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.18.2",
