@@ -19,7 +19,7 @@
     "boilerplate"
   ],
   "scripts": {
-    "server": "nodemon server.js",
+    "server": "node server.js",
     "db": "mongod --smallfiles",
     "client": "cd client && npm start",
     "startwc": "concurrently \"mongod --smallfiles\" \"npm run server\" \"cd client && npm start\"",
@@ -36,7 +36,9 @@
     "passport": "^0.3.0",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.0.0",
-    "react-scroll-to-component": "^1.0.2"
+    "react-scroll-to-component": "^1.0.2",
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.14.7"
   },
   "devDependencies": {
     "concurrently": "^3.5.1",
