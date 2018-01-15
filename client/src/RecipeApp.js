@@ -455,7 +455,7 @@ class UserInfo extends React.Component {
 								{this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
 								{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
 									
-								<a href="https://fccwebapps-mtanzim.c9users.io/logout">
+								<a href="/logout">
 									<button className="ml-2 btn btn-danger">
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
 									</button>
@@ -469,12 +469,12 @@ class UserInfo extends React.Component {
 					): (
 						<div>
 							<p>Please log in with one of the below services:</p>
-							<a href="https://fccwebapps-mtanzim.c9users.io/auth/facebook/" target="">
+							<a href="/auth/facebook/" target="">
 								<button className="btn">
 							  	<i className="fa fa-facebook" aria-hidden="true"></i>
 								</button>
 							</a>
-							<a href="https://fccwebapps-mtanzim.c9users.io/auth/github/" target="">
+							<a href="/auth/github/" target="">
 								<button className="ml-2 btn">
 							  	<i className="fa fa-github" aria-hidden="true"></i>
 								</button>

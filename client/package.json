@@ -7,7 +7,8 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.0.17"
   },
-  "homepage": "https://fccwebapps-mtanzim.c9users.io",
+  "homepage": "https://recipestorage.herokuapp.com/",
+  "althomepage": "https://fccwebapps-mtanzim.c9users.io",
   "proxy": "http://localhost:8080/",
   "scripts": {
     "start": "PORT=8081 react-scripts start",

@@ -43,8 +43,11 @@ module.exports = function (app, passport) {
 		.get(function (req, res) {
 		//.get(isLoggedIn, function (req, res) {
 			//res.sendFile(path + '/public/index.html');
-			//res.sendFile(path + '/client/build/index.html');
-			res.redirect('https://fccwebapps-mtanzim.c9users.io:8081')
+			if (process.env.NODE_ENV==='production') {
+				res.sendFile(path + '/client/build/index.html');
+			} else {
+				res.redirect(process.env.APP_URL+":"+process.env.REACT_PORT);
+			}
 		});
 
 
