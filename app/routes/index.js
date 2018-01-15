@@ -25,9 +25,13 @@ module.exports = function (app, passport) {
 		console.log(errMsg.errors);
 		var stringMsg='';
 		for (var error in errMsg.errors) {
-			console.log("TM error is" + errMsg.errors[error].message);
+			//console.log("TM error is" + errMsg.errors[error].message);
 			//stringMsg+=errMsg.errors[error].message;
-			stringMsg=stringMsg.concat(errMsg.errors[error].message).concat('\n');
+			var errToReport=errMsg.errors[error].message;
+			if (errMsg.errors[error].message.includes('Cast')) {
+				errToReport="Please provide a number.";
+			}
+			stringMsg=stringMsg.concat(errToReport).concat('\n');
 			//stringMsg=errMsg.errors[error].message;
 		}
 		return {errors:stringMsg};
@@ -39,7 +43,8 @@ module.exports = function (app, passport) {
 		.get(function (req, res) {
 		//.get(isLoggedIn, function (req, res) {
 			//res.sendFile(path + '/public/index.html');
-			res.sendFile(path + '/client/build/index.html');
+			//res.sendFile(path + '/client/build/index.html');
+			res.redirect('https://fccwebapps-mtanzim.c9users.io:8081')
 		});
 
 
