@@ -72,11 +72,11 @@ module.exports = function (app, passport) {
 	//replace github with facebook
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.facebook);
+			//res.json(req.user.facebook);
+			res.json(req.user);
 		});
 
 
-	/*
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
 
@@ -85,7 +85,6 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
-		*/
 		
 		
 		//facebook login routes
@@ -96,7 +95,6 @@ module.exports = function (app, passport) {
     // handle the callback after facebook has authenticated the user
     app.get('/auth/facebook/callback',
         passport.authenticate('facebook', {
-            //successRedirect: 'https://fccwebapps-mtanzim.c9users.io:8081',
             successRedirect: '/',
 						failureRedirect: '/login'
         }));

@@ -12,6 +12,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
+			loginMethod:"",
 			isError:false,
 			errMsg:'',
 			user:{},
@@ -38,6 +39,7 @@ class RecipeApp extends React.Component {
 		this.editRecipName = this.editRecipName.bind(this);
 		this.toggleAddRecipe = this.toggleAddRecipe.bind(this);
 		this.editIngredient = this.editIngredient.bind(this);
+		this.setLoginMethod = this.setLoginMethod.bind(this);
 		//this.renderAddRecipeForm = this.renderAddRecipeForm.bind(this);
 
 	}
@@ -45,13 +47,19 @@ class RecipeApp extends React.Component {
 		
 		 axios.get('/api/:id')
 		 .then(res => {
-		 	//console.log(res.data);
-			
+		 	console.log(res.data);
 			//console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
-			if ((typeof(res.data)==='object') && res.data.id!==undefined){
+			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				console.log('User found');
-				this.setState({user:res.data});
+				if (res.data.facebook!==undefined){
+					this.setState({user:res.data.facebook, loginMethod:'fb'});
+				} else if (res.data.github!==undefined) {
+					this.setState({user:res.data.github, loginMethod:'git'});
+				}
+				
+				//this.setState({user:res.data});
 				this.setState({isLoggedIn:true});
+				console.log(this.state.loginMethod);
 			 	axios.get('/getRecipes')
 				 .then(res => {
 				 	this.setState({recipes:res.data.content});
@@ -62,6 +70,13 @@ class RecipeApp extends React.Component {
 		 }).catch(err => {
 				console.error(err);
 		 });
+	}
+	
+	setLoginMethod(loginType){
+		this.setState ({
+			loginMethod: loginType
+		});
+		console.log(this.state.loginMethod);
 	}
 
 	toggleAddRecipe() {
@@ -335,7 +350,7 @@ class RecipeApp extends React.Component {
 		return (
 			<div className="container">
 				<h1 className="mt-4">Recipe List</h1>
-				<UserInfo userObj={this.state.user} isLoggedIn={this.state.isLoggedIn}/>
+				<UserInfo userObj={this.state.user} loginMethod={this.state.loginMethod} setLoginMethod={this.setLoginMethod} isLoggedIn={this.state.isLoggedIn}/>
 				{this.state.isLoggedIn &&
 				(
 				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
@@ -414,26 +429,57 @@ class UserInfo extends React.Component {
 class UserInfo extends React.Component {
 	constructor(props) {
 		super(props);
+		//this.setLoginMethod = this.setLoginMethod.bind(this, type);
 	}
+	
+	/*
+	correctUserType= () => {
+		var toReturn='';
+		if (this.props.loginMethod==='fb'){
+			toReturn = this.props.userObj.name
+		} else if (this.props.loginMethod==='git'){
+			toReturn = this.props.userObj.displayName;
+		}
+		return toReturn;
+	}
+	*/
+
+	
 	render () {
 		return (
 			<div>
 				{this.props.isLoggedIn ?
 					(<div className='row'><div className='col-sm-6'>
-							<h5>{this.props.userObj.name}
-								<a href="/logout">
-									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
+							
+							<h5>
+								{this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
+								{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
+									
+								<a href="https://fccwebapps-mtanzim.c9users.io/logout">
+									<button className="ml-2 btn btn-danger">
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
 									</button>
 								</a>
 							</h5>
+							<h5>
+									{this.props.loginMethod==='fb' &&  this.props.userObj.name + " "}
+									{this.props.loginMethod==='git' && this.props.userObj.displayName + " "}
+							</h5>
 					</div></div>
 					): (
-						<a href="/auth/facebook/" target="">
-							<button className="loginBtn loginBtn--facebook">
-						  	Login with Facebook
-							</button>
-						</a>
+						<div>
+							<p>Please log in with one of the below services:</p>
+							<a href="https://fccwebapps-mtanzim.c9users.io/auth/facebook/" target="">
+								<button className="btn">
+							  	<i className="fa fa-facebook" aria-hidden="true"></i>
+								</button>
+							</a>
+							<a href="https://fccwebapps-mtanzim.c9users.io/auth/github/" target="">
+								<button className="ml-2 btn">
+							  	<i className="fa fa-github" aria-hidden="true"></i>
+								</button>
+							</a>
+						</div>
 					)}
 				
 			</div>

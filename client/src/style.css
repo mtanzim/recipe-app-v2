@@ -12,14 +12,18 @@ th {
 	min-width:280px;
 }
 
+.btn:hover {
+  cursor: pointer;
+}
 
+/*
 
-/*src: https://codepen.io/davidelrizzo/pen/vEYvyv*/
-/* Shared */
+/*src: https://codepen.io/davidelrizzo/pen/vEYvyv
+/* Shared 
 .loginBtn {
   box-sizing: border-box;
   position: relative;
-  /* width: 13em;  - apply for fixed size */
+  /* width: 13em;  - apply for fixed size 
   margin: 0.2em;
   padding: 0 15px 0 46px;
   border: none;
@@ -47,11 +51,11 @@ th {
 }
 
 
-/* Facebook */
+/* Facebook 
 .loginBtn--facebook {
   background-color: #4C69BA;
   background-image: linear-gradient(#4C69BA, #3B55A0);
-  /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;*/
+  /*font-family: "Helvetica neue", Helvetica Neue, Helvetica, Arial, sans-serif;
   text-shadow: 0 -1px 0 #354C8C;
 }
 .loginBtn--facebook:before {
@@ -63,3 +67,4 @@ th {
   background-color: #5B7BD5;
   background-image: linear-gradient(#5B7BD5, #4864B1);
 }
+*/
