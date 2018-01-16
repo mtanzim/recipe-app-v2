@@ -1,2 +1,0 @@
-https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md#invalid-host-header-errors-after-configuring-proxy
-https://github.com/angular/angular-cli/issues/6070
