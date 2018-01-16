@@ -46,7 +46,7 @@ module.exports = function (app, passport) {
 			if (process.env.NODE_ENV==='production') {
 				res.sendFile(path + '/client/build/index.html');
 			} else {
-				res.redirect(process.env.APP_URL+":"+process.env.REACT_PORT);
+				res.redirect(process.env.APP_URL.substring(0,process.env.APP_URL.length-1)+":"+process.env.REACT_PORT);
 			}
 		});
 
@@ -79,6 +79,11 @@ module.exports = function (app, passport) {
 			res.json(req.user);
 		});
 
+	app.route('/auth/local/:email/:pass')
+		.get( function (req, res){
+			console.log(req.body);
+			res.json({'email':req.params.email, 'pass':req.params.pass});
+		});
 
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));

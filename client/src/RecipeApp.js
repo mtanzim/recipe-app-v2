@@ -12,6 +12,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
+			isProduction: false, //use this variable to control url type
 			loginMethod:"",
 			isError:false,
 			errMsg:'',
@@ -347,10 +348,27 @@ class RecipeApp extends React.Component {
 	}
 
 	render () {
+		var app_url='';
+		if (!this.state.isProduction){
+			app_url='https://fccwebapps-mtanzim.c9users.io'
+		}
+		
 		return (
 			<div className="container">
 				<h1 className="mt-4">Recipe List</h1>
-				<UserInfo userObj={this.state.user} loginMethod={this.state.loginMethod} setLoginMethod={this.setLoginMethod} isLoggedIn={this.state.isLoggedIn}/>
+				{this.state.isLoggedIn ?
+					(<UserInfo app_url={app_url} 
+									userObj={this.state.user} 
+									loginMethod={this.state.loginMethod} 
+									setLoginMethod={this.setLoginMethod} 
+									isLoggedIn={this.state.isLoggedIn}/>
+					): (
+						<UserLogin app_url={app_url} 
+									userObj={this.state.user} 
+									loginMethod={this.state.loginMethod} 
+									setLoginMethod={this.setLoginMethod} 
+									isLoggedIn={this.state.isLoggedIn}/>		
+					)}
 				{this.state.isLoggedIn &&
 				(
 				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
@@ -392,70 +410,68 @@ class ErrorMessage extends React.Component {
 	}
 }
 
-
-
-
-/*
-class UserInfo extends React.Component {
+class UserLogin extends React.Component {
 	constructor(props) {
 		super(props);
+		this.handleLogIn = this.handleLogIn.bind(this);
 	}
+	
+	handleLogIn() {
+		axios.get('/auth/local/:mtanzim/:sugar')
+		 .then(res => {
+		 	console.log(res.data);
+		 });
+	}
+	
 	render () {
 		return (
 			<div>
-				{this.props.isLoggedIn ?
-					(<div className='row'><div className='col-sm-6'>
-							<h5>{this.props.userObj.name}
-								<a href={""+"/logout"}>
-									<button className="ml-2 btn btn-danger" onClick={this.handleClickEditRecipe} >
-										<i className="fa fa-sign-out" aria-hidden="true"></i>
-									</button>
-								</a>
-							</h5>
-					</div></div>
-					): (
-					<p> Please <a href={""+"/login"}>log in.</a></p>
-					)}
+				<form>
+				  <div className="form-group">
+				    <label htmlFor="exampleInputEmail1">Email address</label>
+				    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+				  </div>
+				  <div className="form-group">
+				    <label htmlFor="exampleInputPassword1">Password</label>
+				    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+				  </div>
+				  <button type="button" onClick={this.handleLogIn} className="btn">Log In</button><br></br>	
+				  <small> New accounts will be signed up automatically. </small>
+				</form>
+				<p className="mt-4">Or log in with one of the below services:</p>
+				<a href={this.props.app_url+"/auth/facebook/"} target="">
+					<button className="btn">
+				  	<i className="fa fa-facebook" aria-hidden="true"></i>
+					</button>
+				</a>
+				<a href={this.props.app_url+"/auth/github/"} target="">
+					<button className="ml-2 btn">
+				  	<i className="fa fa-github" aria-hidden="true"></i>
+					</button>
+				</a>
 			</div>
 		);
+		
 	}
+	
 }
-*/
-
-//need to fix user links
-
-
 
 class UserInfo extends React.Component {
 	constructor(props) {
 		super(props);
-		//this.setLoginMethod = this.setLoginMethod.bind(this, type);
 	}
-	
-	/*
-	correctUserType= () => {
-		var toReturn='';
-		if (this.props.loginMethod==='fb'){
-			toReturn = this.props.userObj.name
-		} else if (this.props.loginMethod==='git'){
-			toReturn = this.props.userObj.displayName;
-		}
-		return toReturn;
-	}
-	*/
-
 	
 	render () {
 		return (
 			<div>
-				{this.props.isLoggedIn ?
-					(<div className='row'><div className='col-sm-6'>
+
+					<div className='row'><div className='col-sm-6'>
 							
 							<h5>
 								{this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
 								{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
 									
-								<a href="/logout">
+								<a href={this.props.app_url+"/logout"}>
 									<button className="ml-2 btn btn-danger">
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
 									</button>
@@ -466,22 +482,6 @@ class UserInfo extends React.Component {
 									{this.props.loginMethod==='git' && this.props.userObj.displayName + " "}
 							</h5>
 					</div></div>
-					): (
-						<div>
-							<p>Please log in with one of the below services:</p>
-							<a href="/auth/facebook/" target="">
-								<button className="btn">
-							  	<i className="fa fa-facebook" aria-hidden="true"></i>
-								</button>
-							</a>
-							<a href="/auth/github/" target="">
-								<button className="ml-2 btn">
-							  	<i className="fa fa-github" aria-hidden="true"></i>
-								</button>
-							</a>
-						</div>
-					)}
-				
 			</div>
 		);
 	}
