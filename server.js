@@ -7,6 +7,7 @@ var passport = require('passport');
 var session = require('express-session');
 //var bodyParser = require('body-parser');
 var bodyParser = require('body-parser');
+var flash    = require('connect-flash');
 
 
 
@@ -17,6 +18,8 @@ require('./app/config/passport')(passport);
 mongoose.connect(process.env.MONGO_URI);
 mongoose.Promise = global.Promise;
 
+
+app.use(flash()); // use connect-flash for flash messages stored in session
 app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
 app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));

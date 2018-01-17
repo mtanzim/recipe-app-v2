@@ -51,12 +51,13 @@ module.exports = function (app, passport) {
 		});
 
 
-	/*
+	
 	app.route('/login')
 		.get(function (req, res) {
-			res.sendFile(path + '/public/login.html');
+			//res.sendFile(path + '/public/login.html');
+			res.redirect('/');
 		});
-		*/
+
 
 	app.route('/logout')
 		.get(function (req, res) {
@@ -71,18 +72,48 @@ module.exports = function (app, passport) {
 			res.sendFile(path + '/public/profile.html');
 		});
 	*/
-
+	
+	//signup route test
+	/*
+	app.route('/signup')
+		.post( function (req, res){
+			//console.log(req.body);
+			res.json({'email':req.params.email, 'pass':req.params.password});
+		});
+	*/
+	//signup route
+	
+	/*
+	app.post('/signup',
+			passport.authenticate('local-signup',
+			{
+				//successRedirect: '/test',
+				//failureRedirect: '/login',
+				failureFlash: 'Invalid username or password.',
+				succesFlash: 'Welcome!'
+			})
+		);
+		*/
+	
+	/*
+	app.post('/signup', passport.authenticate('local-signup', {
+	  successRedirect : '/profile', // redirect to the secure profile section
+	  failureRedirect : '/test', // redirect back to the signup page if there is an error
+	  failureFlash : true // allow flash messages
+	}));
+	*/
+	
+app.post('/signup',
+  passport.authenticate('local', { successRedirect: '/',
+  																 failureRedirect: '/',
+                                   failureFlash:true}));
+                                   
+                                   
 	//replace github with facebook
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
 			//res.json(req.user.facebook);
 			res.json(req.user);
-		});
-
-	app.route('/auth/local/:email/:pass')
-		.get( function (req, res){
-			console.log(req.body);
-			res.json({'email':req.params.email, 'pass':req.params.pass});
 		});
 
 	app.route('/auth/github')

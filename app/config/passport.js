@@ -2,6 +2,7 @@
 
 var GitHubStrategy = require('passport-github').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/users');
 var configAuth = require('./auth');
 
@@ -15,8 +16,39 @@ module.exports = function (passport) {
 			done(err, user);
 		});
 	});
-
-	//Facebook login strategy
+	
+	//Local sign up
+	passport.use (new LocalStrategy ({
+		usernameField : 'email',
+		passwordField : 'password',
+		passReqToCallback : true
+	},
+	function (req, email, password, done) {
+			User.findOne({'local.email':email}, function(err, user) {
+	  		if (err)
+					return done(err);
+				if (user) {
+					//return done (null, false, {message:'User Exists!'});
+					if (!user.validPassword(password)) {
+						return done (null, false, {message:'Please check password!'});
+					} else {
+						return done(null, user);
+					}
+				} else {
+					//need to create new user
+					var newUser= new User();
+					newUser.local.email=email;
+					newUser.local.password=newUser.generateHash(password);
+					console.log(newUser);
+					newUser.save (function(err){
+						if(err)
+							throw err;
+						return done (null, newUser);
+					})
+				}
+			});	
+	}));
+	//Facebook login strategdy
 	//taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
 	passport.use(new FacebookStrategy({
 
@@ -45,7 +77,7 @@ module.exports = function (passport) {
                 } else {
                     // if there is no user found with that facebook id, create them
                     var newUser=new User();
-					console.log(profile);
+										console.log(profile);
                     // set all of the facebook information in our user model
                     newUser.facebook.id    = profile.id; // set the users facebook id                   
                     newUser.facebook.token = token; // we will save the token that facebook provides to the user                    

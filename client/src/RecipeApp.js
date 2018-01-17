@@ -13,6 +13,7 @@ class RecipeApp extends React.Component {
 		this.state = {
 			isLoggedIn:false,
 			isProduction: false, //use this variable to control url type
+			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:false,
 			errMsg:'',
@@ -56,6 +57,9 @@ class RecipeApp extends React.Component {
 					this.setState({user:res.data.facebook, loginMethod:'fb'});
 				} else if (res.data.github!==undefined) {
 					this.setState({user:res.data.github, loginMethod:'git'});
+				}
+			  else if (res.data.local!==undefined) {
+					this.setState({user:res.data.local, loginMethod:'local'});
 				}
 				
 				//this.setState({user:res.data});
@@ -348,9 +352,11 @@ class RecipeApp extends React.Component {
 	}
 
 	render () {
+		
 		var app_url='';
+		
 		if (!this.state.isProduction){
-			app_url='https://fccwebapps-mtanzim.c9users.io'
+			app_url='https://fccwebapps-mtanzim.c9users.io';
 		}
 		
 		return (
@@ -389,6 +395,10 @@ class RecipeApp extends React.Component {
 class ErrorMessage extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			username:'',
+			password:''
+		}
 	}
 	
 	
@@ -413,29 +423,31 @@ class ErrorMessage extends React.Component {
 class UserLogin extends React.Component {
 	constructor(props) {
 		super(props);
-		this.handleLogIn = this.handleLogIn.bind(this);
+		//this.handleLogIn = this.handleLogIn.bind(this);
 	}
 	
+	/*
 	handleLogIn() {
 		axios.get('/auth/local/:mtanzim/:sugar')
 		 .then(res => {
 		 	console.log(res.data);
 		 });
 	}
+	*/
 	
 	render () {
 		return (
 			<div>
-				<form>
+				<form action={this.props.app_url+"/signup"} method="post">
 				  <div className="form-group">
-				    <label htmlFor="exampleInputEmail1">Email address</label>
-				    <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email"></input>
+				    <label htmlFor="email">Email address</label>
+				    <input type="email" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
 				  </div>
 				  <div className="form-group">
-				    <label htmlFor="exampleInputPassword1">Password</label>
-				    <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password"></input>
+				    <label htmlFor="password">Password</label>
+				    <input type="password" className="form-control" name="password" id="password" placeholder="Password"></input>
 				  </div>
-				  <button type="button" onClick={this.handleLogIn} className="btn">Log In</button><br></br>	
+				  <button type="submit" className="btn">Log In</button><br></br>	
 				  <small> New accounts will be signed up automatically. </small>
 				</form>
 				<p className="mt-4">Or log in with one of the below services:</p>

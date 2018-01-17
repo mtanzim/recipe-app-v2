@@ -7,7 +7,7 @@
     "type": "git",
     "url": "git+https://github.com/mtanzim/fccwebapps"
   },
-  "homepage": "https://recipestorage.herokuapp.com/",
+  "homepage": "https://fccwebapps-mtanzim.c9users.io",
   "bugs": "",
   "keywords": [
     "MongoDB",
@@ -29,7 +29,9 @@
   "author": "Tanzim Mokammel",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
     "dotenv": "^1.2.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
@@ -37,6 +39,7 @@
     "passport": "^0.3.0",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.0.0",
+    "passport-local": "^1.0.0",
     "react-scroll-to-component": "^1.0.2"
   },
   "devDependencies": {
