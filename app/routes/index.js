@@ -44,6 +44,7 @@ module.exports = function (app, passport) {
 		//.get(isLoggedIn, function (req, res) {
 			//res.sendFile(path + '/public/index.html');
 			if (process.env.NODE_ENV==='production') {
+				console.log('production url');
 				res.sendFile(path + '/client/build/index.html');
 			} else {
 				res.redirect(process.env.APP_URL.substring(0,process.env.APP_URL.length-1)+":"+process.env.REACT_PORT);

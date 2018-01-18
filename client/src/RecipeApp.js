@@ -12,7 +12,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: false, //use this variable to control url type
+			isProduction: true, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:false,
@@ -50,7 +50,7 @@ class RecipeApp extends React.Component {
 		
 		 axios.get('/api/:id')
 		 .then(res => {
-		 	console.log(res.data);
+		 	//console.log(res.data);
 			//console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				console.log('User found');
@@ -447,7 +447,7 @@ class UserLogin extends React.Component {
 
 	handleLogIn(event) {
 		event.preventDefault();
-		console.log(this.state);
+		//console.log(this.state);
 		axios({
 		  method: 'post',
 		  url: '/signup',
@@ -458,7 +458,8 @@ class UserLogin extends React.Component {
 		}).then (res => {
 			//console.log(res.data);
 			this.setState({email:'',password:''});
-			window.location = res.data.redirect;
+		  window.location = '/';
+		  //return res;
 		}).catch (err =>{
 			console.log(err.response.data);
 			this.setState({password:'', error:err.response.data.error});
