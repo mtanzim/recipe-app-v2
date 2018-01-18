@@ -24,6 +24,7 @@ module.exports = function (passport) {
 		passReqToCallback : true
 	},
 	function (req, email, password, done) {
+		process.nextTick(function() {
 			User.findOne({'local.email':email}, function(err, user) {
 	  		if (err)
 					return done(err);
@@ -46,7 +47,8 @@ module.exports = function (passport) {
 						return done (null, newUser);
 					})
 				}
-			});	
+			});
+		});
 	}));
 	//Facebook login strategdy
 	//taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs

@@ -42,6 +42,7 @@ class RecipeApp extends React.Component {
 		this.toggleAddRecipe = this.toggleAddRecipe.bind(this);
 		this.editIngredient = this.editIngredient.bind(this);
 		this.setLoginMethod = this.setLoginMethod.bind(this);
+		this.handleError = this.handleError.bind(this);
 		//this.renderAddRecipeForm = this.renderAddRecipeForm.bind(this);
 
 	}
@@ -75,6 +76,12 @@ class RecipeApp extends React.Component {
 		 }).catch(err => {
 				console.error(err);
 		 });
+	}
+	handleError (msg) {
+		this.setState ( {
+			isError:true,
+			errMsg:msg
+		})
 	}
 	
 	setLoginMethod(loginType){
@@ -362,6 +369,7 @@ class RecipeApp extends React.Component {
 		return (
 			<div className="container">
 				<h1 className="mt-4">Recipe List</h1>
+				{this.state.isError && (<ErrorMessage isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
 				{this.state.isLoggedIn ?
 					(<UserInfo app_url={app_url} 
 									userObj={this.state.user} 
@@ -369,7 +377,9 @@ class RecipeApp extends React.Component {
 									setLoginMethod={this.setLoginMethod} 
 									isLoggedIn={this.state.isLoggedIn}/>
 					): (
-						<UserLogin app_url={app_url} 
+						<UserLogin
+									handleError = {this.handleError}
+									app_url={app_url} 
 									userObj={this.state.user} 
 									loginMethod={this.state.loginMethod} 
 									setLoginMethod={this.setLoginMethod} 
@@ -377,10 +387,12 @@ class RecipeApp extends React.Component {
 					)}
 				{this.state.isLoggedIn &&
 				(
-				<div><button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
-				<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
-				</div>)}
-				{this.state.isError && (<ErrorMessage isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
+					<div>
+						<button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
+						<button className="mt-2 ml-2 btn btn-danger" onClick={this.removeAll}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+					</div>
+				)}
+				
 				{this.state.editing && (<div className="mt-4">
 					<AddRecipeForm onChange={this.handleAddRecipe} onSaveButton={this.addRecipe}/>
 				</div>)}
@@ -395,10 +407,6 @@ class RecipeApp extends React.Component {
 class ErrorMessage extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			username:'',
-			password:''
-		}
 	}
 	
 	
@@ -423,29 +431,66 @@ class ErrorMessage extends React.Component {
 class UserLogin extends React.Component {
 	constructor(props) {
 		super(props);
-		//this.handleLogIn = this.handleLogIn.bind(this);
+		this.state = {
+			email:'',
+			password:'',
+			error:''
+		}
+		this.handleLogIn = this.handleLogIn.bind(this);
+		this.handleChangePass = this.handleChangePass.bind(this);
+		this.handleChangeEmail = this.handleChangeEmail.bind(this);
 	}
 	
-	/*
-	handleLogIn() {
-		axios.get('/auth/local/:mtanzim/:sugar')
+	handleError () {
+		this.props.handleError(this.state.error);
+	}
+
+	handleLogIn(event) {
+		event.preventDefault();
+		console.log(this.state);
+		axios({
+		  method: 'post',
+		  url: '/signup',
+		  data: {
+		    email: this.state.email,
+		    password: this.state.password
+		  }
+		}).then (res => {
+			//console.log(res.data);
+			this.setState({email:'',password:''});
+			window.location = res.data.redirect;
+		}).catch (err =>{
+			console.log(err.response.data);
+			this.setState({password:'', error:err.response.data.error});
+			this.handleError();
+		});
+		
+		/*
+		axios.post('/auth/local/:mtanzim/:sugar')
 		 .then(res => {
 		 	console.log(res.data);
 		 });
+		 */
 	}
-	*/
+	
+	handleChangePass (event) {
+		this.setState({password: event.target.value});
+	}
+	handleChangeEmail (event) {
+		this.setState({email: event.target.value});
+	}
 	
 	render () {
 		return (
 			<div>
-				<form action={this.props.app_url+"/signup"} method="post">
+				<form  onSubmit={this.handleLogIn}>
 				  <div className="form-group">
 				    <label htmlFor="email">Email address</label>
-				    <input type="email" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+				    <input value={this.state.email} onChange={this.handleChangeEmail} type="email" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
 				  </div>
 				  <div className="form-group">
 				    <label htmlFor="password">Password</label>
-				    <input type="password" className="form-control" name="password" id="password" placeholder="Password"></input>
+				    <input value={this.state.password} onChange={this.handleChangePass} type="password" className="form-control" name="password" id="password" placeholder="Password"></input>
 				  </div>
 				  <button type="submit" className="btn">Log In</button><br></br>	
 				  <small> New accounts will be signed up automatically. </small>
@@ -482,7 +527,7 @@ class UserInfo extends React.Component {
 							<h5>
 								{this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
 								{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
-									
+								{this.props.loginMethod==='local' && (<i className="fa fa-user" aria-hidden="true"></i>)}
 								<a href={this.props.app_url+"/logout"}>
 									<button className="ml-2 btn btn-danger">
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
@@ -492,6 +537,7 @@ class UserInfo extends React.Component {
 							<h5>
 									{this.props.loginMethod==='fb' &&  this.props.userObj.name + " "}
 									{this.props.loginMethod==='git' && this.props.userObj.displayName + " "}
+									{this.props.loginMethod==='local' && this.props.userObj.email + " "}
 							</h5>
 					</div></div>
 			</div>

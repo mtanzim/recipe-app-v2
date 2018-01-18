@@ -102,14 +102,32 @@ module.exports = function (app, passport) {
 	  failureFlash : true // allow flash messages
 	}));
 	*/
-	
+
+/*	
 app.post('/signup',
   passport.authenticate('local', { successRedirect: '/',
   																 failureRedirect: '/',
-                                   failureFlash:true}));
+  																 failureFlash: 'Invalid username or password.', 
+                                   }));
                                    
-                                   
-	//replace github with facebook
+*/
+ //passport docs, local sign up/login
+	app.post('/signup', function(req, res, next) {
+		console.log(req.auth);
+	  passport.authenticate('local', function(err, user, info) {
+	    if (err) { return next(err); }
+	    if (!user) { 
+	    	//return res.send('Incorrect password!'); 
+	    	return res.send(403, { error: "Invalid password!" });
+	    }
+	    req.logIn(user, function(err) {
+	      if (err) { return next(err); }
+	      return res.redirect('/');
+	    });
+	  })(req, res, next);
+	});
+
+
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
 			//res.json(req.user.facebook);
@@ -154,7 +172,8 @@ app.post('/signup',
 	//get all recipes for user
 	app.route('/getRecipes')
 		.get(isLoggedIn, function(req, res) {
-		    Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+				Users.findById(req.user.id, function (err, user) {
+		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 		    	if (err) {
 		    		res.json({isError:true});
 		    	} else {
@@ -169,7 +188,8 @@ app.post('/signup',
 			//console.log(req.params.recipeID);
 			console.log(req.body);
 			//console.log(req.params.id);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				console.log(user);
 				if (err){
 					res.json({isError:true, content:parseMongooseErr(err)});
@@ -189,7 +209,8 @@ app.post('/signup',
 	//delete all recipes
 	app.route('/api/:id/recipeDelAll')
 		.delete( function(req,res){
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err){
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -216,7 +237,8 @@ app.post('/signup',
 		//edit ingredient name
 		.put (function(req, res){
 			console.log(req.body);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err){
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -241,7 +263,8 @@ app.post('/signup',
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -266,7 +289,8 @@ app.post('/signup',
 		.delete( function(req,res){
 			//console.log(req.params.recipeID);
 			//console.log(req.params.ingID);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -295,7 +319,8 @@ app.post('/signup',
 		.put (function(req, res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -317,7 +342,8 @@ app.post('/signup',
 		.post(function(req,res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -337,7 +363,8 @@ app.post('/signup',
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
 		.delete( function(req,res){
-			Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.user.id, function (err, user) {
+			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
