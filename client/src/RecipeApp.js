@@ -497,7 +497,8 @@ class UserLogin extends React.Component {
 				  <small> New accounts will be signed up automatically. </small>
 				</form>
 				<p className="mt-4">Or log in with one of the below services:</p>
-				<a href={this.props.app_url+"/auth/facebook/"} target="">
+				{/*<a href={this.props.app_url+"/auth/facebook/"} target="">*/}
+				<a href='#' target="">
 					<button disabled className="btn">
 				  	<i className="fa fa-facebook" aria-hidden="true"></i>
 					</button>
