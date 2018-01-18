@@ -3,7 +3,7 @@ mtanzim@gmail.com
 Nov 2017
 */
 import React, {Component} from 'react';
-import scrollToComponent from 'react-scroll-to-component';
+//import scrollToComponent from 'react-scroll-to-component';
 import './style.css';
 import axios from 'axios';
 
@@ -412,18 +412,18 @@ class ErrorMessage extends React.Component {
 	
 	componentDidMount() {
 		console.log('Error initiated');
-		scrollToComponent(this.refs.ErrDiv);
+		//scrollToComponent(this.refs.ErrDiv);
 	}
 	componentDidUpdate() {
 		console.log('Error updated');
 		//if(this.props.isEdititing===false){
-			scrollToComponent(this.refs.ErrDiv);
+			//scrollToComponent(this.refs.ErrDiv);
 		//}
 	}
 	
 	render () {
 		return (
-			<div ref="ErrDiv" className="alert alert-danger mt-4">{this.props.errMsg}</div>
+			<div ref="ErrDiv" className="alert alert-danger mt-4 fixed-bottom">{this.props.errMsg}</div>
 		)
 	}
 }

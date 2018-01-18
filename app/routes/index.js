@@ -23,7 +23,7 @@ module.exports = function (app, passport) {
 		//console.log("START HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERERERERERERERR");
 		//console.log(typeof(errMsg.errors));
 		console.log(errMsg.errors);
-		var stringMsg='';
+		//var stringMsg='';
 		for (var error in errMsg.errors) {
 			//console.log("TM error is" + errMsg.errors[error].message);
 			//stringMsg+=errMsg.errors[error].message;
@@ -31,10 +31,10 @@ module.exports = function (app, passport) {
 			if (errMsg.errors[error].message.includes('Cast')) {
 				errToReport="Please provide a number.";
 			}
-			stringMsg=stringMsg.concat(errToReport).concat('\n');
+			//stringMsg=stringMsg.concat(errToReport).concat('\n');
 			//stringMsg=errMsg.errors[error].message;
 		}
-		return {errors:stringMsg};
+		return {errors:errToReport};
 	}
 
 	var clickHandler = new ClickHandler();
