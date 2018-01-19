@@ -12,11 +12,11 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: false, //use this variable to control url type
+			isProduction: true, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
-			isError:false,
-			errMsg:'',
+			isError:true,
+			errMsg:"Facebook log in is currently unavailable. I've requested assistance from Facebook, and awaiting feedback.",
 			user:{},
 			recipeInit:[],
 			recipes: [],
@@ -64,7 +64,7 @@ class RecipeApp extends React.Component {
 				}
 				
 				//this.setState({user:res.data});
-				this.setState({isLoggedIn:true});
+				this.setState({isLoggedIn:true, isError:false});
 				console.log(this.state.loginMethod);
 			 	axios.get('/getRecipes')
 				 .then(res => {

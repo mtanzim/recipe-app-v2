@@ -8,8 +8,8 @@ var Ingredients=new Schema({
 	qty:{ 
 		type: Number,
 		default:0,
-		min:[0,'Please specify a valid integer over 0.'], 
-		max:[9999,'Please provide a lower number']
+		min:[0,'Please specify a valid number over 0.'], 
+		max:[9999,'Please provide a lower number.']
 		
 	},
 	unit:{ type: String, maxlength:10},
