@@ -12,7 +12,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: true, //use this variable to control url type
+			isProduction: false, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:false,
@@ -713,7 +713,7 @@ class AddIngForm extends React.Component {
 			      <input autoFocus onChange={this.props.handleIngTitle} type="text" className="form-control" id="ingName" placeholder="Ingredient Name"></input>
 			    </div>
 			    <div className="form-group col">
-			      <input onChange={this.props.handleIngQty} type="text" className="form-control" id="qty" placeholder="Qty"></input>
+			      <input onChange={this.props.handleIngQty} type="number" step="0.01" className="form-control" id="qty" placeholder="Qty"></input>
 			    </div>
 			    <div className="form-group col">
 			      <input onChange={this.props.handleIngUnit} type="text"  className="form-control" id="unit" placeholder="Unit"></input>
@@ -787,7 +787,7 @@ class Ingredient extends React.Component {
 			) : (
 				<tr>
 					<td style={{width:'60%'}}><input autoFocus onChange={this.handleEditIngTitle} type="text" className="form-control" placeholder={this.props.ing.title}></input></td>
-					<td style={{width:'15%'}}><input onChange={this.handleEditIngQty} type="text" className="form-control"  placeholder={this.props.ing.qty}></input></td>
+					<td style={{width:'15%'}}><input onChange={this.handleEditIngQty} type="number" step="0.01" className="form-control"  placeholder={this.props.ing.qty}></input></td>
 					<td style={{width:'15%'}}><input onChange={this.handleEditIngUnit} type="text" className="form-control"  placeholder={this.props.ing.unit}></input></td>
 					<td style={{width:'5%'}}><button onClick={this.handleClickSaveEdit} className="btn btn-success"><i className="fa fa-floppy-o" aria-hidden="true"></i></button></td>
 					<td style={{width:'5%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></td>
