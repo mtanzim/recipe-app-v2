@@ -128,7 +128,7 @@ app.post('/signup',
 	  })(req, res, next);
 	});
 
-
+	//am I even using params.id? It doesn't seem like it
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
 			//res.json(req.user.facebook);
@@ -170,6 +170,46 @@ app.post('/signup',
 		});
 	
 	
+	
+	//get userNames
+	//uses virtual getters
+	app.route('/getUsers')
+		.get(isLoggedIn, function(req, res) {
+				Users.find(function (err, users) {
+		    	if (err) {
+		    		res.json({isError:true});
+		    	} else {
+		    		var userArray=[];
+		    		users.forEach( user => {
+		    			console.log (user.displayName);
+		    			var jsonUser = user.toJSON({ virtuals: true });
+		    			userArray.push(jsonUser);
+		    		});
+			    	//console.log(user._id);
+			    	//var jsonUser = user.toJSON({ virtuals: true });
+		    		res.json({isError:false, content:userArray});
+		    	}
+		    });
+		})
+	//get recipe for another user
+	//figure out why I need to replace the colons :@
+		app.route('/getOtherRecipes/:friendID')
+		.get(isLoggedIn, function(req, res) {
+				console.log(req.params.friendID.replace(':',''));
+				var friendID=req.params.friendID.replace(':','');
+				Users.findById(friendID, function (err, user) {
+		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+		    	if (err) {
+		    		res.json({isError:true});
+		    	} else {
+			    	console.log(user);
+		    		res.json({isError:false, content:user.recipes});
+		    	}
+		    });
+		})
+	
+		
+		
 	//get all recipes for user
 	app.route('/getRecipes')
 		.get(isLoggedIn, function(req, res) {

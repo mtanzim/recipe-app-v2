@@ -12,18 +12,20 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: true, //use this variable to control url type
+			isProduction: false, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:true,
 			errMsg:"Facebook log in is currently unavailable. I've requested assistance from Facebook, and awaiting feedback.",
 			user:{},
+			userID:'',
 			recipeInit:[],
 			recipes: [],
 			numRecipes:2,
 			newRecipeName: '',
 			newIng: {title:'', qty:'', unit:''},
 			editing:false,
+			pageCtrl:0 //allows users to toggle between pages
 			//addRecipeStyleState: {display:'none'}
 		};
 
@@ -53,7 +55,10 @@ class RecipeApp extends React.Component {
 		 	//console.log(res.data);
 			//console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
+				
 				console.log('User found');
+				this.setState({userID:res.data._id});
+				
 				if (res.data.facebook!==undefined){
 					this.setState({user:res.data.facebook, loginMethod:'fb'});
 				} else if (res.data.github!==undefined) {
@@ -369,6 +374,7 @@ class RecipeApp extends React.Component {
 		return (
 			<div className="container">
 				<h1 className="mt-4">Recipe List</h1>
+				
 				{this.state.isError && (<ErrorMessage isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
 				{this.state.isLoggedIn ?
 					(<UserInfo app_url={app_url} 
@@ -385,6 +391,8 @@ class RecipeApp extends React.Component {
 									setLoginMethod={this.setLoginMethod} 
 									isLoggedIn={this.state.isLoggedIn}/>		
 					)}
+				
+				{this.state.isLoggedIn && <UserMenu curUser={this.state.userID} />}
 				{this.state.isLoggedIn &&
 				(
 					<div>
@@ -403,6 +411,104 @@ class RecipeApp extends React.Component {
 		)
 	}
 }
+
+
+class UserList extends React.Component {
+	constructor(props) {
+		super(props);
+	}
+	
+	getRecipes =  () => {
+		this.props.getRecipes(this.props.id);
+	}
+	
+	render () {
+		return (
+			<button className="dropdown-item" onClick={this.getRecipes}>{this.props.display}</button>
+		)
+	}
+
+
+}
+
+
+class UserMenu extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			users:[],
+			friendRecipe: {}
+		}
+	}
+		
+	
+		
+	
+	componentDidMount() {
+		console.log('Menu initiated');
+		axios.get('/getUsers')
+				 .then(res => {
+				 	//console.log(res.data.content);
+				 	this.setState({users:res.data.content});
+				 	this.state.users.forEach( user => {
+				 		console.log(user._id);
+				 	})
+				 }).catch(err => {
+						console.error(err);
+					});
+	}
+	
+	getFriendRecipe = (id) => {
+		console.log (id);
+		axios.get(`/getOtherRecipes/:${id}`)
+				 .then(res => {
+				 	this.setState({friendRecipe:res.data.content});
+				 	console.log(this.state.friendRecipe);
+				 }).catch(err => {
+						console.error(err);
+					});
+	}
+	
+	eachUser = (user) => {
+		//console.log (user._id);
+		//console.log (this.props.curUser);
+		return (
+			(this.props.curUser !== user._id) &&
+			(
+				<UserList
+					key={user._id}
+					id={user._id}
+					display={user.displayName}
+					getRecipes={this.getFriendRecipe}
+				></UserList>
+			)
+		);
+	}
+	
+	//need to get all usernames here
+	render () {
+		return (
+			<div>
+				<ul className="nav nav-tabs mt-2 mb-2">
+					<li className="nav-item">
+						<a className="nav-link" href="#">My Recipes</a>
+					</li>
+					<li className="nav-item dropdown">
+						<a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">All Recipes</a>
+						<div className="dropdown-menu">
+							{this.state.users.map(this.eachUser)}
+						</div>
+					</li>
+					<li className="nav-item">
+						<a className="nav-link" href="#">Profile</a>
+					</li>
+				</ul>
+			</div>
+		)
+	}
+}
+
+
 
 class ErrorMessage extends React.Component {
 	constructor(props) {

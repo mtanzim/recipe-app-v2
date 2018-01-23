@@ -32,6 +32,19 @@ var User = new Schema({
   recipes: { type: [Recipes.schema], default: [] }
 });
 
+//generate a common user display name
+User.virtual('displayName').get(function () {
+  var nameToReturn=this.facebook.name;
+  if (nameToReturn === undefined) {
+    nameToReturn=this.github.displayName;
+    if (nameToReturn === undefined){
+      nameToReturn=this.local.email;
+    }
+  }
+  return nameToReturn;
+});
+
+
 
 // generating a hash
 User.methods.generateHash = function(password) {
