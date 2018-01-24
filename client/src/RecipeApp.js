@@ -19,9 +19,11 @@ class RecipeApp extends React.Component {
 			errMsg:"Facebook log in is currently unavailable. I've requested assistance from Facebook, and awaiting feedback.",
 			user:{},
 			userID:'',
+			friendUser:{},
 			recipeInit:[],
 			recipes: [],
 			friendRecipes: [],
+			recipeToCopy: {},
 			numRecipes:2,
 			newRecipeName: '',
 			newIng: {title:'', qty:'', unit:''},
@@ -84,8 +86,22 @@ class RecipeApp extends React.Component {
 		 });
 	}
 	
+	copyRecipe = (recipe) => {
+		
+	}
+	
 	getFriendRecipe = (id) => {
 		console.log (id);
+		axios.get(`/getUsers/:${id}`)
+				 .then(res => {
+				 	this.setState({
+				 		friendUser:res.data.content,
+				 	});
+				 	console.log(this.state.friendUser);
+				 }).catch(err => {
+						console.error(err);
+					});
+		
 		axios.get(`/getOtherRecipes/:${id}`)
 				 .then(res => {
 				 	this.setState({
@@ -145,9 +161,22 @@ class RecipeApp extends React.Component {
 	 		newRecipeName:event.target.value
 		});
 	}
-	addRecipe() {
+	copyRecipe = (recipe) => {
+		this.addRecipeBase(recipe);
+		this.setState ({
+			isError:true,
+			errMsg: "Recipe copied!"
+			
+		})
+	}
+	addRecipe () {
+		this.addRecipeBase({title:this.state.newRecipeName});
+		this.toggleAddRecipe();
+	}
+	
+	addRecipeBase = (newRecipe) => {
 		//var newRecipe={title:this.state.newRecipeName, ingredients:[{}]};
-		var newRecipe={title:this.state.newRecipeName};
+		//var newRecipe={title:this.state.newRecipeName};
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
 				console.log(res.data);
@@ -164,7 +193,7 @@ class RecipeApp extends React.Component {
 						isError:false
 					});
 					console.log(this.state.recipes);
-					this.toggleAddRecipe();
+					
 				} 
 		 })
 		 .catch(err => {
@@ -382,6 +411,8 @@ class RecipeApp extends React.Component {
 				handleIngUnit={this.handleAddIngUnit}
 				saveEdit = {this.editRecipName}
 				pageCtrl= {this.state.pageCtrl}
+				copyRecipe = {this.copyRecipe}
+				curRecipe = {recipe}
 			></RecipeCard>
 		);
 	}
@@ -435,8 +466,12 @@ class RecipeApp extends React.Component {
 					{this.state.recipes.map(this.eachRecipe)}
 				</div>)}
 				{this.state.pageCtrl === 1 &&
-				(<div className="row">
-					{this.state.friendRecipes.map(this.eachRecipe)}
+				(
+				<div>
+					<h3 className="mt-2">{this.state.friendUser.displayName}'s Recipes</h3>
+					<div className="row">
+						{this.state.friendRecipes.map(this.eachRecipe)}
+					</div>
 				</div>)}
 			</div>
 		)
@@ -520,9 +555,10 @@ class UserMenu extends React.Component {
 							{this.state.users.map(this.eachUser)}
 						</div>
 					</li>
-					<li className="nav-item">
+					
+					{/*<li className="nav-item">
 						<a className="nav-link" href="#">Profile</a>
-					</li>
+					</li>*/}
 				</ul>
 			</div>
 		)
@@ -750,6 +786,9 @@ class RecipeCard extends React.Component {
 		});
 	}
 
+	copyRecipe = () => {
+		this.props.copyRecipe (this.props.curRecipe);
+	}
 	render () {
 		//console.log(Object.keys(this.props.ingredients[0]));
 		return (
@@ -757,11 +796,19 @@ class RecipeCard extends React.Component {
 				<div className="card">
 					<div className="card-header">
 						<h3>{this.props.title}</h3>
-						{this.props.pageCtrl===0 &&
+						{this.props.pageCtrl===0 ?
 						(<div className="row">
 							<button className="ml-2 btn" onClick={this.handleClickEditRecipe} ><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
 							<button className="ml-2 btn btn-danger" onClick={this.removeRecipe}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
-						</div>)}
+						</div>
+						) : (
+							
+						<div className="row">
+							<button className="ml-2 btn" onClick={this.copyRecipe} ><i className="fa fa-files-o" aria-hidden="true"></i></button>
+						</div>
+							
+							)
+						}
 					</div>	
 				 	<div className="card-body">
 				 		{this.state.editingName && (<div id="editToggle">

@@ -191,6 +191,20 @@ app.post('/signup',
 		    	}
 		    });
 		})
+		app.route('/getUsers/:friendID')
+		.get(isLoggedIn, function(req, res) {
+				console.log(req.params.friendID.replace(':',''));
+				var friendID=req.params.friendID.replace(':','');
+				Users.findById(friendID, function (err, user) {
+		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+		    	if (err) {
+		    		res.json({isError:true});
+		    	} else {
+			    	console.log(user);
+		    		res.json({isError:false, content:user.toJSON({ virtuals: true })});
+		    	}
+		    });
+		})
 	//get recipe for another user
 	//figure out why I need to replace the colons :@
 		app.route('/getOtherRecipes/:friendID')
