@@ -21,6 +21,7 @@ class RecipeApp extends React.Component {
 			userID:'',
 			recipeInit:[],
 			recipes: [],
+			friendRecipes: [],
 			numRecipes:2,
 			newRecipeName: '',
 			newIng: {title:'', qty:'', unit:''},
@@ -82,6 +83,27 @@ class RecipeApp extends React.Component {
 				console.error(err);
 		 });
 	}
+	
+	getFriendRecipe = (id) => {
+		console.log (id);
+		axios.get(`/getOtherRecipes/:${id}`)
+				 .then(res => {
+				 	this.setState({
+				 		friendRecipes:res.data.content,
+				 		pageCtrl:1
+				 	});
+				 	console.log(this.state.friendRecipes);
+				 }).catch(err => {
+						console.error(err);
+					});
+	}
+	
+	toggleMyRecipe = () => {
+		this.setState({
+	 		pageCtrl:0
+	 	});
+	}
+	
 	handleError (msg) {
 		this.setState ( {
 			isError:true,
@@ -359,6 +381,7 @@ class RecipeApp extends React.Component {
 				handleIngQty={this.handleAddIngQty}
 				handleIngUnit={this.handleAddIngUnit}
 				saveEdit = {this.editRecipName}
+				pageCtrl= {this.state.pageCtrl}
 			></RecipeCard>
 		);
 	}
@@ -392,8 +415,11 @@ class RecipeApp extends React.Component {
 									isLoggedIn={this.state.isLoggedIn}/>		
 					)}
 				
-				{this.state.isLoggedIn && <UserMenu curUser={this.state.userID} />}
-				{this.state.isLoggedIn &&
+				{this.state.isLoggedIn && <UserMenu toggleMyRecipe= {this.toggleMyRecipe}
+																						curUser={this.state.userID} 
+																						getFriendRecipe={this.getFriendRecipe} 
+																	/>}
+				{this.state.isLoggedIn && this.state.pageCtrl===0 &&
 				(
 					<div>
 						<button type="button" className="mt-2 btn btn-default" onClick={this.toggleAddRecipe}><i className="fa fa-plus" aria-hidden="true"></i></button>
@@ -404,9 +430,14 @@ class RecipeApp extends React.Component {
 				{this.state.editing && (<div className="mt-4">
 					<AddRecipeForm onChange={this.handleAddRecipe} onSaveButton={this.addRecipe}/>
 				</div>)}
-				<div className="row">
+				{this.state.pageCtrl === 0 &&
+				(<div className="row">
 					{this.state.recipes.map(this.eachRecipe)}
-				</div>
+				</div>)}
+				{this.state.pageCtrl === 1 &&
+				(<div className="row">
+					{this.state.friendRecipes.map(this.eachRecipe)}
+				</div>)}
 			</div>
 		)
 	}
@@ -424,7 +455,7 @@ class UserList extends React.Component {
 	
 	render () {
 		return (
-			<button className="dropdown-item" onClick={this.getRecipes}>{this.props.display}</button>
+			<a href="#" className="dropdown-item" onClick={this.getRecipes}>{this.props.display}</a>
 		)
 	}
 
@@ -436,8 +467,7 @@ class UserMenu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			users:[],
-			friendRecipe: {}
+			users:[]
 		}
 	}
 		
@@ -458,16 +488,7 @@ class UserMenu extends React.Component {
 					});
 	}
 	
-	getFriendRecipe = (id) => {
-		console.log (id);
-		axios.get(`/getOtherRecipes/:${id}`)
-				 .then(res => {
-				 	this.setState({friendRecipe:res.data.content});
-				 	console.log(this.state.friendRecipe);
-				 }).catch(err => {
-						console.error(err);
-					});
-	}
+
 	
 	eachUser = (user) => {
 		//console.log (user._id);
@@ -479,7 +500,7 @@ class UserMenu extends React.Component {
 					key={user._id}
 					id={user._id}
 					display={user.displayName}
-					getRecipes={this.getFriendRecipe}
+					getRecipes={this.props.getFriendRecipe}
 				></UserList>
 			)
 		);
@@ -491,7 +512,7 @@ class UserMenu extends React.Component {
 			<div>
 				<ul className="nav nav-tabs mt-2 mb-2">
 					<li className="nav-item">
-						<a className="nav-link" href="#">My Recipes</a>
+						<a className="nav-link" href="#" onClick={this.props.toggleMyRecipe}>My Recipes</a>
 					</li>
 					<li className="nav-item dropdown">
 						<a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">All Recipes</a>
@@ -687,7 +708,8 @@ class RecipeCard extends React.Component {
 									  handleIngTitle={this.props.handleIngTitle} 
 		 								handleIngQty={this.props.handleIngQty}
 		 								handleIngUnit={this.props.handleIngUnit}
-		 								saveEdit={this.props.editIngredient}/>
+		 								saveEdit={this.props.editIngredient}
+		 								pageCtrl={this.props.pageCtrl}/>
 			);
 		}
 		
@@ -735,11 +757,12 @@ class RecipeCard extends React.Component {
 				<div className="card">
 					<div className="card-header">
 						<h3>{this.props.title}</h3>
-						<div className="row">
+						{this.props.pageCtrl===0 &&
+						(<div className="row">
 							<button className="ml-2 btn" onClick={this.handleClickEditRecipe} ><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button>
 							<button className="ml-2 btn btn-danger" onClick={this.removeRecipe}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
-						</div>
-					</div>
+						</div>)}
+					</div>	
 				 	<div className="card-body">
 				 		{this.state.editingName && (<div id="editToggle">
 							<form action='#'>
@@ -753,8 +776,12 @@ class RecipeCard extends React.Component {
 							<button type="button" className="btn btn-success mb-4" onClick={this.saveEditedName}><i className="fa fa-floppy-o" aria-hidden="true"></i></button>
 						</div>)}
 						<h4>Ingredients</h4>
+						{this.props.pageCtrl===0 && (
 				 		<button className="btn" onClick={this.handleClickAddIng}><i className="fa fa-plus" aria-hidden="true"></i></button>
+				 		)}
+				 		{this.props.pageCtrl===0 && (
 		 				<button className="ml-2 btn btn-danger" onClick={this.delAllIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button>
+		 				)}
 		 				{this.state.AddingIng && (<div className="mt-2">
 			 				<AddIngForm handleIngTitle={this.props.handleIngTitle} 
 					 								handleIngQty={this.props.handleIngQty}
@@ -883,13 +910,23 @@ class Ingredient extends React.Component {
 		return (
 			<span>
 			{!this.state.editing ? (
-				<tr>
-					<td style={{width:'60%'}}>{this.props.ing.title}</td>
-					<td style={{width:'15%'}}>{this.props.ing.qty}</td>
-					<td style={{width:'15%'}}>{this.props.ing.unit}</td>
-					<td style={{width:'5%'}}><button className="btn" onClick={this.handleClickEdit}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
-					<td style={{width:'5%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></td>
-				</tr>	
+				this.props.pageCtrl===0 ? (
+					<tr>
+						<td style={{width:'60%'}}>{this.props.ing.title}</td>
+						<td style={{width:'15%'}}>{this.props.ing.qty}</td>
+						<td style={{width:'15%'}}>{this.props.ing.unit}</td>
+						<td style={{width:'5%'}}><button className="btn" onClick={this.handleClickEdit}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
+						<td style={{width:'5%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></td>
+					</tr>
+				) : (
+					<tr>
+						<td style={{width:'60%'}}>{this.props.ing.title}</td>
+						<td style={{width:'15%'}}>{this.props.ing.qty}</td>
+						<td style={{width:'15%'}}>{this.props.ing.unit}</td>
+						<td style={{width:'5%'}}><button style={{opacity:0}}></button></td>
+						<td style={{width:'5%'}}><button style={{opacity:0}}></button></td>
+					</tr>
+				)
 			) : (
 				<tr>
 					<td style={{width:'60%'}}><input autoFocus onChange={this.handleEditIngTitle} type="text" className="form-control" placeholder={this.props.ing.title}></input></td>
