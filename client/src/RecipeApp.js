@@ -12,7 +12,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: false, //use this variable to control url type
+			isProduction: true, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:true,
@@ -55,11 +55,11 @@ class RecipeApp extends React.Component {
 		
 		 axios.get('/api/:id')
 		 .then(res => {
-		 	//console.log(res.data);
-			//console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
+		 	////console.log(res.data);
+			////console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				
-				console.log('User found');
+				//console.log('User found');
 				this.setState({userID:res.data._id});
 				
 				if (res.data.facebook!==undefined){
@@ -73,7 +73,7 @@ class RecipeApp extends React.Component {
 				
 				//this.setState({user:res.data});
 				this.setState({isLoggedIn:true, isError:false});
-				console.log(this.state.loginMethod);
+				//console.log(this.state.loginMethod);
 			 	axios.get('/getRecipes')
 				 .then(res => {
 				 	this.setState({recipes:res.data.content});
@@ -91,13 +91,13 @@ class RecipeApp extends React.Component {
 	}
 	
 	getFriendRecipe = (id) => {
-		console.log (id);
+		//console.log (id);
 		axios.get(`/getUsers/:${id}`)
 				 .then(res => {
 				 	this.setState({
 				 		friendUser:res.data.content,
 				 	});
-				 	console.log(this.state.friendUser);
+				 	//console.log(this.state.friendUser);
 				 }).catch(err => {
 						console.error(err);
 					});
@@ -108,7 +108,7 @@ class RecipeApp extends React.Component {
 				 		friendRecipes:res.data.content,
 				 		pageCtrl:1
 				 	});
-				 	console.log(this.state.friendRecipes);
+				 	//console.log(this.state.friendRecipes);
 				 }).catch(err => {
 						console.error(err);
 					});
@@ -131,7 +131,7 @@ class RecipeApp extends React.Component {
 		this.setState ({
 			loginMethod: loginType
 		});
-		console.log(this.state.loginMethod);
+		//console.log(this.state.loginMethod);
 	}
 
 	toggleAddRecipe() {
@@ -179,7 +179,7 @@ class RecipeApp extends React.Component {
 		//var newRecipe={title:this.state.newRecipeName};
 		axios.post('/api/:id/recipe', newRecipe)
 		 .then(res => {
-				console.log(res.data);
+				//console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -192,7 +192,7 @@ class RecipeApp extends React.Component {
 						newRecipeName: '',
 						isError:false
 					});
-					console.log(this.state.recipes);
+					//console.log(this.state.recipes);
 					
 				} 
 		 })
@@ -204,7 +204,7 @@ class RecipeApp extends React.Component {
 		//post to the server and delete from the database; delete the same item locally
 		axios.delete(`/api/:id/recipe/${id}`)
 		 .then(res => {
-		 		console.log(res.data);
+		 		//console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -216,7 +216,7 @@ class RecipeApp extends React.Component {
 							indexToDel=index;
 						}
 					});
-					console.log(`index to del is ${indexToDel}`);
+					//console.log(`index to del is ${indexToDel}`);
 					var recipeUpdated = this.state.recipes;
 					recipeUpdated.splice(indexToDel,1);
 					this.setState({
@@ -231,7 +231,7 @@ class RecipeApp extends React.Component {
 	editRecipName(id,newName) {
 		axios.put(`/api/:id/recipe/${id}`,{'title':newName})
 			.then (res => {
-				console.log(res.data);
+				//console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -256,7 +256,7 @@ class RecipeApp extends React.Component {
 		axios.post(`/api/:id/recipe/${id}`,this.state.newIng)
 			.then(res =>{
 				
-				console.log(res.data);
+				//console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -286,7 +286,7 @@ class RecipeApp extends React.Component {
 	delIngredient(id, ingId) {
 		axios.delete(`/api/:id/recipe/${id}/${ingId}`)
 		 .then(res => {
-		 		console.log(res.data);
+		 		//console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -314,7 +314,7 @@ class RecipeApp extends React.Component {
 	editIngredient(id, ingId, editedIng) {
 		axios.put(`/api/:id/recipe/${id}/${ingId}`, editedIng)
 			.then(res=>{
-				console.log(res.data);
+				//console.log(res.data);
 				this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -335,7 +335,7 @@ class RecipeApp extends React.Component {
 
 					var recipeUpdated = this.state.recipes;
 					recipeUpdated[recIndexToEdit].ingredients[ingIndexToEdit]=res.data.content;
-					console.log(recipeUpdated);	
+					//console.log(recipeUpdated);	
 					this.setState({
 						recipes:recipeUpdated
 					});
@@ -350,7 +350,7 @@ class RecipeApp extends React.Component {
 	removeAll(){
 		axios.delete(`/api/:id/recipeDelAll`)
 		 .then(res => {
-		 	console.log (res.data);
+		 	//console.log (res.data);
 		 	this.setState({
 				isError:res.data.isError,
 				errMsg: res.data.content.errors
@@ -369,7 +369,7 @@ class RecipeApp extends React.Component {
 	delAllIngredient(id) {
 		axios.delete(`/api/:id/recipeDelAllIng/${id}`)
 		 .then(res => {
-		 		console.log(res.data);
+		 		//console.log(res.data);
 		 		this.setState({
 					isError:res.data.isError,
 					errMsg: res.data.content.errors
@@ -510,13 +510,13 @@ class UserMenu extends React.Component {
 		
 	
 	componentDidMount() {
-		console.log('Menu initiated');
+		//console.log('Menu initiated');
 		axios.get('/getUsers')
 				 .then(res => {
-				 	//console.log(res.data.content);
+				 	////console.log(res.data.content);
 				 	this.setState({users:res.data.content});
 				 	this.state.users.forEach( user => {
-				 		console.log(user._id);
+				 		//console.log(user._id);
 				 	})
 				 }).catch(err => {
 						console.error(err);
@@ -526,8 +526,8 @@ class UserMenu extends React.Component {
 
 	
 	eachUser = (user) => {
-		//console.log (user._id);
-		//console.log (this.props.curUser);
+		////console.log (user._id);
+		////console.log (this.props.curUser);
 		return (
 			(this.props.curUser !== user._id) &&
 			(
@@ -574,11 +574,11 @@ class ErrorMessage extends React.Component {
 	
 	
 	componentDidMount() {
-		console.log('Error initiated');
+		//console.log('Error initiated');
 		//scrollToComponent(this.refs.ErrDiv);
 	}
 	componentDidUpdate() {
-		console.log('Error updated');
+		//console.log('Error updated');
 		//if(this.props.isEdititing===false){
 			//scrollToComponent(this.refs.ErrDiv);
 		//}
@@ -624,7 +624,7 @@ class UserLogin extends React.Component {
 		  window.location = '/';
 		  //return res;
 		}).catch (err =>{
-			console.log(err.response.data);
+			//console.log(err.response.data);
 			this.setState({password:'', error:err.response.data.error});
 			this.handleError();
 		});
