@@ -132,7 +132,8 @@ app.post('/signup',
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
 			//res.json(req.user.facebook);
-			res.json(req.user);
+			//res.json(req.user);
+			res.json(req.user.toJSON({ virtuals: true }));
 		});
 
 	app.route('/auth/github')
@@ -207,6 +208,7 @@ app.post('/signup',
 		})
 	//get recipe for another user
 	//figure out why I need to replace the colons :@
+	/*
 		app.route('/getOtherRecipes/:friendID')
 		.get(isLoggedIn, function(req, res) {
 				console.log(req.params.friendID.replace(':',''));
@@ -221,6 +223,7 @@ app.post('/signup',
 		    	}
 		    });
 		})
+		*/
 	
 		
 		

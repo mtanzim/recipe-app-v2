@@ -17,13 +17,14 @@ class RecipeApp extends React.Component {
 			isProduction: false, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
+			loginIcon:"fa fa-user",
 			isError:true,
 			errMsg:"Facebook log in is currently unavailable. I've requested assistance from Facebook, and awaiting feedback.",
 			user:{},
 			userID:'',
 			friendUser:{},
 			recipes: [],
-			friendRecipes: [],
+			//friendRecipes: [],
 			recipeToCopy: {},
 			newRecipeName: '',
 			newIng: {title:'', qty:'', unit:''},
@@ -46,7 +47,7 @@ class RecipeApp extends React.Component {
 		this.editRecipName = this.editRecipName.bind(this);
 		this.toggleAddRecipe = this.toggleAddRecipe.bind(this);
 		this.editIngredient = this.editIngredient.bind(this);
-		this.setLoginMethod = this.setLoginMethod.bind(this);
+		//this.setLoginMethod = this.setLoginMethod.bind(this);
 		this.handleError = this.handleError.bind(this);
 		//this.renderAddRecipeForm = this.renderAddRecipeForm.bind(this);
 
@@ -60,14 +61,28 @@ class RecipeApp extends React.Component {
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				
 				console.log('User found');
-				//console.log(res.data);
+				console.log(res.data);
 				//this.setState({userID:res.data._id});
 				this.setState({isLoggedIn:true, 
 											 isError:false,
 											 recipes:res.data.recipes,
-											 userID:res.data._id
+											 userID:res.data._id,
+											 user:res.data.displayName.name,
+											 loginMethod:res.data.displayName.type
 				});
 				
+				if (this.state.loginMethod === 'git') {
+					this.setState( {
+						loginIcon:"fa fa-github"
+					})
+				}
+				else if (this.state.loginMethod === 'fb') {
+					this.setState( {
+						loginIcon:"fa fa-facebook"
+					})
+				}
+				
+				/*
 				if (res.data.facebook!==undefined){
 					this.setState({user:res.data.facebook, loginMethod:'fb'});
 				} else if (res.data.github!==undefined) {
@@ -76,6 +91,7 @@ class RecipeApp extends React.Component {
 			  else if (res.data.local!==undefined) {
 					this.setState({user:res.data.local, loginMethod:'local'});
 				}
+				*/
 				
 				//this.setState({user:res.data});
 				
@@ -100,12 +116,14 @@ class RecipeApp extends React.Component {
 				 .then(res => {
 				 	this.setState({
 				 		friendUser:res.data.content,
+				 		pageCtrl:1
 				 	});
-				 	//console.log(this.state.friendUser);
+				 	console.log(this.state.friendUser);
 				 }).catch(err => {
 						console.error(err);
 					});
 		
+		/*
 		axios.get(`/getOtherRecipes/:${id}`)
 				 .then(res => {
 				 	this.setState({
@@ -116,6 +134,7 @@ class RecipeApp extends React.Component {
 				 }).catch(err => {
 						console.error(err);
 					});
+			*/
 	}
 	
 	toggleMyRecipe = () => {
@@ -136,12 +155,27 @@ class RecipeApp extends React.Component {
 		})
 	}
 	
+	/*
 	setLoginMethod(loginType){
+		var loginIcon = '';
+		
+		if (this.state.loginType === 'git') {
+			loginIcon = "fa fa-github";
+		} else if (this.state.loginType === 'fb') {
+			loginIcon = "fa fa-github";
+		}
+		
+		
+		loginIcon= this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
+		{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
+		{this.props.loginMethod==='local' && (<i className="fa fa-user" aria-hidden="true"></i>)}
+		
 		this.setState ({
 			loginMethod: loginType
 		});
 		//console.log(this.state.loginMethod);
 	}
+	*/
 
 	toggleAddRecipe() {
 		this.setState({
@@ -441,22 +475,22 @@ class RecipeApp extends React.Component {
 				{this.state.isLoggedIn ?
 					(<UserInfo app_url={app_url} 
 									userObj={this.state.user} 
-									loginMethod={this.state.loginMethod} 
-									setLoginMethod={this.setLoginMethod} 
+									loginIcon={this.state.loginIcon} 
+									//setLoginMethod={this.setLoginMethod} 
 									isLoggedIn={this.state.isLoggedIn}/>
 					): (
 						<UserLogin
 									handleError = {this.handleError}
 									app_url={app_url} 
-									userObj={this.state.user} 
-									loginMethod={this.state.loginMethod} 
-									setLoginMethod={this.setLoginMethod} 
+									//userObj={this.state.user} 
+									//loginMethod={this.state.loginMethod} 
+									//setLoginMethod={this.setLoginMethod} 
 									isLoggedIn={this.state.isLoggedIn}/>		
 					)}
 				
 				{this.state.isLoggedIn && <UserMenu toggleMyRecipe= {this.toggleMyRecipe}
 																						toggleMyProfile= {this.toggleMyProfile}
-																						curUser={this.state.user._id} 
+																						curUser={this.state.userID} 
 																						getFriendRecipe={this.getFriendRecipe} 
 																	/>}
 				{this.state.isLoggedIn && this.state.pageCtrl===0 &&
@@ -477,14 +511,16 @@ class RecipeApp extends React.Component {
 				{this.state.pageCtrl === 1 &&
 				(
 				<div>
-					<h3 className="mt-2">{this.state.friendUser.displayName}'s Recipes</h3>
+					<h3 className="mt-2">{this.state.friendUser.displayName.name}'s Recipes</h3>
 					<div className="row">
-						{this.state.friendRecipes.map(this.eachRecipe)}
+						{this.state.friendUser.recipes.map(this.eachRecipe)}
 					</div>
 				</div>)}
 				{this.state.pageCtrl === 2 &&
 				(<UserProfile userInfo={this.state.user} 
-											userType={this.props.userType} 
+											loginType={this.state.loginMethod}
+											userIcon={this.state.loginIcon}
+											userID={this.state.userID}
 											numRecipes={this.state.recipes.length}/>)}
 			</div>
 		)
@@ -529,7 +565,7 @@ class UserMenu extends React.Component {
 				 	////console.log(res.data.content);
 				 	this.setState({users:res.data.content});
 				 	this.state.users.forEach( user => {
-				 		//console.log(user._id);
+				 		console.log(user._id);
 				 	})
 				 }).catch(err => {
 						console.error(err);
@@ -547,7 +583,7 @@ class UserMenu extends React.Component {
 				<UserList
 					key={user._id}
 					id={user._id}
-					display={user.displayName}
+					display={user.displayName.name}
 					getRecipes={this.props.getFriendRecipe}
 				></UserList>
 			)
@@ -703,9 +739,12 @@ class UserInfo extends React.Component {
 					<div className='row'><div className='col-sm-6'>
 							
 							<h5>
+								<i className={this.props.loginIcon} aria-hidden="true"></i>
+								{/*
 								{this.props.loginMethod==='git' && (<i className="fa fa-github" aria-hidden="true"></i>)}
 								{this.props.loginMethod==='fb' && (<i className="fa fa-facebook" aria-hidden="true"></i>)}
 								{this.props.loginMethod==='local' && (<i className="fa fa-user" aria-hidden="true"></i>)}
+								*/}
 								<a href={this.props.app_url+"/logout"}>
 									<button className="ml-2 btn btn-danger">
 										<i className="fa fa-sign-out" aria-hidden="true"></i>
@@ -713,9 +752,12 @@ class UserInfo extends React.Component {
 								</a>
 							</h5>
 							<h5>
-									{this.props.loginMethod==='fb' &&  this.props.userObj.name + " "}
-									{this.props.loginMethod==='git' && this.props.userObj.displayName + " "}
-									{this.props.loginMethod==='local' && this.props.userObj.email + " "}
+								{this.props.userObj}
+								{/*
+									{this.props.loginMethod==='fb' &&  this.props.userObj + " "}
+									{this.props.loginMethod==='git' && this.props.userObj + " "}
+									{this.props.loginMethod==='local' && this.props.userObj + " "}
+								*/}
 							</h5>
 					</div></div>
 			</div>

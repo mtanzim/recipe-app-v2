@@ -35,13 +35,16 @@ var User = new Schema({
 //generate a common user display name
 User.virtual('displayName').get(function () {
   var nameToReturn=this.facebook.name;
+  var accountType='fb';
   if (nameToReturn === undefined) {
     nameToReturn=this.github.displayName;
+    accountType = 'git';
     if (nameToReturn === undefined){
       nameToReturn=this.local.email;
+      accountType = 'local';
     }
   }
-  return nameToReturn;
+  return {name:nameToReturn, type:accountType};
 });
 
 
