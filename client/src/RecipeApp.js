@@ -7,12 +7,14 @@ import React, {Component} from 'react';
 import './style.css';
 import axios from 'axios';
 
+import UserProfile from './UserProfile';
+
 class RecipeApp extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: true, //use this variable to control url type
+			isProduction: false, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			isError:true,
@@ -20,11 +22,9 @@ class RecipeApp extends React.Component {
 			user:{},
 			userID:'',
 			friendUser:{},
-			recipeInit:[],
 			recipes: [],
 			friendRecipes: [],
 			recipeToCopy: {},
-			numRecipes:2,
 			newRecipeName: '',
 			newIng: {title:'', qty:'', unit:''},
 			editing:false,
@@ -59,8 +59,14 @@ class RecipeApp extends React.Component {
 			////console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				
-				//console.log('User found');
-				this.setState({userID:res.data._id});
+				console.log('User found');
+				//console.log(res.data);
+				//this.setState({userID:res.data._id});
+				this.setState({isLoggedIn:true, 
+											 isError:false,
+											 recipes:res.data.recipes,
+											 userID:res.data._id
+				});
 				
 				if (res.data.facebook!==undefined){
 					this.setState({user:res.data.facebook, loginMethod:'fb'});
@@ -72,7 +78,8 @@ class RecipeApp extends React.Component {
 				}
 				
 				//this.setState({user:res.data});
-				this.setState({isLoggedIn:true, isError:false});
+				
+				/*
 				//console.log(this.state.loginMethod);
 			 	axios.get('/getRecipes')
 				 .then(res => {
@@ -80,14 +87,11 @@ class RecipeApp extends React.Component {
 				 }).catch(err => {
 						console.error(err);
 					});
+					*/
 			}
 		 }).catch(err => {
 				console.error(err);
 		 });
-	}
-	
-	copyRecipe = (recipe) => {
-		
 	}
 	
 	getFriendRecipe = (id) => {
@@ -120,6 +124,11 @@ class RecipeApp extends React.Component {
 	 	});
 	}
 	
+	toggleMyProfile = () => {
+		this.setState({
+	 		pageCtrl:2
+	 	});
+	}
 	handleError (msg) {
 		this.setState ( {
 			isError:true,
@@ -188,11 +197,10 @@ class RecipeApp extends React.Component {
 					var updatedRecipe = res.data.content;
 					this.setState({
 						recipes:updatedRecipe,
-						numRecipes: this.state.numRecipes+1,
 						newRecipeName: '',
 						isError:false
 					});
-					//console.log(this.state.recipes);
+					console.log(this.state.recipes);
 					
 				} 
 		 })
@@ -412,7 +420,7 @@ class RecipeApp extends React.Component {
 				saveEdit = {this.editRecipName}
 				pageCtrl= {this.state.pageCtrl}
 				copyRecipe = {this.copyRecipe}
-				curRecipe = {recipe}
+				//curRecipe = {recipe}
 			></RecipeCard>
 		);
 	}
@@ -447,7 +455,8 @@ class RecipeApp extends React.Component {
 					)}
 				
 				{this.state.isLoggedIn && <UserMenu toggleMyRecipe= {this.toggleMyRecipe}
-																						curUser={this.state.userID} 
+																						toggleMyProfile= {this.toggleMyProfile}
+																						curUser={this.state.user._id} 
 																						getFriendRecipe={this.getFriendRecipe} 
 																	/>}
 				{this.state.isLoggedIn && this.state.pageCtrl===0 &&
@@ -473,6 +482,10 @@ class RecipeApp extends React.Component {
 						{this.state.friendRecipes.map(this.eachRecipe)}
 					</div>
 				</div>)}
+				{this.state.pageCtrl === 2 &&
+				(<UserProfile userInfo={this.state.user} 
+											userType={this.props.userType} 
+											numRecipes={this.state.recipes.length}/>)}
 			</div>
 		)
 	}
@@ -556,9 +569,9 @@ class UserMenu extends React.Component {
 						</div>
 					</li>
 					
-					{/*<li className="nav-item">
-						<a className="nav-link" href="#">Profile</a>
-					</li>*/}
+					<li className="nav-item">
+						<a className="nav-link" onClick={this.props.toggleMyProfile} href="#">Profile</a>
+					</li>
 				</ul>
 			</div>
 		)
@@ -642,15 +655,15 @@ class UserLogin extends React.Component {
 	}
 	handleChangeEmail (event) {
 		this.setState({email: event.target.value});
-	}
+	}	
 	
 	render () {
 		return (
 			<div>
 				<form  onSubmit={this.handleLogIn}>
 				  <div className="form-group">
-				    <label htmlFor="email">Email address</label>
-				    <input value={this.state.email} onChange={this.handleChangeEmail} type="email" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter email"></input>
+				    <label htmlFor="email">Username</label>
+				    <input value={this.state.email} onChange={this.handleChangeEmail} type="text" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter username"></input>
 				  </div>
 				  <div className="form-group">
 				    <label htmlFor="password">Password</label>
@@ -787,7 +800,12 @@ class RecipeCard extends React.Component {
 	}
 
 	copyRecipe = () => {
-		this.props.copyRecipe (this.props.curRecipe);
+		//console.log(this.props.curRecipe);
+		//remove copied recipes ID, so duplicates are allowed (mongoose will auto assign _id)
+		//var tempObj = this.props.curRecipe;
+		//delete tempObj._id;
+		//console.log(tempObj);
+		this.props.copyRecipe ({title:this.props.title, ingredients:this.props.ingredients});
 	}
 	render () {
 		//console.log(Object.keys(this.props.ingredients[0]));
