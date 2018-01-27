@@ -14,7 +14,7 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: false, //use this variable to control url type
+			isProduction: true, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			loginIcon:"fa fa-user",
@@ -60,8 +60,8 @@ class RecipeApp extends React.Component {
 			////console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
 			if ((typeof(res.data)==='object') && res.data._id!==undefined){
 				
-				console.log('User found');
-				console.log(res.data);
+				//console.log('User found');
+				//console.log(res.data);
 				//this.setState({userID:res.data._id});
 				this.setState({isLoggedIn:true, 
 											 isError:false,
@@ -82,28 +82,6 @@ class RecipeApp extends React.Component {
 					})
 				}
 				
-				/*
-				if (res.data.facebook!==undefined){
-					this.setState({user:res.data.facebook, loginMethod:'fb'});
-				} else if (res.data.github!==undefined) {
-					this.setState({user:res.data.github, loginMethod:'git'});
-				}
-			  else if (res.data.local!==undefined) {
-					this.setState({user:res.data.local, loginMethod:'local'});
-				}
-				*/
-				
-				//this.setState({user:res.data});
-				
-				/*
-				//console.log(this.state.loginMethod);
-			 	axios.get('/getRecipes')
-				 .then(res => {
-				 	this.setState({recipes:res.data.content});
-				 }).catch(err => {
-						console.error(err);
-					});
-					*/
 			}
 		 }).catch(err => {
 				console.error(err);
@@ -112,13 +90,13 @@ class RecipeApp extends React.Component {
 	
 	getFriendRecipe = (id) => {
 		//console.log (id);
-		axios.get(`/getUsers/:${id}`)
+		axios.get(`/getUsers/${id}`)
 				 .then(res => {
 				 	this.setState({
 				 		friendUser:res.data.content,
 				 		pageCtrl:1
 				 	});
-				 	console.log(this.state.friendUser);
+				 	//console.log(this.state.friendUser);
 				 }).catch(err => {
 						console.error(err);
 					});
@@ -234,7 +212,7 @@ class RecipeApp extends React.Component {
 						newRecipeName: '',
 						isError:false
 					});
-					console.log(this.state.recipes);
+					//console.log(this.state.recipes);
 					
 				} 
 		 })
@@ -517,7 +495,9 @@ class RecipeApp extends React.Component {
 					</div>
 				</div>)}
 				{this.state.pageCtrl === 2 &&
-				(<UserProfile userInfo={this.state.user} 
+				(<UserProfile 
+											handleError = {this.handleError}
+											userInfo={this.state.user} 
 											loginType={this.state.loginMethod}
 											userIcon={this.state.loginIcon}
 											userID={this.state.userID}
@@ -565,7 +545,7 @@ class UserMenu extends React.Component {
 				 	////console.log(res.data.content);
 				 	this.setState({users:res.data.content});
 				 	this.state.users.forEach( user => {
-				 		console.log(user._id);
+				 		//console.log(user._id);
 				 	})
 				 }).catch(err => {
 						console.error(err);
@@ -699,11 +679,11 @@ class UserLogin extends React.Component {
 				<form  onSubmit={this.handleLogIn}>
 				  <div className="form-group">
 				    <label htmlFor="email">Username</label>
-				    <input value={this.state.email} onChange={this.handleChangeEmail} type="text" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter username"></input>
+				    <input required value={this.state.email} onChange={this.handleChangeEmail} type="text" className="form-control" name="email" id="email" aria-describedby="emailHelp" placeholder="Enter username"></input>
 				  </div>
 				  <div className="form-group">
 				    <label htmlFor="password">Password</label>
-				    <input value={this.state.password} onChange={this.handleChangePass} type="password" className="form-control" name="password" id="password" placeholder="Password"></input>
+				    <input required value={this.state.password} onChange={this.handleChangePass} type="password" className="form-control" name="password" id="password" placeholder="Password"></input>
 				  </div>
 				  <button type="submit" className="btn">Log In</button><br></br>	
 				  <small> New accounts will be signed up automatically. </small>

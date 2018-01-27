@@ -67,51 +67,6 @@ module.exports = function (app, passport) {
 			//res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
 		});
 
-	/*
-	app.route('/profile')
-		.get(isLoggedIn, function (req, res) {
-			res.sendFile(path + '/public/profile.html');
-		});
-	*/
-	
-	//signup route test
-	/*
-	app.route('/signup')
-		.post( function (req, res){
-			//console.log(req.body);
-			res.json({'email':req.params.email, 'pass':req.params.password});
-		});
-	*/
-	//signup route
-	
-	/*
-	app.post('/signup',
-			passport.authenticate('local-signup',
-			{
-				//successRedirect: '/test',
-				//failureRedirect: '/login',
-				failureFlash: 'Invalid username or password.',
-				succesFlash: 'Welcome!'
-			})
-		);
-		*/
-	
-	/*
-	app.post('/signup', passport.authenticate('local-signup', {
-	  successRedirect : '/profile', // redirect to the secure profile section
-	  failureRedirect : '/test', // redirect back to the signup page if there is an error
-	  failureFlash : true // allow flash messages
-	}));
-	*/
-
-/*	
-app.post('/signup',
-  passport.authenticate('local', { successRedirect: '/',
-  																 failureRedirect: '/',
-  																 failureFlash: 'Invalid username or password.', 
-                                   }));
-                                   
-*/
  //passport docs, local sign up/login
 	app.post('/signup', function(req, res, next) {
 		console.log(req.auth);
@@ -131,11 +86,70 @@ app.post('/signup',
 	//am I even using params.id? It doesn't seem like it
 	app.route('/api/:id')
 		.get(isLoggedIn, function (req, res) {
-			//res.json(req.user.facebook);
-			//res.json(req.user);
 			res.json(req.user.toJSON({ virtuals: true }));
 		});
+		
+	app.route('/api/:id/deleteAccount')
+		.post(isLoggedIn, function (req, res) {
+			Users.findById(req.user.id, function (err, user) {
+	    	if (err) {
+	    		return res.send(403, { error: "User not removed!" });
+	    	} else {
+		    	console.log(user);
+					user.remove(function (err, user) {
+					  if (err){
+					  	return res.send(403, { error: "User not removed!" });
+					  } else {
+					  	Users.findById(user._id, function (err, user) {
+					    	console.log(user) // null
+					  	});
+							res.redirect('/logout');
+				  	}
+				})
+	    		
+	    	}
+	    });
+		});
+	
+	app.route('/api/:id/changePass')
+		.post(isLoggedIn, function (req, res) {
+			console.log('Changing Password');
+			console.log(req.params.id);
+			console.log(req.user.id);
+			console.log(req.body);
+			//not using the params id yet, makes more sense to use the user of the session
+			Users.findById(req.user.id, function (err, user) {
+	    	if (err) {
+	    		res.json({isError:true});
+	    	} else {
+		    	console.log(user);
+		    	if (!user.validPassword(req.body.curPass)) {
+						//res.status(200).json({isError:true, content:"Password check current password!"});
+						return res.send(403, { error: "Invalid password!" });
+		    	} else {
+		    		//user.setPassword(req.body.newPass, function(){
+            //user.save();
+            user.changePassword(req.body.newPass);
+            user.save(function(err) {
+							if (err) {
+								res.json({isError:true, content:parseMongooseErr(err)});
+							} else {
+							//res.json({ message: 'All recipes deleted'});
+								res.json({isError:false, content:"Password Changed!"});
+							}
+						});
+            
+            //res.status(200).json({message: 'password reset successful'});
+        	//});
+		    	}
+		    	
+	    		//res.json({isError:false, content:user.toJSON({ virtuals: true })});
+	    	}
+	    });
+			
+		});
 
+	
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
 
@@ -194,9 +208,9 @@ app.post('/signup',
 		})
 		app.route('/getUsers/:friendID')
 		.get(isLoggedIn, function(req, res) {
-				console.log(req.params.friendID.replace(':',''));
-				var friendID=req.params.friendID.replace(':','');
-				Users.findById(friendID, function (err, user) {
+				//console.log(req.params.friendID.replace(':',''));
+				//var friendID=req.params.friendID.replace(':','');
+				Users.findById(req.params.friendID, function (err, user) {
 		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 		    	if (err) {
 		    		res.json({isError:true});

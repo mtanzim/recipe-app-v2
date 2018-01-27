@@ -59,4 +59,9 @@ User.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
 
+User.methods.changePassword = function (password) {
+  this.local.password = this.generateHash(password);
+  //this.set(this.local.password, salt);
+}
+
 module.exports = mongoose.model('User', User);
