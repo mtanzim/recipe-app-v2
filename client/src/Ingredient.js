@@ -59,30 +59,30 @@ class Ingredient extends React.Component {
 			<span>
 			{!this.state.editing ? (
 				this.props.pageCtrl===0 ? (
-					<tr>
-						<td style={{width:'60%'}}>{this.props.ing.title}</td>
-						<td style={{width:'15%'}}>{this.props.ing.qty}</td>
-						<td style={{width:'15%'}}>{this.props.ing.unit}</td>
-						<td style={{width:'5%'}}><button className="btn" onClick={this.handleClickEdit}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></td>
-						<td style={{width:'5%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></td>
-					</tr>
+					<div style={{width:'100%'}} className="row">
+						<div style={{width:'40%'}}>{this.props.ing.title}</div>
+						<div style={{width:'15%'}}>{this.props.ing.qty}</div>
+						<div style={{width:'15%'}}>{this.props.ing.unit}</div>
+						<div style={{width:'15%'}}><button className="btn" onClick={this.handleClickEdit}><i className="fa fa-pencil-square-o" aria-hidden="true"></i></button></div>
+						<div style={{width:'15%'}}><button className="btn btn-danger mr-2" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></div>
+					</div>
 				) : (
-					<tr>
-						<td style={{width:'60%'}}>{this.props.ing.title}</td>
-						<td style={{width:'15%'}}>{this.props.ing.qty}</td>
-						<td style={{width:'15%'}}>{this.props.ing.unit}</td>
-						<td style={{width:'5%'}}><button style={{opacity:0}}></button></td>
-						<td style={{width:'5%'}}><button style={{opacity:0}}></button></td>
-					</tr>
+					<div style={{width:'100%'}} className="row">
+						<div style={{width:'40%'}}>{this.props.ing.title}</div>
+						<div style={{width:'15%'}}>{this.props.ing.qty}</div>
+						<div style={{width:'15%'}}>{this.props.ing.unit}</div>
+						<div style={{width:'15%'}}><button style={{opacity:0}}></button></div>
+						<div style={{width:'15%'}}><button style={{opacity:0}}></button></div>
+					</div>
 				)
 			) : (
-				<tr>
-					<td style={{width:'60%'}}><input autoFocus onChange={this.handleEditIngTitle} type="text" className="form-control" placeholder={this.props.ing.title}></input></td>
-					<td style={{width:'15%'}}><input onChange={this.handleEditIngQty} type="number" step="0.01" className="form-control"  placeholder={this.props.ing.qty}></input></td>
-					<td style={{width:'15%'}}><input onChange={this.handleEditIngUnit} type="text" className="form-control"  placeholder={this.props.ing.unit}></input></td>
-					<td style={{width:'5%'}}><button onClick={this.handleClickSaveEdit} className="btn btn-success"><i className="fa fa-floppy-o" aria-hidden="true"></i></button></td>
-					<td style={{width:'5%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></td>
-				</tr>
+				<div style={{width:'100%'}} className="row">
+					<div style={{width:'40%'}}><input autoFocus onChange={this.handleEditIngTitle} type="text" className="form-control" placeholder={this.props.ing.title}></input></div>
+					<div style={{width:'15%'}}><input onChange={this.handleEditIngQty} type="number" step="0.01" className="form-control"  placeholder={this.props.ing.qty}></input></div>
+					<div style={{width:'15%'}}><input onChange={this.handleEditIngUnit} type="text" className="form-control"  placeholder={this.props.ing.unit}></input></div>
+					<div style={{width:'15%'}}><button onClick={this.handleClickSaveEdit} className="btn btn-success"><i className="fa fa-floppy-o" aria-hidden="true"></i></button></div>
+					<div style={{width:'15%'}}><button className="btn btn-danger" onClick={this.deleteIngredient}><i className="fa fa-trash-o" aria-hidden="true"></i></button></div>
+				</div>
 			)}
 			</span>
 			

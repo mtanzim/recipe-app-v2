@@ -138,22 +138,9 @@ class RecipeCard extends React.Component {
 					 								handleIngUnit={this.props.handleIngUnit}/>
 							<button onClick={this.addIngredient} className="btn btn-success"><i className="fa fa-floppy-o" aria-hidden="true"></i></button>
 						</div>)}
-			 			<table className='mt-4' style={{width:'100%'}}>
-			 				<thead>
-			 				{/*}
-				 				<tr>
-				 					<th>Name</th>
-				 					<th>Qty</th>
-				 					<th>Units</th>
-				 					<th>Action</th>
-				 					<th>Remove</th>
-			 					</tr>
-		 					*/}	
-		 					</thead>
-		 					<tbody>
-				 				{this.props.ingredients.map(this.eachIng)}
-			 				</tbody>
-		 				</table>
+			 			<div className='mt-4 ml-4'>
+		 					{this.props.ingredients.map(this.eachIng)}
+		 				</div>
 				 	</div>
 				 </div>
 			 </div>
