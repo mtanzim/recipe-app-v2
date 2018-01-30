@@ -67,7 +67,14 @@ module.exports = function (app, passport) {
 			//res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
 		});
 
- //passport docs, local sign up/login
+
+
+
+
+	
+
+		
+	 //passport docs, local sign up/login
 	app.post('/signup', function(req, res, next) {
 		console.log(req.auth);
 	  passport.authenticate('local', function(err, user, info) {
@@ -78,38 +85,12 @@ module.exports = function (app, passport) {
 	    }
 	    req.logIn(user, function(err) {
 	      if (err) { return next(err); }
-	      return res.redirect('/');
+	      //return res.redirect('/');
+	      console.log(req.user);
+	      res.send({isError:false, content:req.user._id});
 	    });
 	  })(req, res, next);
 	});
-
-	//am I even using params.id? It doesn't seem like it
-	app.route('/api/:id')
-		.get(isLoggedIn, function (req, res) {
-			res.json(req.user.toJSON({ virtuals: true }));
-		});
-		
-	app.route('/api/:id/deleteAccount')
-		.post(isLoggedIn, function (req, res) {
-			Users.findById(req.user.id, function (err, user) {
-	    	if (err) {
-	    		return res.send(403, { error: "User not removed!" });
-	    	} else {
-		    	console.log(user);
-					user.remove(function (err, user) {
-					  if (err){
-					  	return res.send(403, { error: "User not removed!" });
-					  } else {
-					  	Users.findById(user._id, function (err, user) {
-					    	console.log(user) // null
-					  	});
-							res.redirect('/logout');
-				  	}
-				})
-	    		
-	    	}
-	    });
-		});
 	
 	app.route('/api/:id/changePass')
 		.post(isLoggedIn, function (req, res) {
@@ -148,8 +129,30 @@ module.exports = function (app, passport) {
 	    });
 			
 		});
+		
+		app.route('/api/:id/deleteAccount')
+		.post(isLoggedIn, function (req, res) {
+			Users.findById(req.user.id, function (err, user) {
+	    	if (err) {
+	    		return res.send(403, { error: "User not removed!" });
+	    	} else {
+		    	console.log(user);
+					user.remove(function (err, user) {
+					  if (err){
+					  	return res.send(403, { error: "User not removed!" });
+					  } else {
+					  	Users.findById(user._id, function (err, user) {
+					    	console.log(user) // null
+					  	});
+							res.redirect('/logout');
+				  	}
+				})
+	    		
+	    	}
+	    });
+		});
 
-	
+	//connected accounts
 	app.route('/auth/github')
 		.get(passport.authenticate('github'));
 
@@ -178,13 +181,21 @@ module.exports = function (app, passport) {
 		.get(isLoggedIn, clickHandler.getClicks)
 		.post(isLoggedIn, clickHandler.addClick)
 		.delete(isLoggedIn, clickHandler.resetClicks);
-	*/
+	
 	app.route('/test')
 		.get(function(req, res) {
 	    	res.send('Hello World!');
 		});
+	*/
 	
-	
+	//am I even using params.id? It doesn't seem like it
+	/*
+	app.route('/api/:id')
+		.get(isLoggedIn, function (req, res) {
+			res.json(req.user.toJSON({ virtuals: true }));
+		});
+		*/
+		
 	
 	//get userNames
 	//uses virtual getters
@@ -220,26 +231,6 @@ module.exports = function (app, passport) {
 		    	}
 		    });
 		})
-	//get recipe for another user
-	//figure out why I need to replace the colons :@
-	/*
-		app.route('/getOtherRecipes/:friendID')
-		.get(isLoggedIn, function(req, res) {
-				console.log(req.params.friendID.replace(':',''));
-				var friendID=req.params.friendID.replace(':','');
-				Users.findById(friendID, function (err, user) {
-		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-		    	if (err) {
-		    		res.json({isError:true});
-		    	} else {
-			    	console.log(user);
-		    		res.json({isError:false, content:user.recipes});
-		    	}
-		    });
-		})
-		*/
-	
-		
 		
 	//get all recipes for user
 	app.route('/getRecipes')

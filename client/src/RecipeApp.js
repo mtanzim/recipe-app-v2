@@ -60,7 +60,8 @@ class RecipeApp extends React.Component {
 	}
 	componentDidMount() {
 		
-		 axios.get('/api/:id')
+		 //axios.get('/api/:id')
+		 axios.get(`/getUsers/${this.state.userID}`)
 		 .then(res => {
 		 	////console.log(res.data);
 			////console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
@@ -92,6 +93,12 @@ class RecipeApp extends React.Component {
 		 }).catch(err => {
 				console.error(err);
 		 });
+	}
+	
+	setCurUserID = (curID) => {
+		this.setState ({
+			userID:curID
+		})
 	}
 	
 	getFriendRecipe = (id) => {
@@ -419,8 +426,8 @@ class RecipeApp extends React.Component {
 		return (
 			<div className="container">
 				<h1 className="mt-4">Recipe List</h1>
-				
-				{this.state.isError && (<ErrorMessage isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
+				{this.state.isError && (<ErrorMessage 
+				isEdititing={this.state.isEdititing} errMsg={this.state.errMsg}/>)}
 				{this.state.isLoggedIn ?
 					(<UserInfo app_url={app_url} 
 									userObj={this.state.user} 
@@ -433,7 +440,8 @@ class RecipeApp extends React.Component {
 									app_url={app_url} 
 									//userObj={this.state.user} 
 									//loginMethod={this.state.loginMethod} 
-									//setLoginMethod={this.setLoginMethod} 
+									//setLoginMethod={this.setLoginMethod}
+									setCurUserID={this.setCurUserID}
 									isLoggedIn={this.state.isLoggedIn}/>		
 					)}
 				

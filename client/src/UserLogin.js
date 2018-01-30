@@ -31,9 +31,10 @@ class UserLogin extends React.Component {
 		    password: this.state.password
 		  }
 		}).then (res => {
-			//console.log(res.data);
+			console.log(res.data);
 			this.setState({email:'',password:''});
-		  window.location = '/';
+			this.setUserID(res.data.content);
+			window.location = '/';
 		  //return res;
 		}).catch (err =>{
 			//console.log(err.response.data);
@@ -48,7 +49,11 @@ class UserLogin extends React.Component {
 	}
 	handleChangeEmail (event) {
 		this.setState({email: event.target.value});
-	}	
+	}
+	
+	setUserID = (id) => {
+		this.props.setCurUserID(id);
+	}
 	
 	render () {
 		return (
