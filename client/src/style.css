@@ -18,6 +18,15 @@ table{
   width: 100%;
 }
 
+/*
+input:focus {
+    outline:none;
+}
+
+*:focus {
+    outline: none;
+}
+*/
  tr{
   display: block;
   padding-bottom: 5px;

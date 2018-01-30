@@ -138,7 +138,7 @@ class RecipeCard extends React.Component {
 					 								handleIngUnit={this.props.handleIngUnit}/>
 							<button onClick={this.addIngredient} className="btn btn-success"><i className="fa fa-floppy-o" aria-hidden="true"></i></button>
 						</div>)}
-			 			<div className='mt-4 ml-4'>
+			 			<div className='mt-4'>
 		 					{this.props.ingredients.map(this.eachIng)}
 		 				</div>
 				 	</div>
