@@ -70,13 +70,15 @@ class Ingredient extends React.Component {
 					</div>
 				) : (
 					<div style={{width:'100%',paddingLeft:6,paddingRight:6}} className="row">
-						<div style={{width:'40%'}}>{this.props.ing.title}</div>
-						<div style={{width:'15%'}}>{this.props.ing.qty}</div>
-						<div style={{width:'15%'}}>{this.props.ing.unit}</div>
+						<div style={{width:'60%'}}>{this.props.ing.title}</div>
+						<div style={{width:'20%'}}>{this.props.ing.qty}</div>
+						<div style={{width:'20%'}}>{this.props.ing.unit}</div>
+						{/*
 						<div className="btn-group" style={{width:'20%', paddingLeft:4}}>
 							<button style={{opacity:0}}></button>
 							<button style={{opacity:0}}></button>
 						</div>
+						*/}
 					</div>
 				)
 			) : (

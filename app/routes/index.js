@@ -18,33 +18,25 @@ module.exports = function (app, passport) {
 		}
 	}
 	
+	//this needs work :`(
 	function parseMongooseErr (errMsg){
 		
-		//console.log("START HEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEERERERERERERERR");
-		//console.log(typeof(errMsg.errors));
 		console.log(errMsg.errors);
-		//var stringMsg='';
 		for (var error in errMsg.errors) {
-			//console.log("TM error is" + errMsg.errors[error].message);
-			//stringMsg+=errMsg.errors[error].message;
 			var errToReport=errMsg.errors[error].message;
 			if (errMsg.errors[error].message.includes('Cast')) {
 				errToReport="Please provide a number.";
 			}
-			//stringMsg=stringMsg.concat(errToReport).concat('\n');
-			//stringMsg=errMsg.errors[error].message;
 		}
 		return {errors:errToReport};
 	}
-
-	var clickHandler = new ClickHandler();
 
 	app.route('/')
 		.get(function (req, res) {
 		//.get(isLoggedIn, function (req, res) {
 			//res.sendFile(path + '/public/index.html');
 			if (process.env.NODE_ENV==='production') {
-				console.log('production url');
+				//console.log('production url');
 				res.sendFile(path + '/client/build/index.html');
 			} else {
 				res.redirect(process.env.APP_URL.substring(0,process.env.APP_URL.length-1)+":"+process.env.REACT_PORT);
@@ -59,7 +51,6 @@ module.exports = function (app, passport) {
 			res.redirect('/');
 		});
 
-
 	app.route('/logout')
 		.get(function (req, res) {
 			req.logout();
@@ -67,16 +58,9 @@ module.exports = function (app, passport) {
 			//res.redirect('https://fccwebapps-mtanzim.c9users.io:8081');
 		});
 
-
-
-
-
-	
-
-		
 	 //passport docs, local sign up/login
 	app.post('/signup', function(req, res, next) {
-		console.log(req.auth);
+		//console.log(req.auth);
 	  passport.authenticate('local', function(err, user, info) {
 	    if (err) { return next(err); }
 	    if (!user) { 
@@ -85,9 +69,9 @@ module.exports = function (app, passport) {
 	    }
 	    req.logIn(user, function(err) {
 	      if (err) { return next(err); }
-	      //return res.redirect('/');
-	      console.log(req.user);
-	      res.send({isError:false, content:req.user._id});
+	      return res.redirect('/');
+	      //console.log(req.user);
+	      //res.send(JSON.stringify({isError:false, content:req.user._id}));
 	    });
 	  })(req, res, next);
 	});
@@ -161,42 +145,25 @@ module.exports = function (app, passport) {
 			successRedirect: '/',
 			failureRedirect: '/login'
 		}));
-		
-		
-		//facebook login routes
-		app.get('/auth/facebook', passport.authenticate('facebook', { 
-      scope : ['public_profile', 'email']
-    }));
-
-    // handle the callback after facebook has authenticated the user
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect: '/',
-						failureRedirect: '/login'
-        }));
-
-
-	/*
-	app.route('/api/:id/clicks')
-		.get(isLoggedIn, clickHandler.getClicks)
-		.post(isLoggedIn, clickHandler.addClick)
-		.delete(isLoggedIn, clickHandler.resetClicks);
 	
-	app.route('/test')
-		.get(function(req, res) {
-	    	res.send('Hello World!');
-		});
-	*/
 	
-	//am I even using params.id? It doesn't seem like it
-	/*
-	app.route('/api/:id')
+	//facebook login routes
+	app.get('/auth/facebook', passport.authenticate('facebook', { 
+    scope : ['public_profile', 'email']
+  }));
+
+  // handle the callback after facebook has authenticated the user
+  app.get('/auth/facebook/callback',
+      passport.authenticate('facebook', {
+          successRedirect: '/',
+					failureRedirect: '/login'
+      }));
+
+	app.route('/getCurUser')
 		.get(isLoggedIn, function (req, res) {
 			res.json(req.user.toJSON({ virtuals: true }));
 		});
-		*/
 		
-	
 	//get userNames
 	//uses virtual getters
 	app.route('/getUsers')
@@ -217,12 +184,12 @@ module.exports = function (app, passport) {
 		    	}
 		    });
 		})
-		app.route('/getUsers/:friendID')
+		
+		//get user information for specific userID
+		app.route('/api/:id')
 		.get(isLoggedIn, function(req, res) {
-				//console.log(req.params.friendID.replace(':',''));
-				//var friendID=req.params.friendID.replace(':','');
-				Users.findById(req.params.friendID, function (err, user) {
-		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+				console.log(req.url);
+				Users.findById(req.params.id, function (err, user) {
 		    	if (err) {
 		    		res.json({isError:true});
 		    	} else {
@@ -232,26 +199,13 @@ module.exports = function (app, passport) {
 		    });
 		})
 		
-	//get all recipes for user
-	app.route('/getRecipes')
-		.get(isLoggedIn, function(req, res) {
-				Users.findById(req.user.id, function (err, user) {
-		    //Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
-		    	if (err) {
-		    		res.json({isError:true});
-		    	} else {
-			    	console.log(user);
-		    		res.json({isError:false, content:user.recipes});
-		    	}
-		    });
-		})
-	//add recipe
+	//add recipe for specified user
 	app.route('/api/:id/recipe')
 		.post(function (req, res){
 			//console.log(req.params.recipeID);
 			console.log(req.body);
 			//console.log(req.params.id);
-			Users.findById(req.user.id, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				console.log(user);
 				if (err){
@@ -272,8 +226,7 @@ module.exports = function (app, passport) {
 	//delete all recipes
 	app.route('/api/:id/recipeDelAll')
 		.delete( function(req,res){
-			Users.findById(req.user.id, function (err, user) {
-			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 				if (err){
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -286,7 +239,6 @@ module.exports = function (app, passport) {
 						if (err) {
 							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
-						//res.json({ message: 'All recipes deleted'});
 							res.json({isError:false, content:'All recipes deleted'});
 						}
 					});
@@ -324,10 +276,7 @@ module.exports = function (app, passport) {
 		})
 		//delete ingredient
 		.delete( function(req,res){
-			//console.log(req.params.recipeID);
-			//console.log(req.params.ingID);
-			Users.findById(req.user.id, function (err, user) {
-			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -339,9 +288,7 @@ module.exports = function (app, passport) {
 							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('Ingredient removed successfully!');
-							//res.json(editRecipe);
 							res.json({isError:false, content:editRecipe});
-							//res.json({ message: 'Ingredient ' +req.params.ingID + ' has been deleted from recipe '+req.params.recipeID });
 						}
 					});
 				}
@@ -350,10 +297,7 @@ module.exports = function (app, passport) {
 	//delete all ingredients
 	app.route('/api/:id/recipeDelAllIng/:recipeID')
 		.delete( function(req,res){
-			//console.log(req.params.recipeID);
-			//console.log(req.params.ingID);
-			Users.findById(req.user.id, function (err, user) {
-			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -362,14 +306,13 @@ module.exports = function (app, passport) {
 					for (let i=ingredientL; i > -1 ; i--){
 						editRecipe.ingredients.id(editRecipe.ingredients[i]._id).remove();
 					};
-					console.log('New Recipe:');
-					console.log(editRecipe);
+					//console.log('New Recipe:');
+					//console.log(editRecipe);
 					user.save(function(err) {
 						if (err) {
 							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
 							console.log('All ingredients removed successfully!');
-							//res.json(editRecipe);
 							res.json({isError:false, content:editRecipe});
 						}
 					});
@@ -382,8 +325,7 @@ module.exports = function (app, passport) {
 		.put (function(req, res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findById(req.user.id, function (err, user) {
-			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -393,10 +335,9 @@ module.exports = function (app, passport) {
 						if (err){
 							res.json({isError:true, content:parseMongooseErr(err)});
 						} else {
-							console.log('New ingredient added successfully!');
+							console.log('Recipe Edited');
 							res.json({isError:false, content:editRecipe});
 						} 
-						//res.json(editRecipe);
 					});
 				}
 			})
@@ -405,14 +346,14 @@ module.exports = function (app, passport) {
 		.post(function(req,res){
 			console.log(req.params.recipeID);
 			console.log(req.body);
-			Users.findById(req.user.id, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
 					var editRecipe= user.recipes.id(req.params.recipeID);
 					console.log(editRecipe);
-					editRecipe.ingredients.push(req.body);
+					editRecipe.ingredients.unshift(req.body);
 					user.save(function(err) {
 						if (err){
 							res.json({isError:true, content:parseMongooseErr(err)});
@@ -426,8 +367,7 @@ module.exports = function (app, passport) {
 			//res.json({ message: 'Added ingredient to '+req.params.recipeID});
 		})
 		.delete( function(req,res){
-			Users.findById(req.user.id, function (err, user) {
-			//Users.findOne({ 'facebook.id': req.user.facebook.id }, function (err, user) {
+			Users.findById(req.params.id, function (err, user) {
 				if (err) {
 					res.json({isError:true, content:parseMongooseErr(err)});
 				} else {
@@ -441,7 +381,6 @@ module.exports = function (app, passport) {
 		 					if (err){
 								res.json({isError:true, content:parseMongooseErr(err)});
 							} else {
-								//res.json({isError:false, content:editRecipe});
 								res.json({isError:false, content: 'Recipe ' +req.params.recipeID + ' has been deleted' });
 							} 
 						});

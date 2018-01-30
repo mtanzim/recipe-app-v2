@@ -12,7 +12,7 @@ var Ingredients=new Schema({
 		max:[9999,'Please provide a lower number.']
 		
 	},
-	unit:{ type: String, maxlength:10},
+	unit:{ type: String, maxlength:[25,'Unit description is too long!']},
 })
 
 module.exports = mongoose.model('Ingredients', Ingredients);

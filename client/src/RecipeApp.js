@@ -20,13 +20,13 @@ class RecipeApp extends React.Component {
 		super(props);
 		this.state = {
 			isLoggedIn:false,
-			isProduction: false, //use this variable to control url type
+			isProduction: true, //use this variable to control url type
 			//app_url: 'https://fccwebapps-mtanzim.c9users.io',
 			loginMethod:"",
 			loginIcon:"fa fa-user",
 			isError:true,
 			errMsg:"Facebook log in is currently unavailable. I've requested assistance from Facebook, and awaiting feedback.",
-			user:{},
+			user:'',
 			userID:'',
 			friendUser:{},
 			recipes: [],
@@ -58,10 +58,11 @@ class RecipeApp extends React.Component {
 		//this.renderAddRecipeForm = this.renderAddRecipeForm.bind(this);
 
 	}
+
 	componentDidMount() {
 		
-		 //axios.get('/api/:id')
-		 axios.get(`/getUsers/${this.state.userID}`)
+		 axios.get('/getCurUser')
+		 //axios.get(`/api/${this.state.userID}`)
 		 .then(res => {
 		 	////console.log(res.data);
 			////console.log((typeof(res.data)==='object') && res.data.user.id!==undefined);
@@ -95,21 +96,14 @@ class RecipeApp extends React.Component {
 		 });
 	}
 	
-	setCurUserID = (curID) => {
-		this.setState ({
-			userID:curID
-		})
-	}
-	
 	getFriendRecipe = (id) => {
 		//console.log (id);
-		axios.get(`/getUsers/${id}`)
+		axios.get(`/api/${id}`)
 				 .then(res => {
 				 	this.setState({
 				 		friendUser:res.data.content,
 				 		pageCtrl:1
 				 	});
-				 	//console.log(this.state.friendUser);
 				 }).catch(err => {
 						console.error(err);
 					});
@@ -176,7 +170,7 @@ class RecipeApp extends React.Component {
 	addRecipeBase = (newRecipe) => {
 		//var newRecipe={title:this.state.newRecipeName, ingredients:[{}]};
 		//var newRecipe={title:this.state.newRecipeName};
-		axios.post('/api/:id/recipe', newRecipe)
+		axios.post(`/api/${this.state.userID}/recipe`, newRecipe)
 		 .then(res => {
 				//console.log(res.data);
 				this.setState({
@@ -200,7 +194,7 @@ class RecipeApp extends React.Component {
 	}
 	remRecipe(id) {
 		//post to the server and delete from the database; delete the same item locally
-		axios.delete(`/api/:id/recipe/${id}`)
+		axios.delete(`/api/${this.state.userID}/recipe/${id}`)
 		 .then(res => {
 		 		//console.log(res.data);
 		 		this.setState({
@@ -227,7 +221,7 @@ class RecipeApp extends React.Component {
 		 });
 	}
 	editRecipName(id,newName) {
-		axios.put(`/api/:id/recipe/${id}`,{'title':newName})
+		axios.put(`/api/${this.state.userID}/recipe/${id}`,{'title':newName})
 			.then (res => {
 				//console.log(res.data);
 		 		this.setState({
@@ -251,7 +245,7 @@ class RecipeApp extends React.Component {
 	addIngredient(id) {
 		
 		//send new ingredient to the database, and the id of the recipe being added
-		axios.post(`/api/:id/recipe/${id}`,this.state.newIng)
+		axios.post(`/api/${this.state.userID}/recipe/${id}`,this.state.newIng)
 			.then(res =>{
 				
 				//console.log(res.data);
@@ -282,7 +276,7 @@ class RecipeApp extends React.Component {
 	}
 
 	delIngredient(id, ingId) {
-		axios.delete(`/api/:id/recipe/${id}/${ingId}`)
+		axios.delete(`/api/${this.state.userID}/recipe/${id}/${ingId}`)
 		 .then(res => {
 		 		//console.log(res.data);
 		 		this.setState({
@@ -310,7 +304,7 @@ class RecipeApp extends React.Component {
 	}
 	
 	editIngredient(id, ingId, editedIng) {
-		axios.put(`/api/:id/recipe/${id}/${ingId}`, editedIng)
+		axios.put(`/api/${this.state.userID}/recipe/${id}/${ingId}`, editedIng)
 			.then(res=>{
 				//console.log(res.data);
 				this.setState({
@@ -346,7 +340,7 @@ class RecipeApp extends React.Component {
 			 });
 	}
 	removeAll(){
-		axios.delete(`/api/:id/recipeDelAll`)
+		axios.delete(`/api/${this.state.userID}/recipeDelAll`)
 		 .then(res => {
 		 	//console.log (res.data);
 		 	this.setState({
@@ -356,7 +350,6 @@ class RecipeApp extends React.Component {
 		 	if(res.data.isError===false){
 				this.setState({
 					recipes:[],
-					numRecipes:0
 				});
 		 	}
 		 })
@@ -365,7 +358,7 @@ class RecipeApp extends React.Component {
 		 });
 	} 
 	delAllIngredient(id) {
-		axios.delete(`/api/:id/recipeDelAllIng/${id}`)
+		axios.delete(`/api/${this.state.userID}/recipeDelAllIng/${id}`)
 		 .then(res => {
 		 		//console.log(res.data);
 		 		this.setState({
@@ -432,16 +425,11 @@ class RecipeApp extends React.Component {
 					(<UserInfo app_url={app_url} 
 									userObj={this.state.user} 
 									loginIcon={this.state.loginIcon} 
-									//setLoginMethod={this.setLoginMethod} 
 									isLoggedIn={this.state.isLoggedIn}/>
 					): (
 						<UserLogin
 									handleError = {this.handleError}
 									app_url={app_url} 
-									//userObj={this.state.user} 
-									//loginMethod={this.state.loginMethod} 
-									//setLoginMethod={this.setLoginMethod}
-									setCurUserID={this.setCurUserID}
 									isLoggedIn={this.state.isLoggedIn}/>		
 					)}
 				
