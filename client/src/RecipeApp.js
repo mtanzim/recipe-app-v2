@@ -15,6 +15,11 @@ import UserLogin from './UserLogin';
 import UserInfo from './UserInfo';
 import AddRecipeForm from './AddRecipeForm';
 
+import { loadProgressBar } from 'axios-progress-bar';
+import 'axios-progress-bar/dist/nprogress.css';
+
+//loadProgressBar();
+
 class RecipeApp extends React.Component {
 	constructor(props) {
 		super(props);
@@ -60,7 +65,7 @@ class RecipeApp extends React.Component {
 	}
 
 	componentDidMount() {
-		
+		loadProgressBar();
 		 axios.get('/getCurUser')
 		 //axios.get(`/api/${this.state.userID}`)
 		 .then(res => {
