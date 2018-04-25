@@ -7,7 +7,7 @@ var passport = require('passport');
 var session = require('express-session');
 //var bodyParser = require('body-parser');
 var bodyParser = require('body-parser');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
 
 
 
@@ -25,16 +25,16 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.use('/common', express.static(process.cwd() + '/app/common'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use('/static',express.static(process.cwd()+ '/client/build/static'));
+  app.use('/static', express.static(process.cwd() + '/client/build/static'));
 }
 
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 app.use(session({
-	secret: 'secretClementine',
-	resave: false,
-	saveUninitialized: true
+  secret: 'secretClementine',
+  resave: false,
+  saveUninitialized: true
 }));
 
 app.use(passport.initialize());
@@ -43,6 +43,6 @@ app.use(passport.session());
 routes(app, passport);
 
 var port = process.env.PORT || 8080;
-app.listen(port,  function () {
-	console.log('Node.js listening on port ' + port + '...');
+app.listen(port, function () {
+  console.log('Node.js listening on port ' + port + '...');
 });

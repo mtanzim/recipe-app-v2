@@ -3,13 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  state = {recipes: []}
-  
+  state = { recipes: [] }
+
   componentDidMount() {
     fetch('/testReact')
       .then(res => res.json())
       .then(recipes => this.setState({ recipes }));
-      
+
     //console.log(this.state.recipes);
   }
   render() {
@@ -27,7 +27,7 @@ class App extends Component {
         {this.state.recipes.map(recipe =>
           <div key={recipe._id}>
             <h4>{recipe.title}</h4>
-            {recipe.ingredients.map (ing => 
+            {recipe.ingredients.map(ing =>
               <div key={ing._id}>{ing.title} {ing.qty} {ing.unit}</div>
             )}
           </div>
