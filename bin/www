@@ -1,0 +1,21 @@
+require('babel-core/register');
+var app = require('../app');
+var http = require('http');
+var util = require('util');
+
+var port = process.env.PORT || '8080';
+app.set('port', port);
+
+var server = http.createServer(app);
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+function onError(error) {
+  throw error; 
+}
+
+function onListening(val) {
+  util.log('App listen on port ' + port);
+}

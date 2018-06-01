@@ -1,57 +1,57 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
+import { isEmail, isLength } from 'validator';
 
-var path = process.cwd();
-var Recipes = require(path + '/app/models/recipes.js');
+// var path = process.cwd();
+// var Recipes = require(path + '/app/models/recipes.js');
+const SALT_ROUNDS = 10;
 
-var User = new Schema({
-  github: {
-    id: String,
-    displayName: String,
-    username: String,
-    publicRepos: Number
-  },
-  //Facebook login db schema
-  //taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
-  facebook: {
-    id: String,
-    token: String,
-    name: String
-  },
-  local: {
-    email: String,
-    password: String
-
-  },
-  nbrClicks: {
-    clicks: Number
-  },
-  recipes: { type: [Recipes.schema], default: [] }
-});
-
-//generate a common user display name
-User.virtual('displayName').get(function () {
-  var nameToReturn = this.facebook.name;
-  var accountType = 'fb';
-  if (nameToReturn === undefined) {
-    nameToReturn = this.github.displayName;
-    accountType = 'git';
-    if (nameToReturn === undefined) {
-      nameToReturn = this.local.email;
-      accountType = 'local';
+const User = new Schema({
+  username: { type: String, required: [true, 'Username can not be empty'], index: { unique: true } },
+  password: {
+    type: String,
+    required: [true, 'Password can not be empty'],
+    validate: {
+      validator: (v) => {
+        return isLength(v, { min: 4, max: undefined });
+      },
+      message: 'Password is too short!',
     }
-  }
-  return { name: nameToReturn, type: accountType };
+  },
+  email: {
+    type: String,
+    required: [true, 'Email can not be empty!'],
+    validate: [isEmail, 'Email is invalid']
+  },
+  firstname: { type: String },
+  lastname: { type: String },
+  description: { type: String },
+},
+{
+  timestamps: true,
+  // toObject: {
+  //   transform: (doc, ret) => {
+  //     delete ret.password;
+  //     return ret;
+  //   }
+  // }
 });
 
+// pre-save hooks
+User.pre('save', function (next) {
+  // const saltRounds = 10; // should be moved to config file later
+  bcrypt.hash(this.password, SALT_ROUNDS)
+    .then(hash => {
+      this.password = hash;
+      next();
+    });
+});
 
 
 // generating a hash
 User.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_ROUNDS), null);
 };
 
 // checking if password is valid
@@ -61,7 +61,6 @@ User.methods.validPassword = function (password) {
 
 User.methods.changePassword = function (password) {
   this.local.password = this.generateHash(password);
-  //this.set(this.local.password, salt);
 }
 
-module.exports = mongoose.model('User', User);
+export default mongoose.model('User', User);
