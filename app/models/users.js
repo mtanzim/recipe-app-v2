@@ -7,6 +7,8 @@ var Schema = mongoose.Schema;
 var path = process.cwd();
 var Recipes = require(path + '/app/models/recipes.js');
 
+const SALT_ROUNDS = 10;
+
 var User = new Schema({
   github: {
     id: String,
@@ -25,9 +27,6 @@ var User = new Schema({
     email: String,
     password: String
 
-  },
-  nbrClicks: {
-    clicks: Number
   },
   recipes: { type: [Recipes.schema], default: [] }
 });
@@ -51,7 +50,7 @@ User.virtual('displayName').get(function () {
 
 // generating a hash
 User.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+  return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_ROUNDS), null);
 };
 
 // checking if password is valid
