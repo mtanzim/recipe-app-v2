@@ -1,11 +1,16 @@
 const express = require('express');
 const router = express.Router();
 // var listUsers = require('../controllers/user.controller');
-import { listUsers, createUser, deleteUser, updateUser } from "../controllers/user.controller";
+import { listUsers, createUser, deleteUser, updateUser, getOneUser } from "../controllers/user.controller";
 
 router
   .get('/', (req, res, next) => {
     listUsers()
+      .then(users => res.json(users))
+      .catch(err => next(err));
+  })
+  .get('/:id', (req, res, next) => {
+    getOneUser(req.params.id)
       .then(users => res.json(users))
       .catch(err => next(err));
   })

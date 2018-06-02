@@ -11,12 +11,12 @@ function deleteUser(userId) {
     .exec()
     .then((doc) => {
       if (!doc) {
-        throw new Error('Document not found!');
+        return Promise.reject (new Error('Document not found!'));
       }
       return doc.remove();
     })
     .catch(err => {
-      throw err;
+      return Promise.reject(err);
     });
 }
 
@@ -26,13 +26,13 @@ function updateUser(userId, update) {
     .exec()
     .then((doc) => {
       if (!doc) {
-        throw new Error('Document not found!');
+        return Promise.reject(new Error('Document not found!'));
       }
       doc.local = Object.assign(doc.local, update.local);
       return doc.save();
     })
     .catch(err => {
-      throw err;
+      return Promise.reject(err);
     });
 }
 
@@ -40,9 +40,14 @@ function listUsers() {
   return Users.find({});
 }
 
+function getOneUser(id) {
+  return Users.find({_id:id});
+}
+
 module.exports = {
   listUsers,
   createUser,
   deleteUser,
   updateUser,
+  getOneUser,
 }

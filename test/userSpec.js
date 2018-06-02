@@ -8,12 +8,17 @@ var request = require('supertest');
 // var cheerio = require('cheerio');
 var app = require('../server');
 
+var defUser = require('./defaultUser');
+
 describe("Recipe App", function () {
+  let user = null;
   it("GETS health check", function (done) {
     this.timeout(4000);
     request(app)
       .get("/api/health-check")
-      .expect(200).end(function (err, res) {
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end(function (err, res) {
         if (err) throw err;
         // util.log(JSON.parse(res.text));
         util.log(res.text);
@@ -24,25 +29,75 @@ describe("Recipe App", function () {
     this.timeout(4000);
     request(app)
       .get("/api/users")
-      .expect(200).end(function (err, res) {
+      .expect(200)
+      .end(function (err, res) {
         if (err) throw err;
         // util.log(JSON.parse(res.text));
-        util.log(JSON.parse(res.text));
+        // util.log(JSON.parse(res.text));
         done();
-        process.exit();
+        // process.exit();
       });
   });
-  it("CREATE One User", function (done) {
+  it("GETS One User", function (done) {
     this.timeout(4000);
     request(app)
-      .get("/api/users/")
-      .expect(200).end(function (err, res) {
+      .get("/api/users/5b126ccba844e215d0527ea7")
+      .set('Accept', 'application/json')
+      .expect(200)
+      .end(function (err, res) {
         if (err) throw err;
-        // util.log(JSON.parse(res.text));
-        util.log(JSON.parse(res.text));
+        user = JSON.parse(res.text)[0] || undefined;
+        console.log(user);
+        done();
+        // process.exit();
+      });
+  });
+  it("Updates One User", function (done) {
+    this.timeout(4000);
+    request(app)
+      .put("/api/users/5b126ccba844e215d0527ea7")
+      .set('Accept', 'application/json')
+      .send({local:{email:"fromMocha"}})
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw err;
+        user = JSON.parse(res.text) || undefined;
+        console.log(user);
+        done();
+        // process.exit();
+      });
+  });
+  it("Deletes One User", function (done) {
+    this.timeout(4000);
+    request(app)
+      .delete("/api/users/5b126ccba844e215d0527ea7")
+      .set('Accept', 'application/json')
+      // .send({ local: { email: "fromMocha" } })
+      .expect(200)
+      .end(function (err, res) {
+        if (err) throw err;
+        user = JSON.parse(res.text) || undefined;
+        console.log(user);
         done();
         process.exit();
       });
   });
- 
+  // it("CREATE One User", function (done) {
+  //   this.timeout(4000);
+  //   request(app)
+  //     .post("/api/users/")
+  //     .send(defUser)
+  //     // .set('Accept', 'application/json')
+  //     .expect(200)
+  //     .end(function (err, res) {
+  //       if (err) throw err;
+  //       let response = (JSON.parse(res.text));
+  //       userId = response.local._id;
+  //       console.log(response);
+
+  //       done();
+  //       process.exit();
+  //     });
+  // });
+
 });
