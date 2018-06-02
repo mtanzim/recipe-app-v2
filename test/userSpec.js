@@ -1,4 +1,4 @@
-// require('babel-core/register');
+require('babel-core/register');
 
 var expect = require('chai').expect;
 // var rewire = require('rewire');
@@ -20,7 +20,7 @@ describe("Recipe App", function () {
         done();
       });
   });
-  it("GETS Users", function (done) {
+  it("GETS All Users", function (done) {
     this.timeout(4000);
     request(app)
       .get("/api/users")
@@ -29,6 +29,20 @@ describe("Recipe App", function () {
         // util.log(JSON.parse(res.text));
         util.log(JSON.parse(res.text));
         done();
+        process.exit();
       });
   });
+  it("CREATE One User", function (done) {
+    this.timeout(4000);
+    request(app)
+      .get("/api/users/")
+      .expect(200).end(function (err, res) {
+        if (err) throw err;
+        // util.log(JSON.parse(res.text));
+        util.log(JSON.parse(res.text));
+        done();
+        process.exit();
+      });
+  });
+ 
 });

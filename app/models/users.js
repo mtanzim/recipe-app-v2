@@ -14,7 +14,7 @@ var User = new Schema({
     id: String,
     displayName: String,
     username: String,
-    publicRepos: Number
+    publicRepos: Number,
   },
   //Facebook login db schema
   //taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
@@ -24,12 +24,45 @@ var User = new Schema({
     name: String
   },
   local: {
-    email: String,
-    password: String
+    username:{
+      required: [true, 'Username can not be empty'], 
+      type: String,
+      index: { unique: true }, 
+    },
+    email: { 
+      type:String, 
+      required: [true, 'Email can not be empty'], 
+      index: { unique: true }, 
+    },
+    password: {
+      type: String,
+      required: [true, 'Password can not be empty'],
+      select: false, 
+    }
 
   },
-  recipes: { type: [Recipes.schema], default: [] }
+  // recipes: { type: [Recipes.schema], default: [] }
+},
+{
+  timestamps: true,
+/*   toObject: {
+    transform: (doc, ret) => {
+      delete ret.local.password;
+      return ret;
+    }
+  } */
 });
+
+// pre-save hooks
+User.pre('save', function (next) {
+  // const saltRounds = 10; // should be moved to config file later
+  bcrypt.hash(this.local.password, SALT_ROUNDS)
+    .then(hash => { 
+      this.local.password = hash;
+      next();
+    });
+});
+
 
 //generate a common user display name
 User.virtual('displayName').get(function () {

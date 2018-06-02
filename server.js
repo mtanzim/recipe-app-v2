@@ -1,4 +1,4 @@
-'use strict';
+require('babel-core/register');
 
 var express = require('express');
 var routes = require('./app/routes/index.js');
@@ -6,24 +6,28 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var session = require('express-session');
 var bodyParser = require('body-parser');
-// var flash = require('connect-flash');
-
+var util = require('util');
+var favicon = require('serve-favicon');
+var path = require('path');
+var morgan = require('morgan');
 
 
 var app = express();
 require('dotenv').load();
 require('./app/config/passport')(passport);
 
-
-
-
-// app.use(flash()); // use connect-flash for flash messages stored in session
-// app.use('/controllers', express.static(process.cwd() + '/app/controllers'));
-// app.use('/public', express.static(process.cwd() + '/public'));
-// app.use('/common', express.static(process.cwd() + '/app/common'));
+if (process.env.NODE_ENV !== 'production') {
+  app.use(morgan('dev'));
+}
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/static', express.static(process.cwd() + '/client/build/static'));
+}
+
+
+app.use(favicon(path.join(__dirname, 'client', 'build', 'favicon.ico')));
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('./client/build'));
 }
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -38,15 +42,34 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/api',routes(passport));
+app.use('/api', routes(passport));
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  var error = new Error('Not found!');
+  next(error);
+});
+
+//provide err argument before req to tell Express it's an error handling function
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send(`Error found: ${err.message}`);
+})
+
+let mongoUri = undefined;
+
+if (process.env.NODE_ENV === 'production') mongoUri = process.env.MONGO_URI;
+else mongoUri = process.env.MONGO_URI_LOC;
+
+mongoose.Promise = global.Promise;
+mongoose.connect(mongoUri, { useMongoClient: true }).then(
+  () => { util.log(`Connected to Mongo on ${mongoUri}`) },
+  (err) => { throw err; }
+);
 
 var port = process.env.PORT || 8080;
-
-mongoose.connect(process.env.MONGO_URI, { useMongoClient: true });
-mongoose.Promise = global.Promise;
-
 app.listen(port, function () {
-  console.log('Node.js listening on port ' + port + '...');
+  util.log('Node.js listening on port ' + port + '...');
 });
 
 module.exports = app;
