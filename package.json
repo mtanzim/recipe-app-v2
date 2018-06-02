@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "server": "node server.js",
-    "serverdev": "nodemon bin/www --exec babel-node",
+    "serverdev": "nodemon server.js --exec babel-node",
     "db": "mongod --smallfiles",
     "client": "cd client && npm start",
     "startdev": "concurrently  \"npm run serverdev\" \"cd client && npm start\"",
