@@ -1,0 +1,91 @@
+    <dt class="error">Uncaught error outside test suite</dt>
+    <dd class="error"><pre><code></code></pre></dd>
+    <dd class="error">Error: listen EADDRINUSE :::8081</dd>
+    <section class="suite">
+      <h1>Recipe App</h1>
+      <dl>
+3 Jun 12:01:54 - Connected to Mongo on mongodb://localhost:27017/recipeV2local
+[0mGET /api/health-check [32m200 [0m7.091 ms - 3[0m
+3 Jun 12:01:54 - OK!
+        <dt>GETS health check</dt>
+        <dd><pre><code>this.timeout(4000);
+request(app)
+  .get(&#x22;/api/health-check&#x22;)
+  .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+  .expect(200)
+  .end(function (err, res) {
+    if (err) done(err);
+    // util.log(JSON.parse(res.text));
+    util.log(res.text);
+    done();
+  });</code></pre></dd>
+[0mGET /api/users [32m200 [0m13.896 ms - 780[0m
+        <dt>GETS All Users</dt>
+        <dd><pre><code>this.timeout(4000);
+request(app)
+  .get(&#x22;/api/users&#x22;)
+  .expect(200)
+  .end(function (err, res) {
+    if (err) done(err);
+    // util.log(JSON.parse(res.text));
+    // util.log(JSON.parse(res.text));
+    done();
+    // process.exit();
+  });</code></pre></dd>
+[0mGET /api/users/5b126ccba844e215d0527ea7 [32m200 [0m3.398 ms - 2[0m
+undefined
+        <dt>GETS One User</dt>
+        <dd><pre><code>this.timeout(4000);
+request(app)
+  .get(&#x22;/api/users/5b126ccba844e215d0527ea7&#x22;)
+  .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+  .expect(200)
+  .end(function (err, res) {
+    if (err) done(err);
+    user = JSON.parse(res.text)[0] || undefined;
+    console.log(user);
+    done();
+    // process.exit();
+  });</code></pre></dd>
+Error: Document not found!
+    at C:/Users/PC/Documents/nodeWorkspace/recipeAppMERN/app/controllers/user.controller.js:29:31
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[0mPUT /api/users/5b126ccba844e215d0527ea7 [31m500 [0m27.864 ms - 32[0m
+        <dt class="error">Updates One User</dt>
+        <dd class="error"><pre><code>this.timeout(4000);
+request(app)
+  .put(&#x22;/api/users/5b126ccba844e215d0527ea7&#x22;)
+  .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+  .send({local:{email:&#x22;fromMocha&#x22;}})
+  .expect(200)
+  .end(function (err, res) {
+    if (err) done(err);
+    user = JSON.parse(res.text) || undefined;
+    console.log(user);
+    done();
+    // process.exit();
+  });</code></pre></dd>
+        <dd class="error">Error: expected 200 &#x22;OK&#x22;, got 500 &#x22;Internal Server Error&#x22;</dd>
+Error: Document not found!
+    at C:/Users/PC/Documents/nodeWorkspace/recipeAppMERN/app/controllers/user.controller.js:14:32
+    at <anonymous>
+    at process._tickCallback (internal/process/next_tick.js:188:7)
+[0mDELETE /api/users/5b126ccba844e215d0527ea7 [31m500 [0m2.261 ms - 32[0m
+        <dt class="error">Deletes One User</dt>
+        <dd class="error"><pre><code>this.timeout(4000);
+request(app)
+  .delete(&#x22;/api/users/5b126ccba844e215d0527ea7&#x22;)
+  .set(&#x27;Accept&#x27;, &#x27;application/json&#x27;)
+  // .send({ local: { email: &#x22;fromMocha&#x22; } })
+  .expect(200)
+  .end(function (err, res) {
+    if (err) done(err);
+    user = JSON.parse(res.text) || undefined;
+    console.log(user);
+    done();
+    process.exit();
+  });</code></pre></dd>
+        <dd class="error">Error: expected 200 &#x22;OK&#x22;, got 500 &#x22;Internal Server Error&#x22;</dd>
+      </dl>
+    </section>
