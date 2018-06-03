@@ -11,7 +11,7 @@ router
   })
   .get('/:id', (req, res, next) => {
     getOneUser(req.params.id)
-      .then(users => res.json(users))
+      .then(users => res.json(users[0]))
       .catch(err => next(err));
   })
   .post('/', (req, res, next) => {

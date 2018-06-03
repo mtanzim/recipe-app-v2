@@ -1,43 +1,48 @@
 require('babel-core/register');
+require('dotenv').load();
 
-var expect = require('chai').expect;
-var rewire = require('rewire');
-// var sinon = require('sinon');
-var util = require('util');
-var request = require('supertest');
-// var cheerio = require('cheerio');
-// var app = require('../server');
 
-var app = rewire('../server');
-app.__set__("port", process.env.TEST_PORT || 8082);
-var defUser = require('./defaultUser');
+const mongoose = require('mongoose');
+const expect = require('chai').expect;
+const rewire = require('rewire');
+const util = require('util');
+const request = require('supertest');
 
-describe("Recipe App", function () {
+const App = require('../app');
+let config = require('../app/config/index');
+config.isTesting = true;
+const app = App(config);
 
-  before(function () {
+const defUser = require('./defaultUser');
 
-  })
-
+describe("Recipe App User API", function () {
   let userId = null;
-  // let userObj = null;
-
-
+  this.timeout(4000);
+  before(function () {
+    mongoose.Promise = global.Promise;
+    mongoose.connect(process.env.MONGO_URI_LOC, {
+      useMongoClient: true
+    }).then(
+      () => {
+        // util.log(`Connected to Mongo on ${mongoUri}`)
+      },
+      (err) => {
+        util.log(err);
+      }
+    );
+  })
   it("GETS health check", function (done) {
-    this.timeout(4000);
     request(app)
       .get("/api/health-check")
       .set('Accept', 'application/json')
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
-        // util.log(JSON.parse(res.text));
-        util.log(res.text);
         done();
       });
   });
 
   it("GETS All Users", function (done) {
-    this.timeout(4000);
     request(app)
       .get("/api/users")
       .expect(200)
@@ -47,7 +52,6 @@ describe("Recipe App", function () {
       });
   });
   it("CREATE One User", function (done) {
-    this.timeout(4000);
     request(app)
       .post("/api/users/")
       .send(defUser)
@@ -55,32 +59,25 @@ describe("Recipe App", function () {
       .end(function (err, res) {
         if (err) done(new Error(res.text));
         let response = (JSON.parse(res.text));
-        // userObj = {...response};
         defUser.local.password = null;
         response.local.password = null;
         expect(response.local).to.deep.equal(defUser.local);
         userId = response._id;
-        // console.log(userObj);
         done();
       });
   });
-  it("GETS One User", function (done) {
-    this.timeout(4000);
+  it("READ One User", function (done) {
     request(app)
       .get(`/api/users/${userId}`)
       .set('Accept', 'application/json')
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
-        // console.log(JSON.parse(res.text)[0]._id);
-        // console.log(userId);
-        expect(JSON.parse(res.text)[0]._id).to.equal(userId);
+        expect(JSON.parse(res.text)._id).to.equal(userId);
         done();
-        // process.exit();
       });
   });
-  it("Updates One User", function (done) {
-    this.timeout(4000);
+  it("UPDATE One User", function (done) {
     request(app)
       .put(`/api/users/${userId}`)
       .set('Accept', 'application/json')
@@ -88,16 +85,12 @@ describe("Recipe App", function () {
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
-        // user = JSON.parse(res.text) || undefined;
-        // console.log(res.text);
         expect(JSON.parse(res.text)._id).to.equal(userId);
         expect(JSON.parse(res.text).local.email).to.equal("fromMocha@jocha.com");
         done();
-        // process.exit();
       });
   });
-  it("Deletes One User", function (done) {
-    this.timeout(4000);
+  it("DELETE One User", function (done) {
     request(app)
       .delete(`/api/users/${userId}`)
       .set('Accept', 'application/json')
@@ -105,9 +98,7 @@ describe("Recipe App", function () {
       .end(function (err, res) {
         if (err) done(new Error(res.text));
         user = JSON.parse(res.text) || undefined;
-        // console.log(user);
         done();
-        // process.exit();
       });
   });
 

@@ -20,11 +20,13 @@
   ],
   "scripts": {
     "server": "node server.js",
-    "serverdev": "nodemon server.js --exec babel-node",
-    "db": "mongod --smallfiles",
+    "serverdev": "nodemon bin/www --exec babel-node",
     "client": "cd client && npm start",
     "startdev": "concurrently  \"npm run serverdev\" \"cd client && npm start\"",
-    "start": "npm run server"
+    "start": "npm run server",
+    "test": "mocha --exit ",
+    "testlog": "mocha --exit --reporter json-stream > test/testLog.json",
+    "testdoc": "mocha --exit --reporter markdown > test/testDoc.md"
   },
   "author": "Tanzim Mokammel",
   "license": "MIT",

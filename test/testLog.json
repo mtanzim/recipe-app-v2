@@ -1,0 +1,8 @@
+["start",{"total":6}]
+["pass",{"title":"GETS health check","fullTitle":"Recipe App User API GETS health check","duration":61,"currentRetry":0}]
+["pass",{"title":"GETS All Users","fullTitle":"Recipe App User API GETS All Users","duration":17,"currentRetry":0}]
+["pass",{"title":"CREATE One User","fullTitle":"Recipe App User API CREATE One User","duration":126,"currentRetry":0}]
+["pass",{"title":"READ One User","fullTitle":"Recipe App User API READ One User","duration":7,"currentRetry":0}]
+["pass",{"title":"UPDATE One User","fullTitle":"Recipe App User API UPDATE One User","duration":101,"currentRetry":0}]
+["pass",{"title":"DELETE One User","fullTitle":"Recipe App User API DELETE One User","duration":7,"currentRetry":0}]
+["end",{"suites":1,"tests":6,"passes":6,"pending":0,"failures":0,"start":"2018-06-03T10:05:32.319Z","end":"2018-06-03T10:05:32.706Z","duration":387}]
