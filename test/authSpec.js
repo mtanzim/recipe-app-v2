@@ -15,16 +15,15 @@ config.isTesting = true;
 const app = App(config);
 
 
+const defUser = require('./defaultUser');
 
+module.exports = function runAuthApiTests(defUser) {
 
-
-module.exports = function runUserApiTests(defUser) {
   let userId = null;
 
-  it("GETS health check", function (done) {
+  it("AUTH health check", function (done) {
     request(app)
-      .get("/api/health-check")
-      .set('Accept', 'application/json')
+      .get("/api/auth/")
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
@@ -32,59 +31,34 @@ module.exports = function runUserApiTests(defUser) {
       });
   });
 
-  it("GETS All Users", function (done) {
+  it("AUTH signup", function (done) {
     request(app)
-      .get("/api/users")
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        done();
-      });
-  });
-  it("CREATE One User", function (done) {
-    request(app)
-      .post("/api/users/")
-      .send(defUser)
+      .post("/api/auth/signup")
+      .send(defUser.local)
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
         let response = (JSON.parse(res.text));
 
-        let createdUser = _.omit(defUser,"local.password");
-        // const { password, ...createdUser } = defUser;
+        let createdUser = _.omit(defUser, "local.password");
         response = _.omit(response, "local.password");
         expect(response.local).to.deep.equal(createdUser.local);
 
-        // expect(response.local).to.deep.equal(defUser.local);
         userId = response._id;
         done();
       });
   });
-  it("READ One User", function (done) {
+  it("AUTH login", function (done) {
     request(app)
-      .get(`/api/users/${userId}`)
-      .set('Accept', 'application/json')
+      .post("/api/auth/login")
       .expect(200)
+      .send(defUser.local)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
-        expect(JSON.parse(res.text)._id).to.equal(userId);
         done();
       });
   });
-  it("UPDATE One User", function (done) {
-    request(app)
-      .put(`/api/users/${userId}`)
-      .set('Accept', 'application/json')
-      .send({ local: { email: "fromMocha@jocha.com" } })
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        expect(JSON.parse(res.text)._id).to.equal(userId);
-        expect(JSON.parse(res.text).local.email).to.equal("fromMocha@jocha.com");
-        done();
-      });
-  });
-  it("DELETE One User", function (done) {
+  it("Auth DELETE One User", function (done) {
     request(app)
       .delete(`/api/users/${userId}`)
       .set('Accept', 'application/json')
@@ -95,5 +69,4 @@ module.exports = function runUserApiTests(defUser) {
         done();
       });
   });
-};
-
+}

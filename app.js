@@ -53,6 +53,7 @@ module.exports = (config) => {
   app.use((err, req, res, next) => {
     if (!config.isTesting){
       util.log(err.stack);
+      util.log(err.message);
     }
     res.status(500).send(`Error found: ${err.message}`);
   })

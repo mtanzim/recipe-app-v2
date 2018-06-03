@@ -1,8 +1,7 @@
-const express = require('express');
-const router = express.Router();
-// var listUsers = require('../controllers/user.controller');
+import express from 'express';
 import { listUsers, createUser, deleteUser, updateUser, getOneUser } from "../controllers/user.controller";
 
+const router = express.Router();
 router
   .get('/', (req, res, next) => {
     listUsers()
@@ -32,4 +31,4 @@ router
       .catch(err => next(err));
   });
 
-module.exports = router;
+export default router;

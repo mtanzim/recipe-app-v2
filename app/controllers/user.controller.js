@@ -44,10 +44,15 @@ function getOneUser(id) {
   return Users.find({_id:id});
 }
 
+function getOneUserByEmail(email) {
+  return Users.findOne({ 'local.email': email });
+}
+
 module.exports = {
   listUsers,
   createUser,
   deleteUser,
   updateUser,
   getOneUser,
+  getOneUserByEmail,
 }

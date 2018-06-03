@@ -29,3 +29,17 @@ The following repositories will be used for guidance:
 * <https://github.com/mtanzim/databasesForNode>
 * <https://github.com/mtanzim/nodeJSExpressEssentials>
 * <https://github.com/mtanzim/nodeJSEssentialTraining>
+
+### Lessons Learned
+
+* How to pass passport around
+* ES6 vs CommonJS import/export
+* Select option in Mongoose
+* Working with callbacks vs promises
+* Error routing and management
+* Export app.js and using bin/www to run the server, and mocha to test concurrently
+* Passport.js: passing errors and user around
+* Mocha testing
+  * Describe, it, before hooks
+  * Looping tests in mocha
+  * Setting up logging, creating documents

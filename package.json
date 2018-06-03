@@ -26,7 +26,7 @@
     "start": "npm run server",
     "test": "mocha --exit ",
     "testlog": "mocha --exit --reporter json-stream > test/testLog.json",
-    "testdoc": "mocha --exit --reporter markdown > test/testDoc.md"
+    "testdoc": "mocha --exit --reporter markdown > test/readme.md"
   },
   "author": "Tanzim Mokammel",
   "license": "MIT",
@@ -38,6 +38,7 @@
     "dotenv": "^1.2.0",
     "express": "^4.12.4",
     "express-session": "^1.11.3",
+    "lodash": "^4.17.10",
     "mongoose": "^4.1.0",
     "passport": "^0.3.0",
     "passport-facebook": "^2.1.1",
@@ -49,6 +50,7 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "chai": "^4.1.2",

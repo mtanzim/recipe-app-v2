@@ -16,7 +16,7 @@ module.exports = function (passport) {
   // router.get('/getUsers', listUsers);
   return router;
 }
-/* 
+
 module.exports = function (app, passport) {
 
   function isLoggedIn(req, res, next) {
@@ -389,4 +389,3 @@ module.exports = function (app, passport) {
     });
 
 };
- */

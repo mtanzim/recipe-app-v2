@@ -37,7 +37,7 @@ var User = new Schema({
     password: {
       type: String,
       required: [true, 'Password can not be empty'],
-      select: false, 
+      select: true, 
     }
 
   },
@@ -88,8 +88,23 @@ User.methods.generateHash = function (password) {
 
 // checking if password is valid
 User.methods.validPassword = function (password) {
+  // console.log (this.get('local'));
   return bcrypt.compareSync(password, this.local.password);
 };
+
+// User.methods.validPassword = function (password) {
+//   this
+//   .findOne({ 'local.username': this.local.username })
+//   .select('+local.password')
+//   .exec(function (err, user) {
+//     return bcrypt.compareSync(password, user.local.password);
+//     // if (user.password == password)
+//     //   return true;
+//     // else
+//     //   return false;
+//   });
+// }
+
 
 User.methods.changePassword = function (password) {
   this.local.password = this.generateHash(password);

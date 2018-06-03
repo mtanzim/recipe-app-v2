@@ -1,10 +1,16 @@
 'use strict';
 
-var GitHubStrategy = require('passport-github').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var LocalStrategy = require('passport-local').Strategy;
-var User = require('../models/users');
-var configAuth = require('./auth');
+// const GitHubStrategy = require('passport-github').Strategy;
+// const FacebookStrategy = require('passport-facebook').Strategy;
+const LocalStrategy = require('passport-local').Strategy;
+
+const createLocUserForAuth = require('../controllers/user.controller').createUser;
+const findUserByEmail = require('../controllers/user.controller').getOneUserByEmail;
+
+
+// const configAuth = require('./auth');
+
+const User = require('../models/users');
 
 module.exports = function (passport) {
   passport.serializeUser(function (user, done) {
@@ -18,26 +24,59 @@ module.exports = function (passport) {
   });
 
   //Local sign up
-  passport.use(new LocalStrategy({
+  passport.use('local-signup', new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password',
     passReqToCallback: true
   },
     function (req, email, password, done) {
       process.nextTick(function () {
-        User.findOne({ 'local.email': email }, function (err, user) {
-          if (err)
-            return done(err);
-          if (user) {
-            //return done (null, false, {message:'User Exists!'});
+        let userToCreate = {}
+        userToCreate.local = req.body;
+        createLocUserForAuth(userToCreate)
+          .then(user => done(null, user, { message: 'Welcome!' }))
+          .catch(err => done(err, false));
+
+      });
+    }));
+
+
+  // Local login
+  passport.use('local-login', new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
+    function (req, email, password, done) {
+      process.nextTick(function () {
+        findUserByEmail(email)
+          .then( (user) => {
+            if (!user) return done(new Error ('User not found'), false);
             if (!user.validPassword(password)) {
-              return done(null, false, { message: 'Please check password!' });
+              return done(new Error ('Invalid password!'), false);
             } else {
               return done(null, user);
             }
-          } else {
+          })
+          .catch ( (err) => {
+            return done (err, false);
+          });
+        })
+      }));
+
+        // User.findOne({ 'local.email': email }, function (err, user) {
+        //   if (err) return done(err);
+        //   if (user) {
+        //     return done (null, false, {message:'User already exists!'});
+        //     if (!user.validPassword(password)) {
+        //       return done(null, false, { message: 'Please check password!' });
+        //     } else {
+        //       return done(null, user);
+        //     }
+        //   } else {
+        //     return done(null, false, { message: 'User not found!' });
             //need to create new user
-            var newUser = new User();
+/*             var newUser = new User();
             newUser.local.email = email;
             newUser.local.password = newUser.generateHash(password);
             console.log(newUser);
@@ -45,14 +84,14 @@ module.exports = function (passport) {
               if (err)
                 throw err;
               return done(null, newUser);
-            })
-          }
-        });
-      });
-    }));
+            }) */
+    //       }
+    //     });
+    //   });
+    // }));
   //Facebook login strategdy
   //taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
-  passport.use(new FacebookStrategy({
+/*   passport.use(new FacebookStrategy({
 
     // pull in our app id and secret from our auth.js file
     clientID: configAuth.facebookAuth.clientID,
@@ -135,6 +174,6 @@ module.exports = function (passport) {
           }
         });
       });
-    }));
+    })); */
 
 };

@@ -1,7 +1,9 @@
-module.exports = {
+const user =  {
   "local": {
-    "username": "ss4dsdcdzxceffdad",
-    "email": "t3est1ss2f343d@test.com",
-    "password": "tesssddt"
+    "username": "ss4ssdddddsdcdzxceffdad",
+    "email": "t3es33t1sdddds2f343d@test.com",
+    "password": "tesdfsfssddt"
   }
 };
+
+module.exports = user;

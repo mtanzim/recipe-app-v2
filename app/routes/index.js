@@ -1,6 +1,12 @@
-var Users = require('../models/users.js');
-var userRoutes = require('./user.routes');
-var express = require('express');
+// var Users = require('../models/users.js');
+// var userRoutes = require('./user.routes');
+// var express = require('express');
+import express from 'express';
+import Users  from '../models/users.js';
+import userRoutes  from './user.routes';
+import authRoutes from './auth.routes';
+
+
 
 
 module.exports = function (passport) {
@@ -9,7 +15,8 @@ module.exports = function (passport) {
   
   router
     .get('/health-check', (req, res, next) => res.send('OK!'))
-    .use('/users', userRoutes);
-  // router.get('/getUsers', listUsers);
+    .use('/users', userRoutes)
+    .use('/auth', authRoutes(passport) );
+
   return router;
 }
