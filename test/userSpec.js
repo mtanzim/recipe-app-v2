@@ -56,6 +56,9 @@ describe("Recipe App", function () {
         if (err) done(new Error(res.text));
         let response = (JSON.parse(res.text));
         // userObj = {...response};
+        defUser.local.password = null;
+        response.local.password = null;
+        expect(response.local).to.deep.equal(defUser.local);
         userId = response._id;
         // console.log(userObj);
         done();
@@ -70,7 +73,7 @@ describe("Recipe App", function () {
       .end(function (err, res) {
         if (err) done(new Error(res.text));
         // console.log(JSON.parse(res.text)[0]._id);
-        console.log(userId);
+        // console.log(userId);
         expect(JSON.parse(res.text)[0]._id).to.equal(userId);
         done();
         // process.exit();
