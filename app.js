@@ -1,20 +1,20 @@
 
 
 
-var express = require('express');
-var routes = require('./app/routes/index.js');
-var mongoose = require('mongoose');
-var passport = require('passport');
-var session = require('express-session');
-var bodyParser = require('body-parser');
-var util = require('util');
-var favicon = require('serve-favicon');
-var path = require('path');
+const express = require('express');
+const routes = require('./app/routes/index.js');
+const mongoose = require('mongoose');
+const passport = require('passport');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const util = require('util');
+const favicon = require('serve-favicon');
+const path = require('path');
 
 
 module.exports = (config) => {
 
-  var app = express();
+  const app = express();
   if (process.env.NODE_ENV !== 'production' && !config.isTesting) {
     app.use(config.logger)
   }
@@ -51,6 +51,9 @@ module.exports = (config) => {
 
   //provide err argument before req to tell Express it's an error handling function
   app.use((err, req, res, next) => {
+    if (!config.isTesting){
+      util.log(err.stack);
+    }
     res.status(500).send(`Error found: ${err.message}`);
   })
 
