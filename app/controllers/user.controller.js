@@ -24,7 +24,7 @@ function deleteUser(userId) {
 // used by auth for now
 function updateUser(userId, update) {
   return Users.findById(userId)
-    // .select('+local.password')
+    // .select('-local.password')
     .exec()
     .then((doc) => {
       if (!doc) {
@@ -40,7 +40,7 @@ function updateUser(userId, update) {
 
 function updateUserForAuth(userId, update) {
   return Users.findById(userId)
-    .select('+local.password')
+    // .select('+local.password')
     .exec()
     .then((doc) => {
       if (!doc) {

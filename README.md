@@ -15,6 +15,7 @@ ClementineJS boilerplate is being used in conjunction with create-react-app.
   - [ ] Improvements to async code with async/await functions in conjunction with promises
   - [ ] General code cleanup following best practices
   - [ ] Solidify understanding of Mongo/Mongoose
+  - [ ] Mocking relations with Mongoose Populate
   - [ ] Usage of MySQL database in conjunction with Mongo
   - [ ] Integration of Redis for sessions storage
   - [ ] Authentication with JWT
@@ -32,9 +33,12 @@ The following repositories will be used for guidance:
 
 ### Lessons Learned
 
+- Creating [references in Mongoose](http://mongoosejs.com/docs/populate.html), similar to foreign keys in sql
 - How to pass passport around
 - ES6 vs CommonJS import/export
-- Select option in Mongoose
+- Mongoose
+  - Select clauses
+  - Promise vs callbacks
 - Working with callbacks vs promises
 - Error routing and management
 - Export app.js and using bin/www to run the server, and mocha to test concurrently

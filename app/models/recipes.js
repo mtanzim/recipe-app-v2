@@ -1,15 +1,27 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var User = require('./users');
 
-
-var path = process.cwd();
-var Ingredients = require(path + '/app/models/ingredients.js');
 var Recipes = new Schema({
-  title: { type: String, maxlength: [25, 'Recipe title is too long!'] },
-  //ingredients: [Ingredients.schema]
-  ingredients: { type: [Ingredients.schema], default: [] }
+  // user is the foreign key
+  _user: {
+    type: Schema.Types.ObjectId, 
+    ref: 'User',
+    required: [true, 'Recipe must have an owner!'], 
+  },
+  title: { 
+    type: String, 
+    maxlength: [25, 'Recipe title is too long!'],
+    required: [true, 'Recipe title can not be empty'],  
+  },
+  notes: { 
+    type: String,
+    maxlength: [1000, 'Comment content too long'],
+  }
+},
+{
+  timestamps: true,
+
 });
 
 

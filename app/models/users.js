@@ -10,19 +10,6 @@ var Recipes = require(path + '/app/models/recipes.js');
 const SALT_ROUNDS = 10;
 
 var User = new Schema({
-  github: {
-    id: String,
-    displayName: String,
-    username: String,
-    publicRepos: Number,
-  },
-  //Facebook login db schema
-  //taken from: https://scotch.io/tutorials/easy-node-authentication-facebook#configuring-passports-facebook-strategy-configpassportjs
-  facebook: {
-    id: String,
-    token: String,
-    name: String
-  },
   local: {
     username:{
       required: [true, 'Username can not be empty'],
@@ -39,22 +26,14 @@ var User = new Schema({
     password: {
       type: String,
       required: [true, 'Password can not be empty'],
-      select: true,
+      // select: true,
       minlength: [4, "Password too short!"],
-      // maxlength: [500, "Password too long!"], 
     }
-
   },
-  // recipes: { type: [Recipes.schema], default: [] }
 },
 {
   timestamps: true,
-/*   toObject: {
-    transform: (doc, ret) => {
-      delete ret.local.password;
-      return ret;
-    }
-  } */
+
 });
 
 // pre-save hooks
