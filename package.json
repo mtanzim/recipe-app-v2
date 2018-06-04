@@ -25,6 +25,8 @@
     "startdev": "concurrently  \"npm run serverdev\" \"cd client && npm start\"",
     "start": "npm run server",
     "test": "mocha --exit ",
+    "testauth": "mocha --exit --grep auth",
+    "testuser": "mocha --exit --grep user",
     "testlog": "mocha --exit --reporter json-stream > test/logs/testLog.json",
     "testdoc": "mocha --exit --reporter markdown > test/readme.md"
   },

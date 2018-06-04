@@ -90,11 +90,7 @@ AUTH signup.
 ```js
 request(app).post("/api/auth/signup").send(defUser.local).expect(200).end(function (err, res) {
   if (err) done(new Error(res.text));
-  var response = JSON.parse(res.text);
-  var createdUser = _.omit(defUser, "local.password");
-  response = _.omit(response, "local.password");
-  expect(response.local).to.deep.equal(createdUser.local);
-  userId = response._id;
+  userId = checkUser(res)._id;
   done();
 });
 ```
@@ -104,7 +100,28 @@ AUTH login.
 ```js
 request(app).post("/api/auth/login").expect(200).send(defUser.local).end(function (err, res) {
   if (err) done(new Error(res.text));
+  checkUser(res);
   done();
+});
+```
+
+AUTH change password.
+
+```js
+request(app).post('/api/auth/changepass/' + userId).expect(200).send({ "password": "adadadadadadadadadadadaa" }).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  checkUser(res);
+  done();
+});
+```
+
+AUTH change password too short.
+
+```js
+request(app).post('/api/auth/changepass/' + userId).expect(500).send({ "password": "a" }).end(function (err, res) {
+  // expect(err);
+  // console.log(res.text);
+  if (err) done(err);else done();
 });
 ```
 

@@ -5,7 +5,7 @@
 const LocalStrategy = require('passport-local').Strategy;
 
 const createLocUserForAuth = require('../controllers/user.controller').createUser;
-const findUserByEmail = require('../controllers/user.controller').getOneUserByEmail;
+const findUserByEmail = require('../controllers/user.controller').getOneUserByEmailForAuth;
 
 
 // const configAuth = require('./auth');

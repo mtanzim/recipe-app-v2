@@ -1,8 +1,8 @@
 const user =  {
   "local": {
-    "username": "ss4ssdddddsdcdzxceffdad",
-    "email": "t3es33t1sdddds2f343d@test.com",
-    "password": "tesdfsfssddt"
+    "username": "3ffdfdad",
+    "email": "t3es3df453d@test.com",
+    "password": "tesdfdfsfssddt"
   }
 };
 

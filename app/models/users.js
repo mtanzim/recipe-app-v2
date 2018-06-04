@@ -25,7 +25,9 @@ var User = new Schema({
   },
   local: {
     username:{
-      required: [true, 'Username can not be empty'], 
+      required: [true, 'Username can not be empty'],
+      minlength: [3, "Username too short!"],
+      maxlength: [20, "Username too long!"],    
       type: String,
       index: { unique: true }, 
     },
@@ -37,7 +39,9 @@ var User = new Schema({
     password: {
       type: String,
       required: [true, 'Password can not be empty'],
-      select: true, 
+      select: true,
+      minlength: [4, "Password too short!"],
+      // maxlength: [500, "Password too long!"], 
     }
 
   },

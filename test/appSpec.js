@@ -13,8 +13,8 @@ const defUser = require('./helpers/defaultUser');
 describe("API", function () {
 
   this.timeout(4000);
-  let apiLoops = 100;
-  let doLoops = false;
+  let apiLoops = 0;
+  // let doLoops = true;
 
   before(function () {
     connectMongoose();
@@ -25,7 +25,7 @@ describe("API", function () {
   });
 
   describe(`API.user.loop`, function () {
-    for (let i = 0; i < apiLoops && doLoops; i++) {
+    for (let i = 0; i < apiLoops; i++) {
       testUserApi(defUser);
     }
   });
@@ -35,7 +35,7 @@ describe("API", function () {
   });
 
   describe(`API.auth.loop`, function () {
-    for (let i = 0; i < apiLoops && doLoops; i++) {
+    for (let i = 0; i < apiLoops; i++) {
       testAuthApi(defUser);
     }
   });

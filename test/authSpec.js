@@ -21,6 +21,15 @@ module.exports = function runAuthApiTests(defUser) {
 
   let userId = null;
 
+  function checkUser(res) {
+    let response = (JSON.parse(res.text));
+    let createdUser = _.omit(defUser, "local.password");
+    response = _.omit(response, "local.password");
+    expect(response.local).to.deep.equal(createdUser.local);
+
+    return response;
+  }
+
   it("AUTH health check", function (done) {
     request(app)
       .get("/api/auth/")
@@ -38,13 +47,7 @@ module.exports = function runAuthApiTests(defUser) {
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
-        let response = (JSON.parse(res.text));
-
-        let createdUser = _.omit(defUser, "local.password");
-        response = _.omit(response, "local.password");
-        expect(response.local).to.deep.equal(createdUser.local);
-
-        userId = response._id;
+        userId = checkUser(res)._id;
         done();
       });
   });
@@ -55,7 +58,31 @@ module.exports = function runAuthApiTests(defUser) {
       .send(defUser.local)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
+        checkUser(res);
         done();
+      });
+  });
+  it("AUTH change password", function (done) {
+    request(app)
+      .post(`/api/auth/changepass/${userId}`)
+      .expect(200)
+      .send({"password":"adadadadadadadadadadadaa"})
+      .end(function (err, res) {
+        if (err) done(new Error(res.text));
+        checkUser(res);
+        done();
+      });
+  });
+  it("AUTH change password too short", function (done) {
+    request(app)
+      .post(`/api/auth/changepass/${userId}`)
+      .expect(500)
+      .send({ "password": "a" })
+      .end(function (err, res) {
+        // expect(err);
+        // console.log(res.text);
+        if (err) done(err);
+        else done();
       });
   });
   it("Auth DELETE One User", function (done) {
