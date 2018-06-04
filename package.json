@@ -25,7 +25,7 @@
     "startdev": "concurrently  \"npm run serverdev\" \"cd client && npm start\"",
     "start": "npm run server",
     "test": "mocha --exit ",
-    "testlog": "mocha --exit --reporter json-stream > test/testLog.json",
+    "testlog": "mocha --exit --reporter json-stream > test/logs/testLog.json",
     "testdoc": "mocha --exit --reporter markdown > test/readme.md"
   },
   "author": "Tanzim Mokammel",

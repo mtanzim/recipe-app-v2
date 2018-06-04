@@ -1,19 +1,19 @@
 require('babel-core/register');
 require('dotenv').load();
 
-const connectMongoose = require('./connectMongoose');
+const connectMongoose = require('./helpers/connectMongoose');
 
 const testUserApi = require('./userSpec');
 const testAuthApi = require('./authSpec');
 
-const defUser = require('./defaultUser');
+const defUser = require('./helpers/defaultUser');
 
 
 
 describe("API", function () {
 
   this.timeout(4000);
-  let apiLoops = 5;
+  let apiLoops = 100;
   let doLoops = false;
 
   before(function () {

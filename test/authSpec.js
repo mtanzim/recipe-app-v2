@@ -15,7 +15,7 @@ config.isTesting = true;
 const app = App(config);
 
 
-const defUser = require('./defaultUser');
+const defUser = require('./helpers/defaultUser');
 
 module.exports = function runAuthApiTests(defUser) {
 

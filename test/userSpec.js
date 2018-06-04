@@ -51,7 +51,6 @@ module.exports = function runUserApiTests(defUser) {
         let response = (JSON.parse(res.text));
 
         let createdUser = _.omit(defUser,"local.password");
-        // const { password, ...createdUser } = defUser;
         response = _.omit(response, "local.password");
         expect(response.local).to.deep.equal(createdUser.local);
 

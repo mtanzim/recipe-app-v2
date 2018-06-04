@@ -35,7 +35,6 @@ request(app).post("/api/users/").send(defUser).expect(200).end(function (err, re
   if (err) done(new Error(res.text));
   var response = JSON.parse(res.text);
   var createdUser = _.omit(defUser, "local.password");
-  // const { password, ...createdUser } = defUser;
   response = _.omit(response, "local.password");
   expect(response.local).to.deep.equal(createdUser.local);
   // expect(response.local).to.deep.equal(defUser.local);
