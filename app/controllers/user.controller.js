@@ -63,7 +63,7 @@ function listUsers() {
 
 function getOneUser(id) {
   return Users
-    .find({_id:id})
+    .findOne({_id:id})
     .select('-local.password');
 }
 

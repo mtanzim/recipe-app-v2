@@ -1,14 +1,6 @@
-'use strict';
-
-// const GitHubStrategy = require('passport-github').Strategy;
-// const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-
 const createLocUserForAuth = require('../controllers/user.controller').createUser;
 const findUserByEmail = require('../controllers/user.controller').getOneUserByEmailForAuth;
-
-
-// const configAuth = require('./auth');
 
 const User = require('../models/users');
 
@@ -51,17 +43,17 @@ module.exports = function (passport) {
     function (req, email, password, done) {
       process.nextTick(function () {
         findUserByEmail(email)
-          .then( (user) => {
-            if (!user) return done(new Error ('User not found'), false);
+          .then((user) => {
+            if (!user) return done(new Error('User not found'), false);
             if (!user.validPassword(password)) {
-              return done(new Error ('Invalid password!'), false);
+              return done(new Error('Invalid password!'), false);
             } else {
               return done(null, user);
             }
           })
-          .catch ( (err) => {
-            return done (err, false);
+          .catch((err) => {
+            return done(err, false);
           });
-        })
-      }));
+      })
+    }));
 };
