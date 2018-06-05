@@ -1,0 +1,304 @@
+{
+	"info": {
+		"_postman_id": "9d0ace6b-b9f0-4b54-81d8-68d0e7c3fcc7",
+		"name": "recipeV2app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"description": "",
+			"item": [
+				{
+					"name": "getUsers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8081/api/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "postUser",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"local\": {\r\n    \"username\":\"testUser\",\r\n    \"email\": \"test123@test.com\",\r\n    \"password\": \"test\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/users",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8081/api/users/5b140c3a3065ee3b88ca7ff2",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users",
+								"5b140c3a3065ee3b88ca7ff2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"local\": {\r\n    \"email\":\"shoogdla@roogla3.com\",\r\n    \"username\":\"hel12112lo\",\r\n    \"mooga\":\"roddoga\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/users/5b140af94bc7cc2cdcd16e9b",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users",
+								"5b140af94bc7cc2cdcd16e9b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUsersOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "localhost:8081/api/users/5b1273775f44862e30fcdcf9",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"users",
+								"5b1273775f44862e30fcdcf9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"description": null,
+			"item": [
+				{
+					"name": "signup",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "withCredentials",
+								"value": "true"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"passportaa\",\r\n    \"email\": \"passpdort@test.com\",\r\n    \"password\": \"ddccffssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssadasdadadasdasd\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/auth/signup",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "withCredentials",
+								"value": "true"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"p2ass234port45@test.com\",\r\n    \"password\": \"test\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changepass",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "withCredentials",
+								"value": "true"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"xcvxvxcv\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/auth/changepass/5b1273775f44862e30fcdcf9",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"auth",
+								"changepass",
+								"5b1273775f44862e30fcdcf9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "recipes",
+			"description": null,
+			"item": [
+				{
+					"name": "postRecipe",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi 5\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"5b14d0b192bfea3468624f8b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRecipes",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
