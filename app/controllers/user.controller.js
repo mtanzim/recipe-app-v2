@@ -1,15 +1,18 @@
 const Users = require('../models/users');
 
+// note that .then() on promises already exectuces the exec()
+// http://mongoosejs.com/docs/api.html#query_Query-then
+
 function createUser(userBody) {
   const user = new Users(userBody);
   return user.save();
 }
 
 function deleteUser(userId) {
-  // return Users.findByIdAndRemove(userId).exec();
+  // return Users.findByIdAndRemove(userId)//.exec();
   return Users.findById(userId)
     .select('-local.password')
-    .exec()
+    //.exec()
     .then((doc) => {
       if (!doc) {
         return Promise.reject (new Error('Document not found!'));
@@ -25,12 +28,12 @@ function deleteUser(userId) {
 function updateUser(userId, update) {
   return Users.findById(userId)
     // .select('-local.password')
-    .exec()
+    //.exec()
     .then((doc) => {
       if (!doc) {
         return Promise.reject(new Error('Document not found!'));
       }
-      doc.local = Object.assign(doc.local, update.local);
+      doc.local = Object.assign({},doc.local, update.local);
       return doc.save();
     })
     .catch(err => {
@@ -41,12 +44,12 @@ function updateUser(userId, update) {
 function updateUserForAuth(userId, update) {
   return Users.findById(userId)
     // .select('+local.password')
-    .exec()
+    //.exec()
     .then((doc) => {
       if (!doc) {
         return Promise.reject(new Error('Document not found!'));
       }
-      doc.local = Object.assign(doc.local, update.local);
+      doc.local = Object.assign({},doc.local, update.local);
       return doc.save();
     })
     .catch(err => {
@@ -58,20 +61,21 @@ function listUsers() {
   return Users
     .find({})
     .sort({ 'createdAt': -1 })
-    .select('-local.password');
+    .select('-local.password')
+    //.exec();
 }
 
 function getOneUser(id) {
   return Users
     .findOne({_id:id})
-    .select('-local.password');
+    .select('-local.password')
+    //.exec();
 }
 
 // used for auth, need password
 function getOneUserByEmailForAuth(email) {
   return Users
-    .findOne({ 'local.email': email });
-    // .select('-local.password');
+    .findOne({ 'local.email': email })
 }
 
 
