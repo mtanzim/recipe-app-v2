@@ -33,15 +33,16 @@ The following repositories will be used for guidance:
 
 ### Lessons Learned
 
-- Creating [references in Mongoose](http://mongoosejs.com/docs/populate.html), similar to foreign keys in sql
-- How to pass passport around
 - ES6 vs CommonJS import/export
-- Mongoose
+- Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks
-- Working with callbacks vs promises
-- Error routing and management
-- Export app.js and using bin/www to run the server, and mocha to test concurrently
+  - Queries are thenable (then-ing a query executes it automatically)
+  - Creating [references in Mongoose](http://mongoosejs.com/docs/populate.html), similar to foreign keys in sql
+- Express
+  - Error routing and management
+  - Export app.js and using bin/www to run the server, and mocha to test concurrently
+  - Working with callbacks vs promises
 - Passport.js: passing errors and user around
 - Mocha testing
   - Describe, it, before hooks
