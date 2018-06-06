@@ -33,7 +33,6 @@ The following repositories will be used for guidance:
 
 ### Lessons Learned
 
-- ES6 vs CommonJS import/export
 - Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks
@@ -43,9 +42,13 @@ The following repositories will be used for guidance:
   - Error routing and management
   - Export app.js and using bin/www to run the server, and mocha to test concurrently
   - Working with callbacks vs promises
-- Passport.js: passing errors and user around
+  - Passport.js: passing errors and user around
 - Mocha testing
   - Describe, it, before hooks
   - Looping tests in mocha
   - Setting up logging, creating documents
-- Setting up babel for node (mocha is still problematic)
+  - Creating re-usable modules in describe, it blocks
+- JS/ES6
+  - ES6 vs CommonJS import/export
+  - Promisifying functions for improved/more readble async code
+  - Setting up babel for node (mocha is still problematic)
