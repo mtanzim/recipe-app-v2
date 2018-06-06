@@ -14,8 +14,10 @@ let config = require('../app/config/index');
 config.isTesting = true;
 const app = App(config);
 
-
-
+// import common functions
+const testCreateUser = require('./commonTest/commonUserTest').createUser;
+const testReadUser = require('./commonTest/commonUserTest').readUser;
+const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
 
 
 module.exports = function runUserApiTests(defUser) {
@@ -31,7 +33,6 @@ module.exports = function runUserApiTests(defUser) {
         done();
       });
   });
-
   it("GETS All Users", function (done) {
     request(app)
       .get("/api/users")
@@ -42,33 +43,18 @@ module.exports = function runUserApiTests(defUser) {
       });
   });
   it("CREATE One User", function (done) {
-    request(app)
-      .post("/api/users/")
-      .send(defUser)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        let response = (JSON.parse(res.text));
-
-        let createdUser = _.omit(defUser,"local.password");
-        response = _.omit(response, "local.password");
-        expect(response.local).to.deep.equal(createdUser.local);
-
-        // expect(response.local).to.deep.equal(defUser.local);
-        userId = response._id;
+    testCreateUser(defUser)
+      .then((id) => {
+        userId = id;
         done();
-      });
+      })
+      .catch(err => done(err));
+
   });
   it("READ One User", function (done) {
-    request(app)
-      .get(`/api/users/${userId}`)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        expect(JSON.parse(res.text)._id).to.equal(userId);
-        done();
-      });
+    testReadUser(userId)
+      .then(() => done())
+      .catch(err => done(err));
   });
   it("UPDATE One User", function (done) {
     request(app)
@@ -84,15 +70,9 @@ module.exports = function runUserApiTests(defUser) {
       });
   });
   it("DELETE One User", function (done) {
-    request(app)
-      .delete(`/api/users/${userId}`)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        // user = JSON.parse(res.text) || undefined;
-        done();
-      });
+    testDeleteUser(userId)
+      .then(() => done())
+      .catch(err => done(err));
   });
 };
 

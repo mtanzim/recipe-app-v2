@@ -5,8 +5,10 @@ const connectMongoose = require('./helpers/connectMongoose');
 
 const testUserApi = require('./userSpec');
 const testAuthApi = require('./authSpec');
+const testRecipeApi = require('./recipeSpec');
 
 const defUser = require('./helpers/defaultUser');
+const defRecipe = require('./helpers/defaultRecipe');
 
 
 
@@ -38,6 +40,9 @@ describe("API", function () {
     for (let i = 0; i < apiLoops; i++) {
       testAuthApi(defUser);
     }
+  });
+  describe(`API.recipe`, function () {
+    testRecipeApi(defUser, defRecipe);
   });
 
 });

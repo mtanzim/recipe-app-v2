@@ -16,6 +16,7 @@ const app = App(config);
 
 
 const defUser = require('./helpers/defaultUser');
+const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
 
 module.exports = function runAuthApiTests(defUser) {
 
@@ -86,14 +87,8 @@ module.exports = function runAuthApiTests(defUser) {
       });
   });
   it("Auth DELETE One User", function (done) {
-    request(app)
-      .delete(`/api/users/${userId}`)
-      .set('Accept', 'application/json')
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        // user = JSON.parse(res.text) || undefined;
-        done();
-      });
+    testDeleteUser(userId)
+      .then(() => done())
+      .catch(err => done(err));
   });
 }
