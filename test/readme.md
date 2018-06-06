@@ -4,6 +4,7 @@
      - [API.user.loop](#api-apiuserloop)
      - [API.auth](#api-apiauth)
      - [API.auth.loop](#api-apiauthloop)
+     - [API.recipe](#api-apirecipe)
 <a name=""></a>
  
 <a name="api"></a>
@@ -31,25 +32,21 @@ request(app).get("/api/users").expect(200).end(function (err, res) {
 CREATE One User.
 
 ```js
-request(app).post("/api/users/").send(defUser).expect(200).end(function (err, res) {
-  if (err) done(new Error(res.text));
-  var response = JSON.parse(res.text);
-  var createdUser = _.omit(defUser, "local.password");
-  response = _.omit(response, "local.password");
-  expect(response.local).to.deep.equal(createdUser.local);
-  // expect(response.local).to.deep.equal(defUser.local);
-  userId = response._id;
+testCreateUser(defUser).then(function (id) {
+  userId = id;
   done();
+}).catch(function (err) {
+  return done(err);
 });
 ```
 
 READ One User.
 
 ```js
-request(app).get('/api/users/' + userId).set('Accept', 'application/json').expect(200).end(function (err, res) {
-  if (err) done(new Error(res.text));
-  expect(JSON.parse(res.text)._id).to.equal(userId);
-  done();
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
 });
 ```
 
@@ -67,10 +64,10 @@ request(app).put('/api/users/' + userId).set('Accept', 'application/json').send(
 DELETE One User.
 
 ```js
-request(app).delete('/api/users/' + userId).set('Accept', 'application/json').expect(200).end(function (err, res) {
-  if (err) done(new Error(res.text));
-  // user = JSON.parse(res.text) || undefined;
-  done();
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
 });
 ```
 
@@ -128,10 +125,60 @@ request(app).post('/api/auth/changepass/' + userId).expect(500).send({ "password
 Auth DELETE One User.
 
 ```js
-request(app).delete('/api/users/' + userId).set('Accept', 'application/json').expect(200).end(function (err, res) {
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+<a name="api-apirecipe"></a>
+## API.recipe
+GETS health check.
+
+```js
+request(app).get("/api/health-check").set('Accept', 'application/json').expect(200).end(function (err, res) {
   if (err) done(new Error(res.text));
-  // user = JSON.parse(res.text) || undefined;
   done();
+});
+```
+
+CREATE One User for Recipe.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User for Recipe.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create Recipe for User.
+
+```js
+// console.log(userId);
+    // expect(userId).to.not.be.undefined;
+    done();
+```
+
+DELETE One User for Recipe.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
 });
 ```
 
