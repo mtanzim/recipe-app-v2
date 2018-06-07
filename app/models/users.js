@@ -9,19 +9,21 @@ var Recipes = require(path + '/app/models/recipes.js');
 
 const SALT_ROUNDS = 10;
 
+const deleteAllRecipesForUser = require("../controllers/recipes.controller").deleteAllRecipesForUser;
+
 var User = new Schema({
   local: {
-    username:{
+    username: {
       required: [true, 'Username can not be empty'],
       minlength: [3, "Username too short!"],
-      maxlength: [20, "Username too long!"],    
+      maxlength: [20, "Username too long!"],
       type: String,
-      index: { unique: true }, 
+      index: { unique: true },
     },
-    email: { 
-      type:String, 
-      required: [true, 'Email can not be empty'], 
-      index: { unique: true }, 
+    email: {
+      type: String,
+      required: [true, 'Email can not be empty'],
+      index: { unique: true },
     },
     password: {
       type: String,
@@ -31,19 +33,28 @@ var User = new Schema({
     }
   },
 },
-{
-  timestamps: true,
+  {
+    timestamps: true,
 
-});
+  });
 
 // pre-save hooks
 User.pre('save', function (next) {
   // const saltRounds = 10; // should be moved to config file later
   bcrypt.hash(this.local.password, SALT_ROUNDS)
-    .then(hash => { 
+    .then(hash => {
       this.local.password = hash;
       next();
     });
+});
+
+
+// remove all of the user's recipes
+User.pre('remove', function (next) {
+  // console.log('Deleting User');
+  deleteAllRecipesForUser(this._id)
+    .then(recipes => next())
+    .catch(err => next(err));
 });
 
 
@@ -74,19 +85,6 @@ User.methods.validPassword = function (password) {
   // console.log (this.get('local'));
   return bcrypt.compareSync(password, this.local.password);
 };
-
-// User.methods.validPassword = function (password) {
-//   this
-//   .findOne({ 'local.username': this.local.username })
-//   .select('+local.password')
-//   .exec(function (err, user) {
-//     return bcrypt.compareSync(password, user.local.password);
-//     // if (user.password == password)
-//     //   return true;
-//     // else
-//     //   return false;
-//   });
-// }
 
 
 User.methods.changePassword = function (password) {

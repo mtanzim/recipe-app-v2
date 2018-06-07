@@ -44,5 +44,10 @@ describe("API", function () {
   describe(`API.recipe`, function () {
     testRecipeApi(defUser, defRecipe);
   });
+  describe(`API.recipe.loop`, function () {
+    for (let i = 0; i < apiLoops; i++) {
+      testRecipeApi(defUser, defRecipe);
+    }
+  });
 
 });

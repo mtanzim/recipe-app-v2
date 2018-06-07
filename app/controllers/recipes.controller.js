@@ -65,9 +65,9 @@ function updateOneRecipe(recipeId, update) {
       if (!doc) {
         return Promise.reject(new Error('Document not found!'));
       }
-      console.log(doc);
+      // console.log(doc);
       doc = Object.assign(doc, update);
-      console.log(doc);
+      // console.log(doc);
       return doc.save();
     })
     .catch(err => {

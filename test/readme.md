@@ -5,6 +5,7 @@
      - [API.auth](#api-apiauth)
      - [API.auth.loop](#api-apiauthloop)
      - [API.recipe](#api-apirecipe)
+     - [API.recipe.loop](#api-apirecipeloop)
 <a name=""></a>
  
 <a name="api"></a>
@@ -164,12 +165,83 @@ testReadUser(userId).then(function () {
 });
 ```
 
-Create Recipe for User.
+CREATE recipe for User that was created.
 
 ```js
-// console.log(userId);
-    // expect(userId).to.not.be.undefined;
-    done();
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+      recipeId = recipeid;
+      // console.log(recipeId);
+      done();
+    }).catch(function (err) {
+      return done(err);
+    });
+```
+
+Read Recipe that was created.
+
+```js
+testReadRecipe(recipeId, defRecipe).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Update Recipe that was created.
+
+```js
+testUpdateRecipe(recipeId, { "notes": "updated from mocha" }).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Delete Recipe that was created.
+
+```js
+testDeleteRecipe(recipeId).then(function () {
+  recipeId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+CREATE duplicate recipe for User that was created.
+
+```js
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+      recipeId = recipeid;
+      // console.log(recipeId);
+      done();
+    }).catch(function (err) {
+      return done(err);
+    });
+```
+
+CREATE duplicate recipe again for User that was created.
+
+```js
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+      recipeId = recipeid;
+      // console.log(recipeId);
+      done();
+    }).catch(function (err) {
+      return done(err);
+    });
+```
+
+Delete Recipes for the User that was created.
+
+```js
+testDeleteRecipeForUser(userId).then(function () {
+  // userId = undefined;
+  recipeId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
 ```
 
 DELETE One User for Recipe.
