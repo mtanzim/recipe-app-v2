@@ -40,14 +40,35 @@ function getOneRecipe(recipeId) {
 }
 
 function deleteOneRecipe(recipeId) {
-  return Recipes
-    .deleteOne({ '_id': recipeId });
+  return Recipes.findById(recipeId)
+
+    .then((doc) => {
+      if (!doc) {
+        return Promise.reject(new Error('Document not found!'));
+      }
+      return doc.remove();
+    })
+    .catch(err => {
+      return Promise.reject(err);
+    });
+  // can't use DeleteOne or deleteMany, since it doesn't fire hooks
+  // return Recipes
+  //   .deleteOne({ '_id': recipeId });
 
 }
 
 function deleteAllRecipesForUser(userId) {
   return Recipes
-    .deleteMany({ '_user': userId });
+    .find({ '_user': userId })
+    .sort({ 'createdAt': -1 })
+    .select('_user')
+    .then( (docs) => {
+      // console.log(docs);
+      return Promise.all ( docs.map ( doc => {
+        // console.log(doc);
+        return doc.remove();
+      }));
+    });
 }
 
 

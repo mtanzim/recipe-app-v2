@@ -57,15 +57,16 @@ module.exports = function runUserApiTests(defUser) {
       .catch(err => done(err));
   });
   it("UPDATE One User", function (done) {
+    let emailUpdate = "fromMoch2a@jocha.com";
     request(app)
       .put(`/api/users/${userId}`)
       .set('Accept', 'application/json')
-      .send({ local: { email: "fromMocha@jocha.com" } })
+      .send({ local: { email: emailUpdate } })
       .expect(200)
       .end(function (err, res) {
         if (err) done(new Error(res.text));
         expect(JSON.parse(res.text)._id).to.equal(userId);
-        expect(JSON.parse(res.text).local.email).to.equal("fromMocha@jocha.com");
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
         done();
       });
   });

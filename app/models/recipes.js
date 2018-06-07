@@ -24,5 +24,14 @@ var Recipes = new Schema({
 
 });
 
+Recipes.pre('remove', function (next) {
+  // console.log('Deleting User');
+  // console.log('Deleting all ingredients for Recipe');
+  next();
+  // deleteAllIngredientsForRecipe(this._id)
+  //   .then(ing => next())
+  //   .catch(err => next(err));
+});
+
 
 module.exports = mongoose.model('Recipes', Recipes);

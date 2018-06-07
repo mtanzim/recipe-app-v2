@@ -2,8 +2,14 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Recipe = require('./recipes');
 
 var Ingredients = new Schema({
+  _recipe: {
+    type: Schema.Types.ObjectId,
+    ref: 'Recipe',
+    required: [true, 'Ingredient must have a recipe!'],
+  },
   title: { type: String, maxlength: [25, 'Ingredient title is too long!'] },
   qty: {
     type: Number,
@@ -13,6 +19,10 @@ var Ingredients = new Schema({
 
   },
   unit: { type: String, maxlength: [25, 'Unit description is too long!'] },
-})
+},
+  {
+    timestamps: true,
+
+  });
 
 module.exports = mongoose.model('Ingredients', Ingredients);

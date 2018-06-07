@@ -34,7 +34,7 @@ router.route('/:userid')
   //delete all recipes for user
   .delete((req, res, next) => {
     deleteAllRecipesForUser(req.params.userid)
-      .then(recipes => recipes.result.n !== 0 ? res.json(recipes.result) : next(new Error('No recipes found!')))
+      .then(recipes => recipes.length > 0 ? res.json(recipes) : next(new Error('No recipes found!')))
       .catch(err => next(err));
   });
 
@@ -55,7 +55,7 @@ router.route('/single/:recipeid')
   // delete specific recipe
   .delete((req, res, next) => {
     deleteOneRecipe(req.params.recipeid)
-      .then(recipes => recipes.result.n !== 0 ? res.json(recipes.result) : next(new Error('No recipes found!')))
+      .then(recipes => res.json(recipes))
       .catch(err => next(err));
   });
 

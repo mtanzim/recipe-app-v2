@@ -66,7 +66,7 @@ const deleteRecipe = function (recipeId) {
         if (err) return reject(new Error(res.text));
         let response = (JSON.parse(res.text));
         // let updatedRecipe = _.pick(response, ['notes']);
-        expect(response.n).to.equal(1);
+        expect(response._id).to.equal(recipeId);
         return resolve();
       });
   });
@@ -84,7 +84,7 @@ const deleteAllRecipesForUser = function (userId) {
         if (err) return reject(new Error(res.text));
         let response = (JSON.parse(res.text));
         // let updatedRecipe = _.pick(response, ['notes']);
-        expect(response.n).to.equal(2);
+        expect(response.length).to.equal(2);
         return resolve();
       });
   });
