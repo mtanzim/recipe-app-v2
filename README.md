@@ -39,6 +39,7 @@ The following repositories will be used for guidance:
   - Queries are thenable (then-ing a query executes it automatically)
   - Creating [references in Mongoose](http://mongoosejs.com/docs/populate.html), similar to foreign keys in sql
   - Using the pre 'remove' hooks for cascading deletes, similar to SQL
+  - Making sure doc.save, and doc.remove are used to ensure hooks are fired
 - Express
   - Error routing and management
   - Export app.js and using bin/www to run the server, and mocha to test concurrently
