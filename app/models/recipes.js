@@ -1,6 +1,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var User = require('./users');
+// var User = require('./users');
+// const findOneUser = require("../controllers/user.controller").getOneUser;
+
+
 
 var Recipes = new Schema({
   // user is the foreign key
@@ -23,6 +26,15 @@ var Recipes = new Schema({
   timestamps: true,
 
 });
+
+/* Recipes.pre('save', function (next) {
+  console.log('Checking user exists');
+  findOneUser(this._user)
+    .then( user => {
+      user ? next() : next(new Error("Invalid User supplied!"))
+    })
+    .catch ( err => next(err));  
+}) */
 
 Recipes.pre('remove', function (next) {
   // console.log('Deleting User');
