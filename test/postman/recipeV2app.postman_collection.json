@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {},
 						"url": {
-							"raw": "localhost:8081/api/users/5b140c3a3065ee3b88ca7ff2",
+							"raw": "localhost:8081/api/users/5b1a6b367af3973d047343ac",
 							"host": [
 								"localhost"
 							],
@@ -72,7 +72,7 @@
 							"path": [
 								"api",
 								"users",
-								"5b140c3a3065ee3b88ca7ff2"
+								"5b1a6b367af3973d047343ac"
 							]
 						}
 					},
@@ -342,7 +342,7 @@
 							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
 						},
 						"url": {
-							"raw": "localhost:8081/api/recipes/single/5b18e01d38e76b0db8b41dc0",
+							"raw": "localhost:8081/api/recipes/single/5b1a69c8a6d8103cb8d6ab28",
 							"host": [
 								"localhost"
 							],
@@ -351,7 +351,7 @@
 								"api",
 								"recipes",
 								"single",
-								"5b18e01d38e76b0db8b41dc0"
+								"5b1a69c8a6d8103cb8d6ab28"
 							]
 						}
 					},
@@ -440,6 +440,247 @@
 								"api",
 								"recipes",
 								"5b14d8457b4d3533708507de"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ing",
+			"description": null,
+			"item": [
+				{
+					"name": "createIng",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"5b1a69c8a6d8103cb8d6ab28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getIngHealth",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/health",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"health"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getIngAll",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getIngByRecipe",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"5b1a69c8a6d8103cb8d6ab28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getIngForRecipeSingle",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/single/5b1a69c8a6d8103cb8d6ab28",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"single",
+								"5b1a69c8a6d8103cb8d6ab28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delIngByRecipe",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"5b1a69c8a6d8103cb8d6ab28"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateIng",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/single/5b1a6ee9a1d91737208a0979",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"single",
+								"5b1a6ee9a1d91737208a0979"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteIng",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/ing/single/5b1a6eeaa1d91737208a097a",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"ing",
+								"single",
+								"5b1a6eeaa1d91737208a097a"
 							]
 						}
 					},

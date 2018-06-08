@@ -28,6 +28,7 @@
     "testauth": "mocha --exit --grep auth",
     "testuser": "mocha --exit --grep user",
     "testrecipe": "mocha --exit --grep recipe",
+    "testIng": "mocha --exit --grep ingredients",
     "testlog": "mocha --exit --reporter json-stream > test/logs/testLog.json",
     "testdoc": "mocha --exit --reporter markdown > test/readme.md"
   },

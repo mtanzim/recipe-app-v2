@@ -6,6 +6,8 @@
      - [API.auth.loop](#api-apiauthloop)
      - [API.recipe](#api-apirecipe)
      - [API.recipe.loop](#api-apirecipeloop)
+     - [API.ingredients](#api-apiingredients)
+     - [API.ingredients.loop](#api-apiingredientsloop)
 <a name=""></a>
  
 <a name="api"></a>
@@ -54,10 +56,11 @@ testReadUser(userId).then(function () {
 UPDATE One User.
 
 ```js
-request(app).put('/api/users/' + userId).set('Accept', 'application/json').send({ local: { email: "fromMocha@jocha.com" } }).expect(200).end(function (err, res) {
+var emailUpdate = "fromMoch2a@jocha.com";
+request(app).put('/api/users/' + userId).set('Accept', 'application/json').send({ local: { email: emailUpdate } }).expect(200).end(function (err, res) {
   if (err) done(new Error(res.text));
   expect(JSON.parse(res.text)._id).to.equal(userId);
-  expect(JSON.parse(res.text).local.email).to.equal("fromMocha@jocha.com");
+  expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
   done();
 });
 ```
@@ -237,6 +240,166 @@ Delete Recipes for the User that was created.
 ```js
 testDeleteRecipeForUser(userId).then(function () {
   // userId = undefined;
+  recipeId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+DELETE One User for Recipe.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+<a name="api-apiingredients"></a>
+## API.ingredients
+GETS health check.
+
+```js
+request(app).get("/api/health-check").set('Accept', 'application/json').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+CREATE One User for Recipe.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User for Recipe.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+CREATE recipe for User that was created.
+
+```js
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+  recipeId = recipeid;
+  // console.log(recipeId);
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Read Recipe that was created.
+
+```js
+testReadRecipe(recipeId, defRecipe).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create ingredient for recipe that was created.
+
+```js
+testCreateIng(recipeId, defIng).then(function (id) {
+  ingId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Read ingredient for recipe that was created.
+
+```js
+testReadIng(ingId, defIng).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Update ingredient for recipe that was created.
+
+```js
+testUpdateIng(ingId, { "title": "pate superloaded" }).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Delete ingredient for recipe that was created.
+
+```js
+testDeleteIng(ingId).then(function () {
+  ingId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create duplicate ingredient for recipe that was created.
+
+```js
+testCreateIng(recipeId, defIng).then(function (id) {
+  ingId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create duplicate ingredient again for recipe that was created.
+
+```js
+testCreateIng(recipeId, defIng).then(function (id) {
+  ingId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Read all ingredient for recipe that was created.
+
+```js
+testReadIngAll(recipeId, 2).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Delete all ingredient for recipe that was created.
+
+```js
+testDeleteIngForRecipe(recipeId).then(function () {
+  ingId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Delete Recipe that was created.
+
+```js
+testDeleteRecipe(recipeId).then(function () {
   recipeId = undefined;
   done();
 }).catch(function (err) {

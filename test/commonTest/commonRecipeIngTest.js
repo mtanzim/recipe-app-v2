@@ -7,94 +7,110 @@ let config = require('../../app/config/index');
 config.isTesting = true;
 const app = App(config);
 
+module.exports = (url, picks) => {
 
-const createRecipe = function (userId, recipeBody) {
-  return new Promise( (resolve, reject) => {
-    request(app)
-      .post(`/api/recipes/${userId}`)
-      .send(recipeBody)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return reject (new Error(res.text));
-        let response = (JSON.parse(res.text));
-        // let createdRecipe = Object.assign({},response);
-        let createdRecipe = _.pick(response, ['notes','title']);
-        expect(createdRecipe).to.deep.equal(recipeBody);
-        return resolve(response._id);
-      });
-  });
-};
+  let tester = {};
 
-
-const readRecipe = function (recipeId, recipeBody) {
-  return new Promise((resolve, reject) => {
-    request(app)
-      .get(`/api/recipes/single/${recipeId}`)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return reject(new Error(res.text));
-        let response = (JSON.parse(res.text));
-        response = _.pick(response, ['notes', 'title']);
-        expect(response).to.deep.equal(recipeBody);
-        return resolve(response._id);
-      });
-  });
-};
-
-const updateRecipe = function (recipeId, recipeBody) {
-  return new Promise((resolve, reject) => {
-    request(app)
-      .put(`/api/recipes/single/${recipeId}`)
-      .send(recipeBody)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return reject(new Error(res.text));
-        let response = (JSON.parse(res.text));
-        let updatedRecipe = _.pick(response, ['notes']);
-        expect(updatedRecipe).to.deep.equal(recipeBody);
-        return resolve(response._id);
-      });
-  });
-};
-
-const deleteRecipe = function (recipeId) {
-  return new Promise((resolve, reject) => {
-    request(app)
-      .delete(`/api/recipes/single/${recipeId}`)
-      // .send(recipeBody)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return reject(new Error(res.text));
-        let response = (JSON.parse(res.text));
-        // let updatedRecipe = _.pick(response, ['notes']);
-        expect(response._id).to.equal(recipeId);
-        return resolve();
-      });
-  });
-};
+  tester.create = function (id, body) {
+    return new Promise( (resolve, reject) => {
+      request(app)
+        .post(`/api/${url}/${id}`)  
+        .send(body)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject (new Error(res.text));
+          let response = (JSON.parse(res.text));
+          // let createdRecipe = Object.assign({},response);
+          let createdRecipe = _.pick(response, picks);
+          expect(createdRecipe).to.deep.equal(body);
+          return resolve(response._id);
+        });
+    });
+  };
 
 
-// deleteAllRecipesForUser
-const deleteAllRecipesForUser = function (userId) {
-  return new Promise((resolve, reject) => {
-    request(app)
-      .delete(`/api/recipes//${userId}`)
-      // .send(recipeBody)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return reject(new Error(res.text));
-        let response = (JSON.parse(res.text));
-        // let updatedRecipe = _.pick(response, ['notes']);
-        expect(response.length).to.equal(2);
-        return resolve();
-      });
-  });
-};
+  tester.read = function (id, body) {
+    return new Promise((resolve, reject) => {
+      request(app)
+        .get(`/api/${url}/single/${id}`)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject(new Error(res.text));
+          let response = (JSON.parse(res.text));
+          response = _.pick(response, picks);
+          expect(response).to.deep.equal(body);
+          return resolve(response._id);
+        });
+    });
+  };
 
-module.exports = {
-  createRecipe,
-  readRecipe,
-  updateRecipe,
-  deleteRecipe,
-  deleteAllRecipesForUser,
+  tester.readAll = function (id, len) {
+    return new Promise((resolve, reject) => {
+      request(app)
+        .get(`/api/${url}/${id}`)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject(new Error(res.text));
+          let response = (JSON.parse(res.text));
+          // response = _.pick(response, picks);
+          expect(response.length).to.equal(len);
+          return resolve(response._id);
+        });
+    });
+  };
+
+  tester.update = function (id, body) {
+    return new Promise((resolve, reject) => {
+      request(app)
+        .put(`/api/${url}/single/${id}`)
+        .send(body)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject(new Error(res.text));
+          let response = (JSON.parse(res.text));
+          let updatedRecipe = _.pick(response, Object.keys(body));
+          expect(updatedRecipe).to.deep.equal(body);
+          return resolve(response._id);
+        });
+    });
+  };
+
+  tester.deleteOne = function (id) {
+    return new Promise((resolve, reject) => {
+      request(app)
+        .delete(`/api/${url}/single/${id}`)
+        // .send(recipeBody)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject(new Error(res.text));
+          let response = (JSON.parse(res.text));
+          // let updatedRecipe = _.pick(response, ['notes']);
+          expect(response._id).to.equal(id);
+          return resolve();
+        });
+    });
+  };
+
+
+  // deleteAllRecipesForUser
+  tester.deleteAll = function (userId) {
+    return new Promise((resolve, reject) => {
+      request(app)
+        .delete(`/api/${url}//${userId}`)
+        // .send(recipeBody)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return reject(new Error(res.text));
+          let response = (JSON.parse(res.text));
+          // let updatedRecipe = _.pick(response, ['notes']);
+          expect(response.length).to.equal(2);
+          return resolve();
+        });
+    });
+  };
+
+  return tester;
+
 }
+
+// module.exports = tester
