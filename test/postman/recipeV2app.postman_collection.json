@@ -297,6 +297,153 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "getRecipesForUser",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"5b14d0b192bfea3468624f8b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getRecipesForUserSingle",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/single/5b18e01d38e76b0db8b41dc0",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"single",
+								"5b18e01d38e76b0db8b41dc0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSingleRecipe",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Pho Ga\",\r\n  \"notes\":\"Ga means chicken yaaaaaaaaaS!!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/single/5b1672c22a6fd80a286a7d49",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"single",
+								"5b1672c22a6fd80a286a7d49"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRecipesForUser",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/5b14d8457b4d3533708507de",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"5b14d8457b4d3533708507de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteRecipeSingle",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8081/api/recipes/5b14d8457b4d3533708507de",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"api",
+								"recipes",
+								"5b14d8457b4d3533708507de"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
