@@ -10,11 +10,11 @@ const testCreateUser = require('./commonTest/commonUserTest').createUser;
 const testReadUser = require('./commonTest/commonUserTest').readUser;
 const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
 
-const testCreateRecipe = require('./commonTest/commonRecipeTest').createRecipe;
-const testReadRecipe = require('./commonTest/commonRecipeTest').readRecipe;
-const testUpdateRecipe = require('./commonTest/commonRecipeTest').updateRecipe;
-const testDeleteRecipe = require('./commonTest/commonRecipeTest').deleteRecipe;
-const testDeleteRecipeForUser = require('./commonTest/commonRecipeTest').deleteAllRecipesForUser;
+const testCreateRecipe = require('./commonTest/commonRecipeIngTest').createRecipe;
+const testReadRecipe = require('./commonTest/commonRecipeIngTest').readRecipe;
+const testUpdateRecipe = require('./commonTest/commonRecipeIngTest').updateRecipe;
+const testDeleteRecipe = require('./commonTest/commonRecipeIngTest').deleteRecipe;
+const testDeleteRecipeForUser = require('./commonTest/commonRecipeIngTest').deleteAllRecipesForUser;
 
 // Test Plan
 // 1. Create User - x

@@ -1,9 +1,5 @@
-'use strict';
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-// const findRecipe = require("../controllers/recipes.controller").getOneRecipe;
-// var Recipes = require('./recipes');
 
 var Ingredients = new Schema({
   _recipe: {
@@ -26,14 +22,19 @@ var Ingredients = new Schema({
 
   });
 
-/* Ingredients.pre('save', function (next) {
-  // console.log('must sure the recipe ref exits')
-  findRecipe(this._recipe)
-  .then(recipe=>{
-    // console.log(recipe);
-    recipe ? next() : next(new Error("Invalid recipe supplied!"))
-  })
-  .catch(err=> next(err));
-}); */
+Ingredients.pre('save', function (next) {
+  confirmRecipe(this._recipe, next);
+});
 
 module.exports = mongoose.model('Ingredients', Ingredients);
+
+var Recipes = require('./recipes');
+
+function confirmRecipe(id, next) {
+  // console.log('must sure the user ref exits')
+  Recipes.confirmExist(id)
+    .then(recipe => {
+      recipe ? next() : next(new Error("Invalid recipe supplied!"))
+    })
+    .catch(err => next(err));
+}

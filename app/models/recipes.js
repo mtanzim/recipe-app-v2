@@ -25,6 +25,11 @@ var Recipes = new Schema({
 
 });
 
+Recipes.statics.confirmExist = function (id) {
+  // console.log(id);
+  return this.findOne({ '_id': id });
+}
+
 Recipes.statics.removeAllforUser  = function (userId) {
   return this
     .find({ '_user': userId })

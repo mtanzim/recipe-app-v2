@@ -2,9 +2,16 @@ import express from 'express';
 import {
   getAllIng,
   createIng,
+  getIngByRecipe,
+  deleteAllIngForRecipe,
+  getOneIng,
+  updateOneIng,
+  deleteOneIng,
 } from "../controllers/ingredients.controller";
 
 const router = express.Router();
+
+const ingError = new Error('No ingredients found!');
 
 router.route('/health')
   .get((req, res, next) => res.send('OK'));
@@ -12,65 +19,48 @@ router.route('/health')
 router.route('/')
   .get((req,res,next) => {
     getAllIng()
-      .then(ing => ing.length !== 0 ? res.json(ing) : next(new Error('No ingredients found!')))
+      .then(ing => ing.length !== 0 ? res.json(ing) : next(ingError))
       .catch( err => next(err));
   });
 
 router.route('/:recipeid')
-  // create new recipe for user
+  // create new ing for recipe
   .post((req, res, next) => {
     createIng(req.params.recipeid, req.body)
       .then(ing => res.json(ing))
       .catch(err => next(err));
   })
-
-/* router.route('/')
-  // get all recipes from all users
+  // read all ing for recipe
   .get((req, res, next) => {
-    getAllRecipes()
-      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(new Error('No recipes found!')))
-      .catch(err => next(err));
-  });
-
-router.route('/:userid')
-  // create new recipe for user
-  .post((req, res, next) => {
-    createRecipe(req.params.userid, req.body)
-      .then(recipe => res.json(recipe))
-      .catch(err => next(err));
-  })
-  // read all recipes for user
-  .get((req, res, next) => {
-    getRecipeByUser(req.params.userid)
-      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(new Error ('No recipes found!')))
+    getIngByRecipe(req.params.recipeid)
+      .then(ing => ing.length !== 0 ? res.json(ing) : next(ingError))
       .catch(err => next(err));
   })
   //delete all recipes for user
   .delete((req, res, next) => {
-    deleteAllRecipesForUser(req.params.userid)
-      .then(recipes => recipes.length > 0 ? res.json(recipes) : next(new Error('No recipes found!')))
+    deleteAllIngForRecipe(req.params.recipeid)
+      .then(ing => ing.length > 0 ? res.json(ing) : next(ingError))
       .catch(err => next(err));
   });
 
-router.route('/single/:recipeid')
+router.route('/single/:ingid')
   // read specific recipe
   .get((req, res, next) => {
-    getOneRecipe(req.params.recipeid)
+    getOneIng(req.params.ingid)
       // .then(recipes => res.json(recipes))
-      .then(recipes => recipes ? res.json(recipes) : next(new Error('No recipes found!')))
+      .then(ing => ing ? res.json(ing) : next(ingError))
       .catch(err => next(err));
   })
   // update specific recipe
   .put((req, res, next) => {
-    updateOneRecipe(req.params.recipeid, req.body)
-      .then(recipes => recipes ? res.json(recipes) : next(new Error('No recipes found!')))
+    updateOneIng(req.params.ingid, req.body)
+      .then(ing => ing ? res.json(ing) : next(ingError))
       .catch(err => next(err));
   })
-  // delete specific recipe
   .delete((req, res, next) => {
-    deleteOneRecipe(req.params.recipeid)
-      .then(recipes => res.json(recipes))
+    deleteOneIng(req.params.ingid)
+      .then(ing => res.json(ing))
       .catch(err => next(err));
-  }); */
+  });
 
 export default router;

@@ -10,11 +10,13 @@ import {
 } from "../controllers/recipes.controller";
 
 const router = express.Router();
+const recipeError = new Error('No recipes found!');
+
 router.route('/')
   // get all recipes from all users
   .get((req, res, next) => {
     getAllRecipes()
-      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(new Error('No recipes found!')))
+      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(recipeError))
       .catch(err => next(err));
   });
 
@@ -28,13 +30,13 @@ router.route('/:userid')
   // read all recipes for user
   .get((req, res, next) => {
     getRecipeByUser(req.params.userid)
-      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(new Error ('No recipes found!')))
+      .then(recipes => recipes.length !== 0 ? res.json(recipes) : next(recipeError))
       .catch(err => next(err));
   })
   //delete all recipes for user
   .delete((req, res, next) => {
     deleteAllRecipesForUser(req.params.userid)
-      .then(recipes => recipes.length > 0 ? res.json(recipes) : next(new Error('No recipes found!')))
+      .then(recipes => recipes.length > 0 ? res.json(recipes) : next(recipeError))
       .catch(err => next(err));
   });
 
@@ -43,13 +45,13 @@ router.route('/single/:recipeid')
   .get((req, res, next) => {
     getOneRecipe(req.params.recipeid)
       // .then(recipes => res.json(recipes))
-      .then(recipes => recipes ? res.json(recipes) : next(new Error('No recipes found!')))
+      .then(recipes => recipes ? res.json(recipes) : next(recipeError))
       .catch(err => next(err));
   })
   // update specific recipe
   .put((req, res, next) => {
     updateOneRecipe(req.params.recipeid, req.body)
-      .then(recipes => recipes ? res.json(recipes) : next(new Error('No recipes found!')))
+      .then(recipes => recipes ? res.json(recipes) : next(recipeError))
       .catch(err => next(err));
   })
   // delete specific recipe

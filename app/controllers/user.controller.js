@@ -66,10 +66,7 @@ function listUsers() {
 }
 
 function getOneUser(id) {
-  return Users
-    .findOne({_id:id})
-    .select('-local.password')
-    //.exec();
+  return Users.confirmExist(id);
 }
 
 // used for auth, need password

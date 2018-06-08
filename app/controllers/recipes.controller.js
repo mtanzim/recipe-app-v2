@@ -30,6 +30,8 @@ function getRecipeByUser(userId) {
 }
 
 function getOneRecipe(recipeId) {
+
+  // return Recipes.confirmExist(recipeId);
   return Recipes
     .findOne({ _id: recipeId})
     .sort({ 'createdAt': -1 })
@@ -71,9 +73,6 @@ function deleteAllRecipesForUser(userId) {
     }); */
 }
 
-
-
-// used by auth for now
 function updateOneRecipe(recipeId, update) {
   return Recipes
     .findOne({ _id: recipeId })
