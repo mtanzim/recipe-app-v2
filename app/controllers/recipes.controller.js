@@ -58,8 +58,8 @@ function deleteOneRecipe(recipeId) {
 }
 
 function deleteAllRecipesForUser(userId) {
-  return Recipes
-    .find({ '_user': userId })
+  return Recipes.removeAllforUser(userId);
+/*     .find({ '_user': userId })
     .sort({ 'createdAt': -1 })
     .select('_user')
     .then( (docs) => {
@@ -68,7 +68,7 @@ function deleteAllRecipesForUser(userId) {
         // console.log(doc);
         return doc.remove();
       }));
-    });
+    }); */
 }
 
 

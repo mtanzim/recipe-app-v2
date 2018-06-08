@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-// var User = require('./users');
-const findUser = require("../controllers/user.controller").getOneUser;
+
+// const findUser = require("../controllers/user.controller").getOneUser;
 
 var Recipes = new Schema({
   // user is the foreign key
@@ -25,22 +25,28 @@ var Recipes = new Schema({
 
 });
 
+Recipes.statics.removeAllforUser  = function (userId) {
+  return this
+    .find({ '_user': userId })
+    .sort({ 'createdAt': -1 })
+    .select('_user')
+    .then((docs) => {
+      // console.log(docs);
+      return Promise.all(docs.map(doc => {
+        // console.log('REMOVING!')
+        // console.log(doc);
+        return doc.remove();
+      }));
+    });
+}
 
 Recipes.pre('save', function (next) {
-  console.log('must sure the user ref exits')
-  findUser(this._user)
-    .then(user => {
-      console.log(user);
-      user ? next() : next(new Error("Invalid user supplied!"))
-    })
-    .catch(err => next(err));
+  confirmUser(this._user, next);
 });
-
-
 
 Recipes.pre('remove', function (next) {
   // console.log('Deleting User');
-  console.log('Deleting all ingredients for Recipe');
+  // console.log('Deleting all ingredients for Recipe');
   next();
   // deleteAllIngredientsForRecipe(this._id)
   //   .then(ing => next())
@@ -49,3 +55,16 @@ Recipes.pre('remove', function (next) {
 
 
 module.exports = mongoose.model('Recipes', Recipes);
+
+var User = require('./users');
+function confirmUser (userid, next) {
+  // console.log('must sure the user ref exits')
+  User.confirmExist(userid)
+    .then(user => {
+      // console.log(user);
+      user ? next() : next(new Error("Invalid user supplied!"))
+    })
+    .catch(err => next(err))
+}
+
+

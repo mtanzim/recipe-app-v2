@@ -2,7 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-const findRecipe = require("../controllers/recipes.controller").getOneRecipe;
+// const findRecipe = require("../controllers/recipes.controller").getOneRecipe;
 // var Recipes = require('./recipes');
 
 var Ingredients = new Schema({
@@ -26,7 +26,7 @@ var Ingredients = new Schema({
 
   });
 
-Ingredients.pre('save', function (next) {
+/* Ingredients.pre('save', function (next) {
   // console.log('must sure the recipe ref exits')
   findRecipe(this._recipe)
   .then(recipe=>{
@@ -34,6 +34,6 @@ Ingredients.pre('save', function (next) {
     recipe ? next() : next(new Error("Invalid recipe supplied!"))
   })
   .catch(err=> next(err));
-});
+}); */
 
 module.exports = mongoose.model('Ingredients', Ingredients);

@@ -5,11 +5,11 @@ var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
 
 var path = process.cwd();
-var Recipes = require(path + '/app/models/recipes.js');
+
 
 const SALT_ROUNDS = 10;
 
-const deleteAllRecipesForUser = require("../controllers/recipes.controller").deleteAllRecipesForUser;
+// const deleteAllRecipesForUser = require("../controllers/recipes.controller").deleteAllRecipesForUser;
 
 var User = new Schema({
   local: {
@@ -51,11 +51,12 @@ User.pre('save', function (next) {
 
 // remove all of the user's recipes
 User.pre('remove', function (next) {
-  // console.log('Deleting User');
-  deleteAllRecipesForUser(this._id)
-    .then(recipes => next())
-    .catch(err => next(err));
+  removeRecipes(this._id, next)
 });
+
+User.statics.confirmExist = function (id) {
+  return this.findOne({ '_id': id });
+}
 
 
 //generate a common user display name
@@ -93,3 +94,13 @@ User.methods.changePassword = function (password) {
 }
 
 module.exports = mongoose.model('User', User);
+
+
+// avoid circular referencing
+var Recipes = require(path + '/app/models/recipes.js');
+function removeRecipes (id, next) {
+  // console.log('removing recipes');
+  Recipes.removeAllforUser(id)
+    .then(recipes => next())
+    .catch(err => next(err));
+}

@@ -53,3 +53,4 @@ The following repositories will be used for guidance:
   - ES6 vs CommonJS import/export
   - Promisifying functions for improved/more readble async code
   - Setting up babel for node (mocha is still problematic)
+  - **How to avoid/work around circular references** - see [Mongoose models](./models/)
