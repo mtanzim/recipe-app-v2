@@ -6,18 +6,32 @@ Fullstack application being developed for educational purposes, using the MERN s
 
 ### Objectives
 
-- [ ] Take existing app and improve the back end with knowledge acquired over the past projects
-- [ ] The following changes are planned:
-  - [ ] Updated routing strategies
-  - [ ] Use of es6 code/transpiling with babel
-  - [ ] Unit testing with Mocha
-  - [ ] Improvements to async code with async/await functions in conjunction with promises
-  - [ ] General code cleanup following best practices
-  - [ ] Solidify understanding of Mongo/Mongoose
-  - [ ] Mocking relations with Mongoose Populate
-  - [ ] Usage of MySQL database in conjunction with Mongo
-  - [ ] Integration of Redis for sessions storage
-  - [ ] Authentication with JWT
+Take existing app and improve the app with knowledge acquired over the past projects.
+
+### Overall
+
+- [ ] Implement a friend's list feature
+- [ ] Implement a live chat, exercising socket IO
+
+### Front End
+
+- [ ] Take existing app and improve the front end with knowledge acquired over the past projects
+- [ ] Implement state managment through redux (possibly study redux in greater detail through Lynda.com)
+- [ ] Clean up React code; learn and apply lifecycle mangaement hooks
+- [ ] Convert to an app using React Native
+ 
+### Back end
+
+- [x] Updated routing strategies
+- [x] Use of es6 code/transpiling with babel
+- [x] Unit testing with Mocha
+- [ ] Improvements to async code with async/await functions in conjunction with promises
+- [x] General code cleanup following best practices
+- [x] Improve understanding of Mongo/Mongoose
+- [x] Mocking relations with Mongoose Populate
+- [ ] Usage of MySQL database in conjunction with Mongo
+- [ ] Integration of Redis for sessions storage
+- [ ] Authentication with JWT
 
 The original app can be found here:
 
