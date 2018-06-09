@@ -1,4 +1,4 @@
-const Users = require('../models/users');
+const Users = require('../../models/mongoose/users');
 
 // note that .then() on promises already exectuces the exec()
 // http://mongoosejs.com/docs/api.html#query_Query-then

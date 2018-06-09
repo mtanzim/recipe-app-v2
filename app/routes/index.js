@@ -2,11 +2,10 @@
 // http://mongoosejs.com/docs/api.html#query_Query-then
 
 import express from 'express';
-import Users  from '../models/users.js';
-import userRoutes  from './user.routes';
-import authRoutes from './auth.routes';
-import recipeRoutes from './recipes.routes';
-import ingRoutes from './ingredients.routes';
+import userRoutes  from './mongoose/user.routes';
+import authRoutes from './mongoose/auth.routes';
+import recipeRoutes from './mongoose/recipes.routes';
+import ingRoutes from './mongoose/ingredients.routes';
 
 module.exports = function (passport) {
 

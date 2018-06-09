@@ -1,5 +1,5 @@
 import express from 'express';
-import { listUsers, createUser, deleteUser, updateUser, getOneUser } from "../controllers/user.controller";
+import { listUsers, createUser, deleteUser, updateUser, getOneUser } from "../../controllers/mongoose/user.controller";
 
 const router = express.Router();
 

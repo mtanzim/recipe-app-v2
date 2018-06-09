@@ -1,8 +1,8 @@
 const LocalStrategy = require('passport-local').Strategy;
-const createLocUserForAuth = require('../controllers/user.controller').createUser;
-const findUserByEmail = require('../controllers/user.controller').getOneUserByEmailForAuth;
+const createLocUserForAuth = require('../controllers/mongoose/user.controller').createUser;
+const findUserByEmail = require('../controllers/mongoose/user.controller').getOneUserByEmailForAuth;
 
-const User = require('../models/users');
+const User = require('../models/mongoose/users');
 
 module.exports = function (passport) {
 

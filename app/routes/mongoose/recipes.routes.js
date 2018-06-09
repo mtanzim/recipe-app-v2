@@ -7,7 +7,7 @@ import {
   deleteAllRecipesForUser,
   deleteOneRecipe,
   updateOneRecipe
-} from "../controllers/recipes.controller";
+} from "../../controllers/mongoose/recipes.controller";
 
 const router = express.Router();
 const recipeError = new Error('No recipes found!');

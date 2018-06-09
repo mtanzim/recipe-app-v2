@@ -7,7 +7,7 @@ import {
   getOneIng,
   updateOneIng,
   deleteOneIng,
-} from "../controllers/ingredients.controller";
+} from "../../controllers/mongoose/ingredients.controller";
 
 const router = express.Router();
 

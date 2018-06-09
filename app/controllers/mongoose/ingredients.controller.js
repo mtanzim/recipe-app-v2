@@ -1,5 +1,5 @@
 // const Users = require('../models/users');
-const Ingredients = require('../models/ingredients');
+const Ingredients = require('../../models/mongoose/ingredients');
 
 const recipeFieldsSelect = 'title';
 

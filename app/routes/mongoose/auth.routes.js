@@ -1,6 +1,6 @@
 import express from 'express';
 // import passport from 'passport';
-import { deleteUser, updateUserForAuth } from "../controllers/user.controller";
+import { deleteUser, updateUserForAuth } from "../../controllers/mongoose/user.controller";
 
 
 module.exports = function (passport) {

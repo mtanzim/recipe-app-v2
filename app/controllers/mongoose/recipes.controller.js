@@ -1,5 +1,5 @@
 // const Users = require('../models/users');
-const Recipes = require('../models/recipes');
+const Recipes = require('../../models/mongoose/recipes');
 
 const userFieldsSelect = 'local.username';
 

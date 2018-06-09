@@ -97,7 +97,7 @@ module.exports = mongoose.model('User', User);
 
 
 // avoid circular referencing
-var Recipes = require(path + '/app/models/recipes.js');
+var Recipes = require('./recipes.js');
 function removeRecipes (id, next) {
   // console.log('removing recipes');
   Recipes.removeAllforUser(id)
