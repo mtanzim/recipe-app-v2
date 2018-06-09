@@ -10,6 +10,21 @@ const util = require('util');
 const morgan = require('morgan');
 const config = require('../app/config');
 
+//connect to SQL
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize(config.mysql.options);
+sequelize.authenticate()
+  .then(() => {
+    util.log('Successfully connected to mysql');
+  })
+  .catch((err) => {
+    util.log(err);
+    process.exit;
+  });
+// save mysql client to config for app usage
+config.mysql.client = sequelize;
+
+
 // connect to mongoose
 let mongoUri = undefined;
 if (process.env.NODE_ENV === 'production') mongoUri = process.env.MONGO_URI;

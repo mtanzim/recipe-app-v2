@@ -44,11 +44,13 @@
     "express-session": "^1.11.3",
     "lodash": "^4.17.10",
     "mongoose": "^4.1.0",
+    "mysql2": "^1.5.3",
     "passport": "^0.3.0",
     "passport-facebook": "^2.1.1",
     "passport-github": "^1.0.0",
     "passport-local": "^1.0.0",
     "react-scroll-to-component": "^1.0.2",
+    "sequelize": "^4.37.10",
     "serve-favicon": "^2.5.0",
     "validator": "^10.2.0"
   },

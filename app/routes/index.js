@@ -7,16 +7,29 @@ import authRoutes from './mongoose/auth.routes';
 import recipeRoutes from './mongoose/recipes.routes';
 import ingRoutes from './mongoose/ingredients.routes';
 
-module.exports = function (passport) {
+import userSqlRoutes from './sequelize/user.routes';
+
+
+module.exports = function (passport, sqlClient, dbType) {
 
   const router = express.Router();
+
+  if (dbType === 'mongo') {
+    router
+      .get('/health-check', (req, res, next) => res.send('OK!'))
+      .use('/users', userRoutes)
+      .use('/recipes', recipeRoutes)
+      .use('/ing', ingRoutes)
+      .use('/auth', authRoutes(passport));
+  } else if ( dbType === 'sql') {
+    router
+      .get('/health-check', (req, res, next) => res.send('OK!'))
+      .use('/users', userSqlRoutes(sqlClient));
+  } else {
+    throw new Error("Please specify valid database type!");
+  }
   
-  router
-    .get('/health-check', (req, res, next) => res.send('OK!'))
-    .use('/users', userRoutes)
-    .use('/recipes', recipeRoutes)
-    .use('/ing', ingRoutes)
-    .use('/auth', authRoutes(passport) );
+
 
   return router;
 }

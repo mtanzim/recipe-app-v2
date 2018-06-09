@@ -8,19 +8,12 @@ Fullstack application being developed for educational purposes, using the MERN s
 
 Take existing app and improve the app with knowledge acquired over the past projects.
 
-### Overall
+### Overall Improvements
 
 - [ ] Implement a friend's list feature
 - [ ] Implement a live chat, exercising socket IO
 
-### Front End
-
-- [ ] Take existing app and improve the front end with knowledge acquired over the past projects
-- [ ] Implement state managment through redux (possibly study redux in greater detail through Lynda.com)
-- [ ] Clean up React code; learn and apply lifecycle mangaement hooks
-- [ ] Convert to an app using React Native
- 
-### Back end
+### Back end Improvements
 
 - [x] Updated routing strategies
 - [x] Use of es6 code/transpiling with babel
@@ -32,6 +25,15 @@ Take existing app and improve the app with knowledge acquired over the past proj
 - [ ] Usage of MySQL database in conjunction with Mongo
 - [ ] Integration of Redis for sessions storage
 - [ ] Authentication with JWT
+
+### Front End Improvements
+
+- [ ] Take existing app and improve the front end with knowledge acquired over the past projects
+- [ ] Implement state managment through redux (possibly study redux in greater detail through Lynda.com)
+- [ ] Clean up React code; learn and apply lifecycle mangaement hooks
+- [ ] Convert to an app using React Native
+ 
+
 
 The original app can be found here:
 

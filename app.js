@@ -41,7 +41,14 @@ module.exports = (config) => {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.use('/api', routes(passport));
+  app.use('/api', routes(passport, null,'mongo'));
+
+  // the following condition will allow mocha to work for now
+  if (config.mysql.client){
+    app.use('/apisql', routes(passport, config.mysql.client, 'sql'));
+  }
+  
+  // app.use('/apitest', routes(passport, 'test'));
 
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
