@@ -21,7 +21,7 @@ const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
 
 
 module.exports = function runUserApiTests(defUser) {
-  let userId = null;
+  let userId = undefined;
 
   it("GETS health check", function (done) {
     request(app)

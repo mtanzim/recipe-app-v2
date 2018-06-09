@@ -26,6 +26,22 @@ Ingredients.pre('save', function (next) {
   confirmRecipe(this._recipe, next);
 });
 
+Ingredients.statics.removeAllforRecipe = function (recipeId) {
+  return this
+    .find({ '_recipe': recipeId })
+    .sort({ 'createdAt': -1 })
+    .select('_recipe')
+    .then((docs) => {
+      // console.log('REMOVING!')
+      // console.log(docs);
+      return Promise.all(docs.map(doc => {
+        // console.log('REMOVING!')
+        // console.log(doc);
+        return doc.remove();
+      }));
+    });
+}
+
 module.exports = mongoose.model('Ingredients', Ingredients);
 
 var Recipes = require('./recipes');

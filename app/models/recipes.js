@@ -50,6 +50,8 @@ Recipes.pre('save', function (next) {
 });
 
 Recipes.pre('remove', function (next) {
+
+  removeAllingredients(this._id, next);
   // console.log('Deleting User');
   // console.log('Deleting all ingredients for Recipe');
   next();
@@ -72,4 +74,10 @@ function confirmUser (userid, next) {
     .catch(err => next(err))
 }
 
-
+var Ingredients = require('./ingredients');
+function removeAllingredients(recipeId, next) {
+  Ingredients.removeAllforRecipe(recipeId)
+    .then(ing => next())
+    .catch(err => next(err));
+   
+ };

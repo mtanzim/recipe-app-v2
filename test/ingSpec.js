@@ -26,6 +26,7 @@ const testReadIngAll = ingTesterModule.readAll;
 const testUpdateIng = ingTesterModule.update;
 const testDeleteIng = ingTesterModule.deleteOne;
 const testDeleteIngForRecipe = ingTesterModule.deleteAll;
+const testIngDanglers = ingTesterModule.testDanglers;
 
 
 // Test Plan
@@ -39,6 +40,7 @@ const testDeleteIngForRecipe = ingTesterModule.deleteAll;
 // 3f. Create duplicate ingredients
 // 3g. Delete all Ingredients
 // 6. Create duplicate recipe - x
+// 6b. Test dangling ingredients - x
 // 8. Delete all Recipes - x
 // 9. Delete User - x
 
@@ -139,20 +141,44 @@ module.exports = function runIngApiTests(defUser, defRecipe, defIng) {
       .then(() => done())
       .catch(err => done(err));
   });
-  it("Delete all ingredient for recipe that was created", function (done) {
-    testDeleteIngForRecipe(recipeId)
+  it("Delete all ingredient for recipe that was created to prep for batch delete", function (done) {
+    testDeleteIngForRecipe(recipeId, 2)
       .then(() => {
         ingId = undefined;
         done();
       })
       .catch(err => done(err));
   });
-
+  it("Create duplicate ingredient again for recipe that was created to prep for batch delete again", function (done) {
+    testCreateIng(recipeId, defIng)
+      .then((id) => {
+        ingId = id;
+        done();
+      })
+      .catch(err => done(err));
+  });
+  it("Create duplicate ingredient again for recipe that was created", function (done) {
+    testCreateIng(recipeId, defIng)
+      .then((id) => {
+        ingId = id;
+        done();
+      })
+      .catch(err => done(err));
+  });
 
   it("Delete Recipe that was created", function (done) {
     testDeleteRecipe(recipeId)
       .then(() => {
+        // ingId =undefined;
         recipeId = undefined;
+        done();
+      })
+      .catch(err => done(err));
+  });
+
+  it("Test ingredient was deleted with recipe", function (done) {
+    testIngDanglers(ingId)
+      .then((res) => {
         done();
       })
       .catch(err => done(err));

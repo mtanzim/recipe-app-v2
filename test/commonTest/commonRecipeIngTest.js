@@ -93,21 +93,36 @@ module.exports = (url, picks) => {
 
 
   // deleteAllRecipesForUser
-  tester.deleteAll = function (userId) {
+  tester.deleteAll = function (id, expectedLen) {
     return new Promise((resolve, reject) => {
       request(app)
-        .delete(`/api/${url}//${userId}`)
+        .delete(`/api/${url}//${id}`)
         // .send(recipeBody)
         .expect(200)
         .end(function (err, res) {
           if (err) return reject(new Error(res.text));
           let response = (JSON.parse(res.text));
           // let updatedRecipe = _.pick(response, ['notes']);
-          expect(response.length).to.equal(2);
+          expect(response.length).to.equal(expectedLen);
           return resolve();
         });
     });
   };
+
+  tester.testDanglers = function (id) {
+
+    return new Promise((resolve, reject) => {
+      request(app)
+        .get(`/api/${url}//${id}`)
+        // .send(recipeBody)
+        .expect(500)
+        .end(function (err, res) {
+          if (err) return reject(err);
+          return resolve(res.text);
+        });
+    });
+    
+  }
 
   return tester;
 

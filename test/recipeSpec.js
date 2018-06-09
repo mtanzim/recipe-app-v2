@@ -17,7 +17,7 @@ const testReadRecipe = recipeTesterModule.read;
 const testUpdateRecipe = recipeTesterModule.update;
 const testDeleteRecipe = recipeTesterModule.deleteOne;
 const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
-
+const testRecipeDanglers = recipeTesterModule.testDanglers;
 
 // Test Plan
 // 1. Create User - x
@@ -28,6 +28,7 @@ const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
 // 6. Create duplicate recipe - x
 // 8. Delete all Recipes - x
 // 9. Delete User - x
+// 10. Test dangling recipes - x
 
 module.exports = function runRecipeApiTests(defUser, defRecipe) {
   let userId = undefined;
@@ -112,7 +113,7 @@ module.exports = function runRecipeApiTests(defUser, defRecipe) {
       .catch(err => done(err));
   });
   it("Delete Recipes for the User that was created", function (done) {
-    testDeleteRecipeForUser(userId)
+    testDeleteRecipeForUser(userId, 2)
       .then(() => {
         // userId = undefined;
         recipeId = undefined;
@@ -121,9 +122,37 @@ module.exports = function runRecipeApiTests(defUser, defRecipe) {
       .catch(err => done(err));
 
   });
+  it("CREATE duplicate recipe for User that was created for batch delete with User", function (done) {
+
+    testCreateRecipe(userId, defRecipe)
+      .then((recipeid) => {
+        recipeId = recipeid;
+        // console.log(recipeId);
+        done();
+      })
+      .catch(err => done(err));
+  });
+  it("CREATE duplicate recipe again for User that was created for batch delete with User", function (done) {
+
+    testCreateRecipe(userId, defRecipe)
+      .then((recipeid) => {
+        recipeId = recipeid;
+        // console.log(recipeId);
+        done();
+      })
+      .catch(err => done(err));
+  });
   it("DELETE One User for Recipe", function (done) {
     testDeleteUser(userId)
       .then(() => done())
+      .catch(err => done(err));
+  });
+  it("Test recipe was deleted with user", function (done) {
+    testRecipeDanglers(recipeId)
+      .then((res) => {
+        // console.log(res);
+        done();
+      })
       .catch(err => done(err));
   });
 };

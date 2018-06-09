@@ -238,7 +238,7 @@ testCreateRecipe(userId, defRecipe).then(function (recipeid) {
 Delete Recipes for the User that was created.
 
 ```js
-testDeleteRecipeForUser(userId).then(function () {
+testDeleteRecipeForUser(userId, 2).then(function () {
   // userId = undefined;
   recipeId = undefined;
   done();
@@ -247,11 +247,46 @@ testDeleteRecipeForUser(userId).then(function () {
 });
 ```
 
+CREATE duplicate recipe for User that was created for batch delete with User.
+
+```js
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+      recipeId = recipeid;
+      // console.log(recipeId);
+      done();
+    }).catch(function (err) {
+      return done(err);
+    });
+```
+
+CREATE duplicate recipe again for User that was created for batch delete with User.
+
+```js
+testCreateRecipe(userId, defRecipe).then(function (recipeid) {
+      recipeId = recipeid;
+      // console.log(recipeId);
+      done();
+    }).catch(function (err) {
+      return done(err);
+    });
+```
+
 DELETE One User for Recipe.
 
 ```js
 testDeleteUser(userId).then(function () {
   return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Test recipe was deleted with user.
+
+```js
+testRecipeDanglers(recipeId).then(function (res) {
+  // console.log(res);
+  done();
 }).catch(function (err) {
   return done(err);
 });
@@ -385,11 +420,33 @@ testReadIngAll(recipeId, 2).then(function () {
 });
 ```
 
-Delete all ingredient for recipe that was created.
+Delete all ingredient for recipe that was created to prep for batch delete.
 
 ```js
-testDeleteIngForRecipe(recipeId).then(function () {
+testDeleteIngForRecipe(recipeId, 2).then(function () {
   ingId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create duplicate ingredient again for recipe that was created to prep for batch delete again.
+
+```js
+testCreateIng(recipeId, defIng).then(function (id) {
+  ingId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Create duplicate ingredient again for recipe that was created.
+
+```js
+testCreateIng(recipeId, defIng).then(function (id) {
+  ingId = id;
   done();
 }).catch(function (err) {
   return done(err);
@@ -400,7 +457,18 @@ Delete Recipe that was created.
 
 ```js
 testDeleteRecipe(recipeId).then(function () {
+  // ingId =undefined;
   recipeId = undefined;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+Test ingredient was deleted with recipe.
+
+```js
+testIngDanglers(ingId).then(function (res) {
   done();
 }).catch(function (err) {
   return done(err);
