@@ -8,6 +8,7 @@ import recipeRoutes from './mongoose/recipes.routes';
 import ingRoutes from './mongoose/ingredients.routes';
 
 import userSqlRoutes from './sequelize/user.routes';
+import reccipeIngRoutes from './sequelize/user.ingredients.routes';
 
 
 module.exports = function (passport, sqlClient, dbType) {
@@ -24,7 +25,10 @@ module.exports = function (passport, sqlClient, dbType) {
   } else if ( dbType === 'sql') {
     router
       .get('/health-check', (req, res, next) => res.send('OK!'))
-      .use('/users', userSqlRoutes(sqlClient));
+      .use('/users', userSqlRoutes(sqlClient))
+      .use('/recipes', reccipeIngRoutes(sqlClient,0))
+      .use('/ingredients', reccipeIngRoutes(sqlClient, 1));
+
   } else {
     throw new Error("Please specify valid database type!");
   }
