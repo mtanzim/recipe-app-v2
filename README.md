@@ -22,7 +22,7 @@ Take existing app and improve the app with knowledge acquired over the past proj
 - [x] General code cleanup following best practices
 - [x] Improve understanding of Mongo/Mongoose
 - [x] Mocking relations with Mongoose Populate
-- [ ] Usage of MySQL database in conjunction with Mongo
+- [x] Usage of MySQL database in conjunction with Mongo
 - [ ] Integration of Redis for sessions storage
 - [ ] Authentication with JWT
 
@@ -48,6 +48,11 @@ The following repositories will be used for guidance:
 
 ### Lessons Learned
 
+- SQL/Sequelize
+  - Creating models (data types, primary keys, foreign keys, associations)
+  - CRUD operations through ORM (queries, attribute selection)
+  - Hooks and custom methods (password hashing)
+  - Promise based operations
 - Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks
@@ -65,8 +70,10 @@ The following repositories will be used for guidance:
   - Looping tests in mocha
   - Setting up logging, creating documents
   - Creating re-usable modules in describe, it blocks
+- Postman Testing
 - JS/ES6
   - ES6 vs CommonJS import/export
   - Promisifying functions for improved/more readble async code
   - Setting up babel for node (mocha is still problematic)
-  - **How to avoid/work around circular references** - see [Mongoose models](./app/models/)
+  - **How to avoid/work around circular references** - see [Mongoose models](./app/models/mongoose/)
+  - Chaining promieses and passing errors to the right place see [Sequelize controllers](./app/controllers/sequelize/)
