@@ -4,10 +4,6 @@
 
 Fullstack application being developed for educational purposes, using the MERN stack.
 
-### Objectives
-
-Take existing app and improve the app with knowledge acquired over the past projects.
-
 The original app can be found here:
 
 - <https://github.com/mtanzim/recipeAppMERN>
@@ -18,6 +14,10 @@ The following repositories will be used for guidance:
 - <https://github.com/mtanzim/databasesForNode>
 - <https://github.com/mtanzim/nodeJSExpressEssentials>
 - <https://github.com/mtanzim/nodeJSEssentialTraining>
+
+### Objectives
+
+Take existing app and improve the app with knowledge acquired over the past projects.
 
 ### Overall Improvements
 
