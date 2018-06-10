@@ -8,6 +8,17 @@ Fullstack application being developed for educational purposes, using the MERN s
 
 Take existing app and improve the app with knowledge acquired over the past projects.
 
+The original app can be found here:
+
+- <https://github.com/mtanzim/recipeAppMERN>
+
+The following repositories will be used for guidance:
+
+- <https://github.com/mtanzim/fcchn-blog-backend>
+- <https://github.com/mtanzim/databasesForNode>
+- <https://github.com/mtanzim/nodeJSExpressEssentials>
+- <https://github.com/mtanzim/nodeJSEssentialTraining>
+
 ### Overall Improvements
 
 - [ ] Implement a friend's list feature
@@ -32,19 +43,6 @@ Take existing app and improve the app with knowledge acquired over the past proj
 - [ ] Implement state managment through redux (possibly study redux in greater detail through Lynda.com)
 - [ ] Clean up React code; learn and apply lifecycle mangaement hooks
 - [ ] Convert to an app using React Native
- 
-
-
-The original app can be found here:
-
-- <https://github.com/mtanzim/recipeAppMERN>
-
-The following repositories will be used for guidance:
-
-- <https://github.com/mtanzim/fcchn-blog-backend>
-- <https://github.com/mtanzim/databasesForNode>
-- <https://github.com/mtanzim/nodeJSExpressEssentials>
-- <https://github.com/mtanzim/nodeJSEssentialTraining>
 
 ### Lessons Learned
 
