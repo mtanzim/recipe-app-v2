@@ -6,685 +6,881 @@
 	},
 	"item": [
 		{
-			"name": "users",
+			"name": "mongooseRoutes",
 			"description": "",
 			"item": [
 				{
-					"name": "getUsers",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "localhost:8081/api/users",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "postUser",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"local\": {\r\n    \"username\":\"testUser\",\r\n    \"email\": \"test123@test.com\",\r\n    \"password\": \"test\"\r\n  }\r\n}"
+					"name": "users",
+					"description": "",
+					"item": [
+						{
+							"name": "getUsers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/api/users",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/users",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteUser",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "localhost:8081/api/users/5b1a6b367af3973d047343ac",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"users",
-								"5b1a6b367af3973d047343ac"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateUser",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"local\": {\r\n    \"email\":\"shoogdla@roogla3.com\",\r\n    \"username\":\"hel12112lo\",\r\n    \"mooga\":\"roddoga\"\r\n  }\r\n}"
+						{
+							"name": "postUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"username\":\"testUser\",\r\n    \"email\": \"test123@test.com\",\r\n    \"password\": \"test\"\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/users",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/users/5b140af94bc7cc2cdcd16e9b",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"users",
-								"5b140af94bc7cc2cdcd16e9b"
-							]
+						{
+							"name": "deleteUser",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/api/users/5b1b405ea51da61134bd5727",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"users",
+										"5b1b405ea51da61134bd5727"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateUser",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"local\": {\r\n    \"email\":\"shoogdla@roogla3.com\",\r\n    \"username\":\"hel12112lo\",\r\n    \"mooga\":\"roddoga\"\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/users/5b140af94bc7cc2cdcd16e9b",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"users",
+										"5b140af94bc7cc2cdcd16e9b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getUsersOne",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/api/users/5b1273775f44862e30fcdcf9",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"users",
+										"5b1273775f44862e30fcdcf9"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				},
 				{
-					"name": "getUsersOne",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {},
-						"url": {
-							"raw": "localhost:8081/api/users/5b1273775f44862e30fcdcf9",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"users",
-								"5b1273775f44862e30fcdcf9"
-							]
+					"name": "auth",
+					"description": null,
+					"item": [
+						{
+							"name": "signup",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "withCredentials",
+										"value": "true"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"passportaa\",\r\n    \"email\": \"passpdort@test.com\",\r\n    \"password\": \"ddccffssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssadasdadadasdasd\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/auth/signup",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"auth",
+										"signup"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "withCredentials",
+										"value": "true"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"p2ass234port45@test.com\",\r\n    \"password\": \"test\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/auth/login",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "changepass",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "withCredentials",
+										"value": "true"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"password\": \"xcvxvxcv\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/auth/changepass/5b1273775f44862e30fcdcf9",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"auth",
+										"changepass",
+										"5b1273775f44862e30fcdcf9"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "ing",
+					"description": null,
+					"item": [
+						{
+							"name": "createIng",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"5b1a69c8a6d8103cb8d6ab28"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getIngHealth",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/health",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"health"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getIngAll",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getIngByRecipe",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"5b1a69c8a6d8103cb8d6ab28"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getIngForRecipeSingle",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/single/5b1a6ee9a1d91737208a0978",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"single",
+										"5b1a6ee9a1d91737208a0978"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delIngByRecipe",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"5b1a69c8a6d8103cb8d6ab28"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateIng",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/single/5b1a6ee9a1d91737208a0979",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"single",
+										"5b1a6ee9a1d91737208a0979"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteIng",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/ing/single/5b1a6eeaa1d91737208a097a",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"ing",
+										"single",
+										"5b1a6eeaa1d91737208a097a"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "recipes",
+					"description": null,
+					"item": [
+						{
+							"name": "postRecipe",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi 5\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/5b1a69baa6d8103cb8d6ab27",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"5b1a69baa6d8103cb8d6ab27"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getRecipes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getRecipesForUser",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"5b14d0b192bfea3468624f8b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getRecipesForUserSingle",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/single/5b1a69c8a6d8103cb8d6ab28",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"single",
+										"5b1a69c8a6d8103cb8d6ab28"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateSingleRecipe",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Pho Ga\",\r\n  \"notes\":\"Ga means chicken yaaaaaaaaaS!!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/single/5b1672c22a6fd80a286a7d49",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"single",
+										"5b1672c22a6fd80a286a7d49"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteRecipesForUser",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"5b14d0b192bfea3468624f8b"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteRecipeSingle",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/api/recipes/single/5b1a5084668c5410d0f5f9d1",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"api",
+										"recipes",
+										"single",
+										"5b1a5084668c5410d0f5f9d1"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		},
 		{
-			"name": "auth",
-			"description": null,
+			"name": "sqlRoutes",
+			"description": "",
 			"item": [
 				{
-					"name": "signup",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
+					"name": "users",
+					"description": null,
+					"item": [
+						{
+							"name": "createUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/users/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										""
+									]
+								}
 							},
-							{
-								"key": "withCredentials",
-								"value": "true"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"passportaa\",\r\n    \"email\": \"passpdort@test.com\",\r\n    \"password\": \"ddccffssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssadasdadadasdasd\"\r\n}"
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/auth/signup",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"auth",
-								"signup"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "login",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
+						{
+							"name": "getUsersHealt",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/apisql/users/health-check",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"health-check"
+									]
+								}
 							},
-							{
-								"key": "withCredentials",
-								"value": "true"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"p2ass234port45@test.com\",\r\n    \"password\": \"test\"\r\n}"
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/auth/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"auth",
-								"login"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "changepass",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
+						{
+							"name": "getUsers",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/apisql/users/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										""
+									]
+								}
 							},
-							{
-								"key": "withCredentials",
-								"value": "true"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"password\": \"xcvxvxcv\"\r\n}"
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/auth/changepass/5b1273775f44862e30fcdcf9",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"auth",
-								"changepass",
-								"5b1273775f44862e30fcdcf9"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "recipes",
-			"description": null,
-			"item": [
-				{
-					"name": "postRecipe",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi 5\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						{
+							"name": "getOneUser",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/apisql/users/9916bc50-6bca-11e8-a887-67b8081ea6bb",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"9916bc50-6bca-11e8-a887-67b8081ea6bb"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"5b14d0b192bfea3468624f8b"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getRecipes",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						{
+							"name": "updateUser",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"adsadzYEEE22222xczxczxc\",\n\t\"password\": \"234234zxczc\"\n\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/users/9916bc50-6bca-11e8-a887-67b8081ea6bb",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"9916bc50-6bca-11e8-a887-67b8081ea6bb"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getRecipesForUser",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
+						{
+							"name": "checkUserPass",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\n\t\"password\": \"234234zxczc\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/users/check-pass/9916bc50-6bca-11e8-a887-67b8081ea6bb",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"check-pass",
+										"9916bc50-6bca-11e8-a887-67b8081ea6bb"
+									]
+								}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/5b14d0b192bfea3468624f8b",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"5b14d0b192bfea3468624f8b"
-							]
+						{
+							"name": "deleteOneUser",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"url": {
+									"raw": "localhost:8081/apisql/users/b3147bb0-6bca-11e8-a887-67b8081ea6bbxx",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"b3147bb0-6bca-11e8-a887-67b8081ea6bbxx"
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "getRecipesForUserSingle",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/single/5b1a69c8a6d8103cb8d6ab28",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"single",
-								"5b1a69c8a6d8103cb8d6ab28"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateSingleRecipe",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Pho Ga\",\r\n  \"notes\":\"Ga means chicken yaaaaaaaaaS!!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/single/5b1672c22a6fd80a286a7d49",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"single",
-								"5b1672c22a6fd80a286a7d49"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteRecipesForUser",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/5b14d8457b4d3533708507de",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"5b14d8457b4d3533708507de"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteRecipeSingle",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/recipes/5b14d8457b4d3533708507de",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"recipes",
-								"5b14d8457b4d3533708507de"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "ing",
-			"description": null,
-			"item": [
-				{
-					"name": "createIng",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"5b1a69c8a6d8103cb8d6ab28"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getIngHealth",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/health",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"health"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getIngAll",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								""
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getIngByRecipe",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"5b1a69c8a6d8103cb8d6ab28"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getIngForRecipeSingle",
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"title\":\"Bahn Mi\",\r\n  \"notes\":\"It's delicious!\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/single/5b1a69c8a6d8103cb8d6ab28",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"single",
-								"5b1a69c8a6d8103cb8d6ab28"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "delIngByRecipe",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n  \"title\":\"Sauce\",\r\n  \"qty\":55,\r\n  \"unit\":\"g\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/5b1a69c8a6d8103cb8d6ab28",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"5b1a69c8a6d8103cb8d6ab28"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "updateIng",
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/single/5b1a6ee9a1d91737208a0979",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"single",
-								"5b1a6ee9a1d91737208a0979"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteIng",
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n\r\n  \"title\":\"Sauceeeeeeeeeyy\",\r\n  \"qty\":45,\r\n  \"unit\":\"g\"\r\n}"
-						},
-						"url": {
-							"raw": "localhost:8081/api/ing/single/5b1a6eeaa1d91737208a097a",
-							"host": [
-								"localhost"
-							],
-							"port": "8081",
-							"path": [
-								"api",
-								"ing",
-								"single",
-								"5b1a6eeaa1d91737208a097a"
-							]
-						}
-					},
-					"response": []
+					],
+					"_postman_isSubFolder": true
 				}
 			]
 		}
