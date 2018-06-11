@@ -88,4 +88,3 @@ Take existing app and improve the app with knowledge acquired over the past proj
     - Key Takeaways
       - When using common JS, use the new keyword with the require
       - ES6 modules allow dynamic loading (further reading required for a better understanding)
-

@@ -2,7 +2,7 @@ module.exports = function (_client, _selector) {
 
   const Models = require('../../models/sequelize');
 
-  console.log(`SELECTOR IN LOADER IS ${_selector}`);
+  // console.log(`SELECTOR IN LOADER IS ${_selector}`);
   
   let DBModel=null;
   let selector = null;
@@ -16,13 +16,13 @@ module.exports = function (_client, _selector) {
     selector = _selector;
 
   function getAll() {
-    console.log(`SELECTOR IS ${selector}`);
-    return DBModel.findAll();
+    // console.log(`SELECTOR IS ${selector}`);
+    return DBModel.findAll({ order: [['createdAt', 'DESC']] });
   };
 
   function create(parentid, data) {
     // let foreignKeyName = "";
-    console.log(`SELECTOR IS ${selector}`);
+    // console.log(`SELECTOR IS ${selector}`);
 
     (selector === 0)
       ? data["UserId"] = parentid

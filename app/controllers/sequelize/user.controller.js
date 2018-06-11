@@ -28,7 +28,7 @@ function create(user) {
 };
 
 function getAll() {
-  return User.findAll();
+  return User.findAll({ order: ['createdAt'] });
 };
 
 function getOne (id) {

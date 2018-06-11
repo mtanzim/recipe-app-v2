@@ -2,8 +2,27 @@ module.exports = (sequelize, DataTypes) => {
 
   // Implement schema here
   const Recipes = sequelize.define('Recipes', {
-    title: DataTypes.STRING,
-    notes: DataTypes.STRING,
+    id: {
+      type: DataTypes.UUID,
+      primaryKey: true,
+      defaultValue: DataTypes.UUIDV4,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [1, 100],
+      },
+    },
+      notes: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        validate: {
+          // notEmpty: true,
+          len: [0, 100],
+        }
+      }
   });
   // relationship
   Recipes.associate = (models) => {
