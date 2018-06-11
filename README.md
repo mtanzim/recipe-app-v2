@@ -75,3 +75,17 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - Setting up babel for node (mocha is still problematic)
   - **How to avoid/work around circular references** - see [Mongoose models](./app/models/mongoose/)
   - Chaining promieses and passing errors to the right place see [Sequelize controllers](./app/controllers/sequelize/)
+  - Using commonJS module manager to avoid creating singleton modules
+    - See the following files:
+      - [app.js](./app.js)
+      - [Recipes/Ingredients Router Index](./app/routes/index.js)
+      - [Recipes/Ingredients Router](./app/routes/sequelize/recipes.ingredients.routes.js)
+      - [Recipes/Ingredients Controller](./app/controllers/sequelize/recipes.ingredients.controller.js)
+    - See the following articles
+      - [Singleton Pattern Wiki](https://en.wikipedia.org/wiki/Singleton_pattern)
+      - [How not to cretae a singleton pattern in NodeJS](https://medium.com/@iaincollins/how-not-to-create-a-singleton-in-node-js-bd7fde5361f5)
+      - [Introduction to JS Modules](https://medium.freecodecamp.org/javascript-modules-a-beginner-s-guide-783f7d7a5fcc)
+    - Key Takeaways
+      - When using common JS, use the new keyword with the require
+      - ES6 modules allow dynamic loading (further reading required for a better understanding)
+

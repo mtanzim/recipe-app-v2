@@ -8,7 +8,7 @@ import recipeRoutes from './mongoose/recipes.routes';
 import ingRoutes from './mongoose/ingredients.routes';
 
 import userSqlRoutes from './sequelize/user.routes';
-import reccipeIngRoutes from './sequelize/user.ingredients.routes';
+import reccipeIngRoutes from './sequelize/recipes.ingredients.routes';
 
 
 module.exports = function (passport, sqlClient, dbType) {

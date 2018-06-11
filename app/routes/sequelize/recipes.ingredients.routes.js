@@ -6,26 +6,16 @@
 // 1 is for ingredients
 module.exports = (sqlClient, selector) => {
 
-  const RecipeController = require('../../controllers/sequelize/recipes.ingredients.controller')(sqlClient, 0);
+  const Controller = new (require('../../controllers/sequelize/recipes.ingredients.controller'))(sqlClient, selector);
+  // const Controller = new ControllerModule(sqlClient, selector);
   // const IngredientController = require('../../controllers/sequelize/recipes.ingredients.controller')(sqlClient, 0);
 
   const express = require('express');
   const router = express.Router();
 
-  let create=null;
-  let getAll = null;
+  const getAll = Controller.getAll;
+  const create = Controller.create;
 
-  // if (selector === 0) {
-    create = RecipeController.create;
-    getAll = RecipeController.getAll;
-  // } else {
-  //    create = IngredientController.create;
-  //    getAll = IngredientController.getAll;
-  // }
-
-  // const getOne = require('../../controllers/sequelize/recipes.ingredients.controller')(sqlClient, selector).getOne;
-  // const update = require('../../controllers/sequelize/recipes.ingredients.controller')(sqlClient, selector).updateOne;
-  // const remove = require('../../controllers/sequelize/recipes.ingredients.controller')(sqlClient, selector).deleteOne;
   const ErrorMessage = new Error ("Item not found!");
 
   router.route('/health-check')
