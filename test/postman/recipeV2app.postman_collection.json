@@ -865,7 +865,7 @@
 								"header": [],
 								"body": {},
 								"url": {
-									"raw": "localhost:8081/apisql/users/b3147bb0-6bca-11e8-a887-67b8081ea6bbxx",
+									"raw": "localhost:8081/apisql/users/bf114ce8-7471-40c8-bb54-ba9cae23abeb",
 									"host": [
 										"localhost"
 									],
@@ -873,7 +873,491 @@
 									"path": [
 										"apisql",
 										"users",
-										"b3147bb0-6bca-11e8-a887-67b8081ea6bbxx"
+										"bf114ce8-7471-40c8-bb54-ba9cae23abeb"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "recipes",
+					"description": "",
+					"item": [
+						{
+							"name": "getRecipeHealthCheck",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/health-check",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"health-check"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createRecipe",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/44d60e2c-1425-47a0-9e2c-6b5afc104f47",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"44d60e2c-1425-47a0-9e2c-6b5afc104f47"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllRecipes",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getOneRecipe",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/single/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"single",
+										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllRecipeForUser",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/44d60e2c-1425-47a0-9e2c-6b5afc104f47",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"44d60e2c-1425-47a0-9e2c-6b5afc104f47"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateOneRecipe",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/single/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"single",
+										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteOneRecipe",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/single/58cd3edf-ac21-4df5-a892-600bfe2e4451",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"single",
+										"58cd3edf-ac21-4df5-a892-600bfe2e4451"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAllRecipeForUser",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/recipes/44d60e2c-1425-47a0-9e2c-6b5afc104f47",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"recipes",
+										"44d60e2c-1425-47a0-9e2c-6b5afc104f47"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "ingredients",
+					"description": "",
+					"item": [
+						{
+							"name": "getIngHealthCheck",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/health-check",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"health-check"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createIng",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"sugar\",\n\t\"unit\":\"tbsp\",\n\t\"qty\": 55\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllIng",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getOneIng",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"single",
+										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getAllIngForRecipe",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateOneIng",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"single",
+										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteOneIng",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"single",
+										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAllIngForRecipe",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"ingredients",
+										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
 									]
 								}
 							},

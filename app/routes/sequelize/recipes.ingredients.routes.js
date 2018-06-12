@@ -14,7 +14,12 @@ module.exports = (sqlClient, selector) => {
   const router = express.Router();
 
   const getAll = Controller.getAll;
+  const getAllForParent = Controller.getAllForParent;
   const create = Controller.create;
+  const deleteAllForParent = Controller.deleteAllForParent;
+  const getOne = Controller.getOne;
+  const updateOne = Controller.updateOne;
+  const deleteOne = Controller.deleteOne;
 
   const ErrorMessage = new Error ("Item not found!");
 
@@ -26,7 +31,7 @@ module.exports = (sqlClient, selector) => {
   router.route('/')
     .get((req, res, next) => {
       getAll()
-        .then(items => items ? res.json(items) : next(ErrorMessage))
+        .then(items => items.length > 0 ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
       });
 
@@ -41,37 +46,36 @@ module.exports = (sqlClient, selector) => {
       })
     // get all recipes for user or ingredient for recipe
     .get((req, res, next) => {
-      getAll(req.params.parentid)
-        .then(items => items ? res.json(items) : next(userErrorMessage))
+      getAllForParent(req.params.parentid)
+        .then(items => items.length > 0  ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
     })
-
     // delete  all recipes for user or ingredient for recipe
-/*     .delete((req, res, next) => {
-      deleteUser(req.params.id)
-        .then(users => users ? res.json(users) : next(userErrorMessage))
+    .delete((req, res, next) => {
+      deleteAllForParent(req.params.parentid)
+        .then(items => items.length > 0 ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
-    }); */
+    });
 
-/*   router.route('/single/:id')
+   router.route('/single/:id')
     // get one recipe or one ingredient
     .get((req, res, next) => {
-      getOneUser(req.params.id)
-        .then(users => users ? res.json(users) : next(userErrorMessage))
+      getOne(req.params.id)
+        .then(items => items ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
     })
     // update one recipe or one ingredient
     .put((req, res, next) => {
-      getOneUser(req.params.id)
-        .then(users => users ? res.json(users) : next(userErrorMessage))
+      updateOne(req.params.id, req.body)
+        .then(items => items ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
     })
     // delete one recipe or one ingredient
     .delete((req, res, next) => {
-      deleteUser(req.params.id)
-        .then(users => users ? res.json(users) : next(userErrorMessage))
+      deleteOne(req.params.id)
+        .then(items => items ? res.json(items) : next(ErrorMessage))
         .catch(err => next(err));
-    }); */
+    });
 
   return router;
 
