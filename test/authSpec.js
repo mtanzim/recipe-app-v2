@@ -15,8 +15,8 @@ config.isTesting = true;
 const app = App(config);
 
 
-const defUser = require('./helpers/defaultUser');
-const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
+// const defUser = require('./helpers/defaultUser');
+const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser;
 
 module.exports = function runAuthApiTests(defUser) {
 

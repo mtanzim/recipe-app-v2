@@ -8,31 +8,31 @@ const testAuthApi = require('./authSpec');
 const testRecipeApi = require('./recipeSpec');
 const testIngApi = require('./ingSpec');
 
-const defUser = require('./helpers/defaultUser');
+const defUser = require('./helpers/defaultUserSql');
 const defRecipe = require('./helpers/defaultRecipe');
 const defIng = require('./helpers/defaultIng');
 
-describe("API Mongoose", function () {
+describe("API SQL", function () {
 
   this.timeout(4000);
-  let apiLoops = 0;
+  let apiLoops = 3;
   // let doLoops = true;
 
-  before(function () {
+/*   before(function () {
     connectMongoose();
   });
-
-  describe("API.user", function () {
-    testUserApi(defUser);
+ */
+  describe("API.user.sql", function () {
+    testUserApi(defUser, "sql");
   });
 
-  describe(`API.user.loop`, function () {
+  describe(`API.user.sql.loop`, function () {
     for (let i = 0; i < apiLoops; i++) {
-      testUserApi(defUser);
+      testUserApi(defUser, "sql");
     }
   });
 
-  describe(`API.auth`, function () {
+/*   describe(`API.auth`, function () {
     testAuthApi(defUser);
   });
 
@@ -57,6 +57,6 @@ describe("API Mongoose", function () {
     for (let i = 0; i < apiLoops; i++) {
       testIngApi(defUser, defRecipe, defIng);
     }
-  });
+  }); */
 
 });

@@ -6,9 +6,9 @@ config.isTesting = true;
 const app = App(config);
 
 // import common functions
-const testCreateUser = require('./commonTest/commonUserTest').createUser;
-const testReadUser = require('./commonTest/commonUserTest').readUser;
-const testDeleteUser = require('./commonTest/commonUserTest').deleteUser;
+const testCreateUser = require('./commonTest/commonUserTest')().createUser;
+const testReadUser = require('./commonTest/commonUserTest')().readUser;
+const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser;
 
 //recipe tester
 const recipeTesterModule = require('./commonTest/commonRecipeIngTest')('recipes', ['notes', 'title']);

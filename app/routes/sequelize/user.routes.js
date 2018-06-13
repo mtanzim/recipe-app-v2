@@ -62,6 +62,11 @@ module.exports = (sqlClient) => {
         .then(users => res.json(users))
         .catch(err => next(err));
     })
+    .put((req, res, next) => {
+      updateUser(req.params.id, req.body)
+        .then(users => res.json(users))
+        .catch(err => next(err));
+    })
     .delete((req, res, next) => {
       deleteUser(req.params.id)
         .then(users => users ? res.json(users) : next(userErrorMessage))

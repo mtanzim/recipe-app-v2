@@ -6,5 +6,7 @@ module.exports = {
     password: 'aWPSAuYNf9VFGFFT',
     database: 'recipeV2',
     dialect: 'mysql',
-    }
+    logging: false,
+  },
+  
 }

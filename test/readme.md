@@ -1,23 +1,26 @@
 # TOC
-   - [API](#api)
-     - [API.user](#api-apiuser)
-     - [API.user.loop](#api-apiuserloop)
-     - [API.auth](#api-apiauth)
-     - [API.auth.loop](#api-apiauthloop)
-     - [API.recipe](#api-apirecipe)
-     - [API.recipe.loop](#api-apirecipeloop)
-     - [API.ingredients](#api-apiingredients)
-     - [API.ingredients.loop](#api-apiingredientsloop)
+   - [API Mongoose](#api-mongoose)
+     - [API.user](#api-mongoose-apiuser)
+     - [API.user.loop](#api-mongoose-apiuserloop)
+     - [API.auth](#api-mongoose-apiauth)
+     - [API.auth.loop](#api-mongoose-apiauthloop)
+     - [API.recipe](#api-mongoose-apirecipe)
+     - [API.recipe.loop](#api-mongoose-apirecipeloop)
+     - [API.ingredients](#api-mongoose-apiingredients)
+     - [API.ingredients.loop](#api-mongoose-apiingredientsloop)
+   - [API SQL](#api-sql)
+     - [API.user.sql](#api-sql-apiusersql)
+     - [API.user.sql.loop](#api-sql-apiusersqlloop)
 <a name=""></a>
  
-<a name="api"></a>
-# API
-<a name="api-apiuser"></a>
+<a name="api-mongoose"></a>
+# API Mongoose
+<a name="api-mongoose-apiuser"></a>
 ## API.user
 GETS health check.
 
 ```js
-request(app).get("/api/health-check").set('Accept', 'application/json').expect(200).end(function (err, res) {
+request(app).get('/' + baseUrl + '/health-check').set('Accept', 'application/json').expect(200).end(function (err, res) {
   if (err) done(new Error(res.text));
   done();
 });
@@ -26,7 +29,7 @@ request(app).get("/api/health-check").set('Accept', 'application/json').expect(2
 GETS All Users.
 
 ```js
-request(app).get("/api/users").expect(200).end(function (err, res) {
+request(app).get('/' + baseUrl + '/users').expect(200).end(function (err, res) {
   if (err) done(new Error(res.text));
   done();
 });
@@ -56,13 +59,19 @@ testReadUser(userId).then(function () {
 UPDATE One User.
 
 ```js
-var emailUpdate = "fromMoch2a@jocha.com";
-request(app).put('/api/users/' + userId).set('Accept', 'application/json').send({ local: { email: emailUpdate } }).expect(200).end(function (err, res) {
-  if (err) done(new Error(res.text));
-  expect(JSON.parse(res.text)._id).to.equal(userId);
-  expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
-  done();
-});
+// console.log(userId);
+    // console.log(userUpdate);
+    request(app).put('/' + baseUrl + '/users/' + userId).set('Accept', 'application/json').send(userUpdate).expect(200).end(function (err, res) {
+      if (err) done(new Error(res.text));
+      if (dbType === "mongo") {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
+      } else {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).email).to.equal(emailUpdate);
+      }
+      done();
+    });
 ```
 
 DELETE One User.
@@ -75,7 +84,7 @@ testDeleteUser(userId).then(function () {
 });
 ```
 
-<a name="api-apiauth"></a>
+<a name="api-mongoose-apiauth"></a>
 ## API.auth
 AUTH health check.
 
@@ -136,7 +145,7 @@ testDeleteUser(userId).then(function () {
 });
 ```
 
-<a name="api-apirecipe"></a>
+<a name="api-mongoose-apirecipe"></a>
 ## API.recipe
 GETS health check.
 
@@ -292,7 +301,7 @@ testRecipeDanglers(recipeId).then(function (res) {
 });
 ```
 
-<a name="api-apiingredients"></a>
+<a name="api-mongoose-apiingredients"></a>
 ## API.ingredients
 GETS health check.
 
@@ -476,6 +485,280 @@ testIngDanglers(ingId).then(function (res) {
 ```
 
 DELETE One User for Recipe.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+<a name="api-sql"></a>
+# API SQL
+<a name="api-sql-apiusersql"></a>
+## API.user.sql
+GETS health check.
+
+```js
+request(app).get('/' + baseUrl + '/health-check').set('Accept', 'application/json').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+GETS All Users.
+
+```js
+request(app).get('/' + baseUrl + '/users').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+CREATE One User.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+UPDATE One User.
+
+```js
+// console.log(userId);
+    // console.log(userUpdate);
+    request(app).put('/' + baseUrl + '/users/' + userId).set('Accept', 'application/json').send(userUpdate).expect(200).end(function (err, res) {
+      if (err) done(new Error(res.text));
+      if (dbType === "mongo") {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
+      } else {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).email).to.equal(emailUpdate);
+      }
+      done();
+    });
+```
+
+DELETE One User.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+<a name="api-sql-apiusersqlloop"></a>
+## API.user.sql.loop
+GETS health check.
+
+```js
+request(app).get('/' + baseUrl + '/health-check').set('Accept', 'application/json').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+GETS All Users.
+
+```js
+request(app).get('/' + baseUrl + '/users').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+CREATE One User.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+UPDATE One User.
+
+```js
+// console.log(userId);
+    // console.log(userUpdate);
+    request(app).put('/' + baseUrl + '/users/' + userId).set('Accept', 'application/json').send(userUpdate).expect(200).end(function (err, res) {
+      if (err) done(new Error(res.text));
+      if (dbType === "mongo") {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
+      } else {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).email).to.equal(emailUpdate);
+      }
+      done();
+    });
+```
+
+DELETE One User.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+GETS health check.
+
+```js
+request(app).get('/' + baseUrl + '/health-check').set('Accept', 'application/json').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+GETS All Users.
+
+```js
+request(app).get('/' + baseUrl + '/users').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+CREATE One User.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+UPDATE One User.
+
+```js
+// console.log(userId);
+    // console.log(userUpdate);
+    request(app).put('/' + baseUrl + '/users/' + userId).set('Accept', 'application/json').send(userUpdate).expect(200).end(function (err, res) {
+      if (err) done(new Error(res.text));
+      if (dbType === "mongo") {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
+      } else {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).email).to.equal(emailUpdate);
+      }
+      done();
+    });
+```
+
+DELETE One User.
+
+```js
+testDeleteUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+GETS health check.
+
+```js
+request(app).get('/' + baseUrl + '/health-check').set('Accept', 'application/json').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+GETS All Users.
+
+```js
+request(app).get('/' + baseUrl + '/users').expect(200).end(function (err, res) {
+  if (err) done(new Error(res.text));
+  done();
+});
+```
+
+CREATE One User.
+
+```js
+testCreateUser(defUser).then(function (id) {
+  userId = id;
+  done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+READ One User.
+
+```js
+testReadUser(userId).then(function () {
+  return done();
+}).catch(function (err) {
+  return done(err);
+});
+```
+
+UPDATE One User.
+
+```js
+// console.log(userId);
+    // console.log(userUpdate);
+    request(app).put('/' + baseUrl + '/users/' + userId).set('Accept', 'application/json').send(userUpdate).expect(200).end(function (err, res) {
+      if (err) done(new Error(res.text));
+      if (dbType === "mongo") {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).local.email).to.equal(emailUpdate);
+      } else {
+        expect(JSON.parse(res.text)._id).to.equal(userId);
+        expect(JSON.parse(res.text).email).to.equal(emailUpdate);
+      }
+      done();
+    });
+```
+
+DELETE One User.
 
 ```js
 testDeleteUser(userId).then(function () {
