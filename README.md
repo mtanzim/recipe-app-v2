@@ -52,6 +52,7 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - Hooks and custom methods (password hashing)
   - Promise based operations
   - [Creating a friend list with an RDB](https://stackoverflow.com/questions/3058281/buddy-list-relational-database-table-design)
+  - Creating a many to many relationship with the [friend list model](./app/models/sequelize/friends.js) 
 - Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks
