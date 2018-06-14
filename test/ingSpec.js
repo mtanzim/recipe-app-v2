@@ -1,33 +1,4 @@
 const request = require('supertest');
-// set up app
-const App = require('../app');
-let config = require('../app/config/index');
-config.isTesting = true;
-const app = App(config);
-
-// import common functions
-const testCreateUser = require('./commonTest/commonUserTest')().createUser;
-const testReadUser = require('./commonTest/commonUserTest')().readUser;
-const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser;
-
-//recipe tester
-const recipeTesterModule = require('./commonTest/commonRecipeIngTest')('recipes', ['notes', 'title']);
-const testCreateRecipe = recipeTesterModule.create;
-const testReadRecipe = recipeTesterModule.read;
-const testUpdateRecipe = recipeTesterModule.update;
-const testDeleteRecipe = recipeTesterModule.deleteOne;
-const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
-
-// ingredients tester
-const ingTesterModule = require('./commonTest/commonRecipeIngTest')('ing', ['title', 'unit', 'qty']);
-const testCreateIng = ingTesterModule.create;
-const testReadIng = ingTesterModule.read;
-const testReadIngAll = ingTesterModule.readAll;
-const testUpdateIng = ingTesterModule.update;
-const testDeleteIng = ingTesterModule.deleteOne;
-const testDeleteIngForRecipe = ingTesterModule.deleteAll;
-const testIngDanglers = ingTesterModule.testDanglers;
-
 
 // Test Plan
 // 1. Create User - x
@@ -44,7 +15,32 @@ const testIngDanglers = ingTesterModule.testDanglers;
 // 8. Delete all Recipes - x
 // 9. Delete User - x
 
-module.exports = function runIngApiTests(defUser, defRecipe, defIng) {
+module.exports = function runIngApiTests(app, defUser, defRecipe, defIng, baseUrl='api') {
+
+  // import common functions
+  const testCreateUser = require('./commonTest/commonUserTest')(app, baseUrl).createUser;
+  const testReadUser = require('./commonTest/commonUserTest')(app, baseUrl).readUser;
+  const testDeleteUser = require('./commonTest/commonUserTest')(app, baseUrl).deleteUser;
+
+  //recipe tester
+  const recipeTesterModule = require('./commonTest/commonRecipeIngTest')(app, 'recipes', ['notes', 'title'], baseUrl);
+  const testCreateRecipe = recipeTesterModule.create;
+  const testReadRecipe = recipeTesterModule.read;
+  // const testUpdateRecipe = recipeTesterModule.update;
+  const testDeleteRecipe = recipeTesterModule.deleteOne;
+  // const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
+
+  // ingredients tester
+  const ingTesterModule = require('./commonTest/commonRecipeIngTest')(app,'ing', ['title', 'unit', 'qty'], baseUrl);
+  const testCreateIng = ingTesterModule.create;
+  const testReadIng = ingTesterModule.read;
+  const testReadIngAll = ingTesterModule.readAll;
+  const testUpdateIng = ingTesterModule.update;
+  const testDeleteIng = ingTesterModule.deleteOne;
+  const testDeleteIngForRecipe = ingTesterModule.deleteAll;
+  const testIngDanglers = ingTesterModule.testDanglers;
+
+  
   let userId = undefined;
   let recipeId = undefined;
   let ingId = undefined;

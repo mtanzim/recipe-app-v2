@@ -1,24 +1,4 @@
 const request = require('supertest');
-// set up app
-const App = require('../app');
-let config = require('../app/config/index');
-config.isTesting = true;
-const app = App(config);
-
-// import common functions
-const testCreateUser = require('./commonTest/commonUserTest')().createUser;
-const testReadUser = require('./commonTest/commonUserTest')().readUser;
-const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser;
-
-const recipeTesterModule = require('./commonTest/commonRecipeIngTest')('recipes', ['notes', 'title']);
-
-const testCreateRecipe = recipeTesterModule.create;
-const testReadRecipe = recipeTesterModule.read;
-const testUpdateRecipe = recipeTesterModule.update;
-const testDeleteRecipe = recipeTesterModule.deleteOne;
-const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
-const testRecipeDanglers = recipeTesterModule.testDanglers;
-
 // Test Plan
 // 1. Create User - x
 // 2. Create Recipe - x
@@ -30,20 +10,24 @@ const testRecipeDanglers = recipeTesterModule.testDanglers;
 // 9. Delete User - x
 // 10. Test dangling recipes - x
 
-module.exports = function runRecipeApiTests(defUser, defRecipe) {
+module.exports = function runRecipeApiTests(app, defUser, defRecipe, baseUrl='api') {
+
+  // import common functions
+  const testCreateUser = require('./commonTest/commonUserTest')(app,baseUrl).createUser;
+  const testReadUser = require('./commonTest/commonUserTest')(app,baseUrl).readUser;
+  const testDeleteUser = require('./commonTest/commonUserTest')(app,baseUrl).deleteUser;
+
+  const recipeTesterModule = require('./commonTest/commonRecipeIngTest')(app, 'recipes', ['notes', 'title'], baseUrl);
+
+  const testCreateRecipe = recipeTesterModule.create;
+  const testReadRecipe = recipeTesterModule.read;
+  const testUpdateRecipe = recipeTesterModule.update;
+  const testDeleteRecipe = recipeTesterModule.deleteOne;
+  const testDeleteRecipeForUser = recipeTesterModule.deleteAll;
+  const testRecipeDanglers = recipeTesterModule.testDanglers;
+
   let userId = undefined;
   let recipeId = undefined;
-
-  it("GETS health check", function (done) {
-    request(app)
-      .get("/api/health-check")
-      .set('Accept', 'application/json')
-      .expect(200)
-      .end(function (err, res) {
-        if (err) done(new Error(res.text));
-        done();
-      });
-  });
 
   it("CREATE One User for Recipe", function (done) {
     testCreateUser(defUser)

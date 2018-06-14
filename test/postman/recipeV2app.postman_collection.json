@@ -737,7 +737,7 @@
 							"response": []
 						},
 						{
-							"name": "getUsersHealt",
+							"name": "getUsersHealth",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -1143,14 +1143,14 @@
 									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/health-check",
+									"raw": "localhost:8081/apisql/ing/health-check",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"health-check"
 									]
 								}
@@ -1172,14 +1172,14 @@
 									"raw": "{\n\t\"title\":\"sugar\",\n\t\"unit\":\"tbsp\",\n\t\"qty\": 55\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"raw": "localhost:8081/apisql/ing/2337f34e-891a-46d9-bf83-49f7b4b701b7",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
 									]
 								}
@@ -1201,14 +1201,14 @@
 									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/",
+									"raw": "localhost:8081/apisql/ing/",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										""
 									]
 								}
@@ -1230,16 +1230,16 @@
 									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"raw": "localhost:8081/apisql/ing/single/e43c2f92-997c-4e8f-a137-5f1e6379f5a2",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"single",
-										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
+										"e43c2f92-997c-4e8f-a137-5f1e6379f5a2"
 									]
 								}
 							},
@@ -1260,14 +1260,14 @@
 									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"raw": "localhost:8081/apisql/ing/2337f34e-891a-46d9-bf83-49f7b4b701b7",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
 									]
 								}
@@ -1286,17 +1286,17 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
+									"raw": "{\n\t\"title\":\"sugar\",\n\t\"unit\":\"tbsp\",\n\t\"qty\": 5566\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"raw": "localhost:8081/apisql/ing/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"single",
 										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
 									]
@@ -1319,16 +1319,16 @@
 									"raw": "{\n    \"title\": \"Bahn Mi\",\n    \"notes\": \"Sugar HIGH\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/single/5d7b5d87-c5a5-4c01-9682-f7598d4357c6",
+									"raw": "localhost:8081/apisql/ing/single/3e38c736-307d-4e58-9d3d-9a30f8516cae",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"single",
-										"5d7b5d87-c5a5-4c01-9682-f7598d4357c6"
+										"3e38c736-307d-4e58-9d3d-9a30f8516cae"
 									]
 								}
 							},
@@ -1349,14 +1349,14 @@
 									"raw": "{\n\t\"title\":\"Bahn Mi\",\n\t\"notes\": \"Sugar\"\n}"
 								},
 								"url": {
-									"raw": "localhost:8081/apisql/ingredients/2337f34e-891a-46d9-bf83-49f7b4b701b7",
+									"raw": "localhost:8081/apisql/ing/2337f34e-891a-46d9-bf83-49f7b4b701b7",
 									"host": [
 										"localhost"
 									],
 									"port": "8081",
 									"path": [
 										"apisql",
-										"ingredients",
+										"ing",
 										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
 									]
 								}

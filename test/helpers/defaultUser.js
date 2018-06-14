@@ -1,7 +1,7 @@
 module.exports =  {
   "local": {
-    "username": "56x323ad",
-    "email": "zff453d@test.com",
+    "username": "56xx323ad",
+    "email": "zffxc453d@test.com",
     "password": "tesdfdfsfssddt"
   }
 };

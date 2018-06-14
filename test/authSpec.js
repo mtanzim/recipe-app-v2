@@ -9,16 +9,18 @@ const util = require('util');
 const request = require('supertest');
 const _ = require('lodash');
 
-const App = require('../app');
+/* const App = require('../app');
 let config = require('../app/config/index');
 config.isTesting = true;
 const app = App(config);
-
+ */
 
 // const defUser = require('./helpers/defaultUser');
-const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser;
 
-module.exports = function runAuthApiTests(defUser) {
+
+module.exports = function runAuthApiTests(app, defUser) {
+
+  const testDeleteUser = require('./commonTest/commonUserTest')(app).deleteUser;
 
   let userId = null;
 

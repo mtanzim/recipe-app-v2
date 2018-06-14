@@ -1,27 +1,12 @@
 // require('babel-core/register');
 require('dotenv').load();
 
-
-// const mongoose = require('mongoose');
 const expect = require('chai').expect;
-// const rewire = require('rewire');
-// const util = require('util');
 const request = require('supertest');
 const _ = require('lodash');
 
-const App = require('../app');
-let config = require('../app/config/index');
-config.mysql.client = require('./helpers/connectSequelize')();
-config.isTesting = true;
-const app = App(config);
 
-// import common functions
-/* const testCreateUser = require('./commonTest/commonUserTest')().createUser;
-const testReadUser = require('./commonTest/commonUserTest')().readUser;
-const testDeleteUser = require('./commonTest/commonUserTest')().deleteUser; */
-
-
-module.exports = function runUserApiTests(defUser, dbType="mongo") {
+module.exports = function runUserApiTests(app, defUser, dbType="mongo") {
 
   let baseUrl = null;
   let userUpdate = null;
@@ -35,9 +20,9 @@ module.exports = function runUserApiTests(defUser, dbType="mongo") {
     : userUpdate = { email: emailUpdate };
 
   // import common functions
-  const testCreateUser = require('./commonTest/commonUserTest')(baseUrl).createUser;
-  const testReadUser = require('./commonTest/commonUserTest')(baseUrl).readUser;
-  const testDeleteUser = require('./commonTest/commonUserTest')(baseUrl).deleteUser;
+  const testCreateUser = require('./commonTest/commonUserTest')(app, baseUrl).createUser;
+  const testReadUser = require('./commonTest/commonUserTest')(app, baseUrl).readUser;
+  const testDeleteUser = require('./commonTest/commonUserTest')(app, baseUrl).deleteUser;
 
   let userId = undefined;
 

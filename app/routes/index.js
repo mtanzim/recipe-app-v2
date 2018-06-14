@@ -27,7 +27,7 @@ module.exports = function (passport, sqlClient, dbType) {
       .get('/health-check', (req, res, next) => res.send('OK!'))
       .use('/users', userSqlRoutes(sqlClient))
       .use('/recipes', reccipeIngRoutes(sqlClient,0))
-      .use('/ingredients', reccipeIngRoutes(sqlClient, 1));
+      .use('/ing', reccipeIngRoutes(sqlClient, 1));
 
   } else {
     throw new Error("Please specify valid database type!");

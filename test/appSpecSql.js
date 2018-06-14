@@ -1,10 +1,16 @@
 require('babel-core/register');
 require('dotenv').load();
 
-const connectMongoose = require('./helpers/connectMongoose');
+// const connectMongoose = require('./helpers/connectMongoose');
+
+const App = require('../app');
+let config = require('../app/config/index');
+config.mysql.client = require('./helpers/connectSequelize')();
+config.isTesting = true;
+const app = App(config);
 
 const testUserApi = require('./userSpec');
-const testAuthApi = require('./authSpec');
+// const testAuthApi = require('./authSpec');
 const testRecipeApi = require('./recipeSpec');
 const testIngApi = require('./ingSpec');
 
@@ -12,51 +18,40 @@ const defUser = require('./helpers/defaultUserSql');
 const defRecipe = require('./helpers/defaultRecipe');
 const defIng = require('./helpers/defaultIng');
 
+const baseUrl = 'apisql';
+const dbType = 'sql';
+
 describe("API SQL", function () {
 
   this.timeout(4000);
-  let apiLoops = 3;
-  // let doLoops = true;
+  let apiLoops = 0;
 
-/*   before(function () {
-    connectMongoose();
-  });
- */
   describe("API.user.sql", function () {
-    testUserApi(defUser, "sql");
+    testUserApi(app, defUser, dbType);
   });
 
   describe(`API.user.sql.loop`, function () {
     for (let i = 0; i < apiLoops; i++) {
-      testUserApi(defUser, "sql");
+      testUserApi(app, defUser, dbType);
     }
   });
 
-/*   describe(`API.auth`, function () {
-    testAuthApi(defUser);
+  describe(`API.recipe.sql`, function () {
+    testRecipeApi(app, defUser, defRecipe, baseUrl);
   });
+  describe(`API.recipe.sql.loop`, function () {
+    for (let i = 0; i < apiLoops; i++) {
+      testRecipeApi(app, defUser, defRecipe, baseUrl);
+    }
+  }); 
 
-  describe(`API.auth.loop`, function () {
+  describe(`API.ingredients.sql`, function () {
+    testIngApi(app, defUser, defRecipe, defIng, baseUrl);
+  });
+  describe(`API.ingredients.sql.loop`, function () {
     for (let i = 0; i < apiLoops; i++) {
-      testAuthApi(defUser);
+      testIngApi(app, defUser, defRecipe, defIng, baseUrl);
     }
   });
-  describe(`API.recipe`, function () {
-    testRecipeApi(defUser, defRecipe);
-  });
-  describe(`API.recipe.loop`, function () {
-    for (let i = 0; i < apiLoops; i++) {
-      testRecipeApi(defUser, defRecipe);
-    }
-  });
-
-  describe(`API.ingredients`, function () {
-    testIngApi(defUser, defRecipe, defIng);
-  });
-  describe(`API.ingredients.loop`, function () {
-    for (let i = 0; i < apiLoops; i++) {
-      testIngApi(defUser, defRecipe, defIng);
-    }
-  }); */
 
 });

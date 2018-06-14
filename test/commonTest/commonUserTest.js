@@ -1,13 +1,14 @@
 const expect = require('chai').expect;
 const request = require('supertest');
-const App = require('../../app');
+
 const _ = require('lodash');
 
-let config = require('../../app/config/index');
-config.isTesting = true;
-const app = App(config);
+// const App = require('../../app');
+// let config = require('../../app/config/index');
+// config.isTesting = true;
+// const app = App(config);
 
-module.exports = (baseUrl='api') => {
+module.exports = (app, baseUrl='api') => {
 
   let tester = {};
 
