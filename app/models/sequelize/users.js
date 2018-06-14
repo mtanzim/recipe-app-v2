@@ -59,7 +59,10 @@ module.exports = (sequelize, DataTypes) => {
       });
     });
   // relationship
-  User.associate = models => User.hasMany(models.Recipes);
+  User.associate = models => {
+    User.hasMany(models.Recipes);
+    // User.belongsToMany(User, { as: 'User', through: 'UserFriend' });
+  }
   return User;
 
 };

@@ -1,9 +1,13 @@
 
 module.exports = () => {
-  const config = require('../../app/config');
+  let config = require('../../app/config');
   const util = require('util');
   //connect to SQL
   const Sequelize = require('sequelize');
+
+  //remove logging from mysql
+  config.mysql.options.logging = false;
+
   const sequelize = new Sequelize(config.mysql.options);
   sequelize.authenticate()
     .then(() => {

@@ -51,6 +51,7 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - CRUD operations through ORM (queries, attribute selection)
   - Hooks and custom methods (password hashing)
   - Promise based operations
+  - [Creating a friend list with an RDB](https://stackoverflow.com/questions/3058281/buddy-list-relational-database-table-design)
 - Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks

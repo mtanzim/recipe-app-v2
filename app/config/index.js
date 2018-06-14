@@ -4,6 +4,7 @@ const isLoggedIn = require('./isLoggedIn');
 const passport = require('passport');
 const passportConfig = require('./passport')(passport);
 const mysql = require('./mysql')
+// const mysqlNoLog = require('./mysqlNoLog')
 
 
 module.exports = {

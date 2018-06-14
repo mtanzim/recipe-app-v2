@@ -24,7 +24,7 @@ const dbType = 'sql';
 describe("API SQL", function () {
 
   this.timeout(4000);
-  let apiLoops = 3;
+  let apiLoops = 0;
 
   describe("API.user.sql", function () {
     testUserApi(app, defUser, dbType);

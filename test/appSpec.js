@@ -21,7 +21,7 @@ const defIng = require('./helpers/defaultIng');
 describe("API Mongoose", function () {
 
   this.timeout(4000);
-  let apiLoops = 3;
+  let apiLoops = 0;
   // let doLoops = true;
 
   before(function () {
