@@ -68,6 +68,7 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - Looping tests in mocha
   - Setting up logging, creating documents
   - Creating re-usable modules in describe, it blocks
+  - Note to create designs that are scalable (example: adding SQL API tests required a lot of unnecessary factoring, default parameters etc.)
 - Postman Testing
 - JS/ES6
   - ES6 vs CommonJS import/export
