@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserA_id: {
       type: DataTypes.UUID,
+      unique: 'compositeIndex',
       allowNull: false,
       references: {
         model: User,
@@ -25,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     UserB_id: {
       type: DataTypes.UUID,
+      unique: 'compositeIndex',
       allowNull: false,
       references: {
         model: User,
