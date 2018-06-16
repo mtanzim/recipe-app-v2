@@ -15,6 +15,8 @@ module.exports = (sqlClient) => {
   const deleteUser = require('../../controllers/sequelize/user.controller')(sqlClient).deleteOne;
 
   const checkPass = require('../../controllers/sequelize/user.controller')(sqlClient).checkPass;
+  const getByUsername = require('../../controllers/sequelize/user.controller')(sqlClient).getByUsername;
+  const getByEmail = require('../../controllers/sequelize/user.controller')(sqlClient).getByEmail;
 
   const userErrorMessage = new Error ("User not found!");
 
@@ -30,8 +32,32 @@ module.exports = (sqlClient) => {
       checkPass(req.params.id,req.body)
         .then(users => users ? res.json(users) : next(userErrorMessage))
         .catch(err => {
+          // console.log(err);
+          return next(err);
+        });
+    });
+
+  router.route('/getByUsername')
+    .post((req, res, next) => {
+      // console.log(req.params.id);
+      if (!req.body.username) return next(new Error('Please supply username in reqest body!'));
+      getByUsername(req.body.username)
+        .then(users => users ? res.json(users) : next(userErrorMessage))
+        .catch(err => {
+          // console.log(err);
+          return next(err);
+        });
+    });
+
+  router.route('/getByEmail')
+    .post((req, res, next) => {
+      // console.log(req.params.id);
+      if (!req.body.email) return next(new Error ('Please supply email in reqest body!'));
+      getByEmail(req.body.email)
+        .then(users => users ? res.json(users) : next(userErrorMessage))
+        .catch(err => {
           console.log(err);
-          next(err)
+          return next(err)
         });
     });
 
@@ -47,7 +73,7 @@ module.exports = (sqlClient) => {
         .then(user => res.json(user))
         .catch(err => {
           console.log(err);
-          next(err)
+          return next(err)
         });
       // res.send('bout to create user');
     });

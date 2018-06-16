@@ -2,6 +2,7 @@ const Models = require('../../models/sequelize');
 
 let client = null;
 let Friend = null;
+let User = null;
 
 
 function create(userA, userB) {
@@ -11,6 +12,28 @@ function create(userA, userB) {
   }
   return Friend.create(friendBody);
 };
+
+function listFriends(id) {
+  return Friend.findAll({
+    // include: [
+    //   { model: User, required: true }
+    // ],
+    where: {
+      UserA_id: id,
+    },
+    attributes: ['UserB_id']
+  });
+  
+}
+
+function checkFriendStatus(userA, userB) {
+  return Friend.findOne({
+    where: { 
+      UserA_id: userA,
+      UserB_id: userB, 
+    },
+  });
+}
 
 /*
 function getAll() {
@@ -50,8 +73,11 @@ function deleteOne(id) {
 
 module.exports = (_client) => {
   Friend = Models(_client).Friend;
+  User = Models(_client).User;
   client = _client;
   return {
     create,
+    checkFriendStatus,
+    listFriends,
   };
 };

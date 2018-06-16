@@ -39,6 +39,22 @@ function getOne (id) {
     });
 };
 
+function getByEmail(email){
+  return User
+    .findOne({
+      where: { email: email },
+      attributes: ['_id', 'username', 'email']
+    });
+}
+
+function getByUsername(username) {
+  return User
+    .findOne({
+      where: { username: username },
+      attributes: ['_id', 'username', 'email']
+    });
+}
+
 function updateOne(id, update) {
   return User
     .findOne({
@@ -67,6 +83,8 @@ module.exports = (_client) => {
     create,
     getAll,
     getOne,
+    getByEmail,
+    getByUsername,
     updateOne,
     checkPass,
     deleteOne,

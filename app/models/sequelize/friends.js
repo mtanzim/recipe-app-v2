@@ -33,10 +33,15 @@ module.exports = (sequelize, DataTypes) => {
         key: '_id',
       }
     }  
+  }, 
+  {
+    uniqueKeys: {
+      compositeIndex: {
+        fields: ['UserA_id', 'UserB_id']
+      }
+    }
   });
 
-  // relationship
-  // Friend.associate = models => Friend.hasMany(models.User);
   return Friend;
 
 };
