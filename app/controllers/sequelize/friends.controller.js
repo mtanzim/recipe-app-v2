@@ -14,16 +14,24 @@ function create(userA, userB) {
 };
 
 function listFriends(id) {
-  return Friend.findAll({
-    // include: [
-    //   { model: User, required: true }
-    // ],
-    where: {
-      UserA_id: id,
-    },
-    attributes: ['UserB_id']
+
+  const queryString = `
+    select 
+      f.UserA_id as initID,
+      f.UserB_id as friendID, 
+      u._id as friendRootId,
+      u.username as friendUsername,
+      u.email as friendEmail
+    from friends as f join users as u
+      on u._id = f.UserB_id
+    where userA_id=?;
+  `;
+
+  return client.query(queryString, {
+    raw: true,
+    replacements: [id], 
+    model: User,
   });
-  
 }
 
 function checkFriendStatus(userA, userB) {

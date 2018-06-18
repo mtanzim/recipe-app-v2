@@ -14,7 +14,13 @@ module.exports = (sqlClient) => {
   router.route('/:id')
     .get((req, res, next) => {
       listFriends(req.params.id)
-        .then(friends => friends ? res.json(friends): next(new Error('No friends found!')))
+        .then(friends => {
+          if (!friends){
+            return next(new Error('No friends found!'))
+          }
+          // console.log(friends);
+          return res.json(friends);
+        })
         .catch(err => next(err));
     })
 
