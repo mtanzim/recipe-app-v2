@@ -69,8 +69,9 @@ function updateOne(id, update) {
 };
 
 function deleteOne (id) {
+  // TODO: cascade friend deletes
   return getOne(id)
-    .then ( user => {
+    .then ( user => { 
       return user.destroy({ force: true });
     });
 }

@@ -51,12 +51,27 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   // set hooks to ensure passwords are  hashed
-  User.beforeSave((user, options) => {
-    // console.log("COMING TO beforecreate!")
-    return bcrypt.hash(user.password, SALT_ROUNDS)
-      .then(hash => {
-        user.password = hash;
+  User
+    .beforeDestroy ( (user, options) => {
+      //remove all instances on friends table
+      const queryString = `
+        delete 
+        from friends
+        where userA_id=? or userB_id=? ;
+      `;
+
+      return sequelize.query(queryString, {
+        raw: true,
+        replacements: [user._id, user._id],
+        // model: User,
       });
+    })
+    .beforeSave((user, options) => {
+      // console.log("COMING TO beforecreate!")
+      return bcrypt.hash(user.password, SALT_ROUNDS)
+        .then(hash => {
+          user.password = hash;
+        });
     });
   // relationship
   User.associate = models => {

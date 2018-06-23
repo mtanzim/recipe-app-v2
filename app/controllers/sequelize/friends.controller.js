@@ -15,11 +15,21 @@ function create(userA, userB) {
 
 function listFriends(id) {
 
-  const queryString = `
+/*   const queryString = `
     select 
       f.UserA_id as initID,
       f.UserB_id as friendID, 
       u._id as friendRootId,
+      u.username as friendUsername,
+      u.email as friendEmail
+    from friends as f join users as u
+      on u._id = f.UserB_id
+    where userA_id=?;
+  `; */
+
+  const queryString = `
+    select 
+      f.UserB_id as friendID, 
       u.username as friendUsername,
       u.email as friendEmail
     from friends as f join users as u
@@ -41,6 +51,25 @@ function checkFriendStatus(userA, userB) {
       UserB_id: userB, 
     },
   });
+}
+
+function removeFriend(userA, userB) {
+  return checkFriendStatus(userA, userB)
+    .then(item => {
+      return item.destroy({ force: true });
+    });
+}
+
+function removeAllFriends (userA) {
+  return listFriends(userA)
+    .then( items => {
+      return Promise.all( items.map ( item => {
+        return removeFriend (userA, item.friendID);
+      }));
+      // console.log(friendsIdList);
+      // return friendsIdList;
+    })
+
 }
 
 /*
@@ -87,5 +116,7 @@ module.exports = (_client) => {
     create,
     checkFriendStatus,
     listFriends,
+    removeFriend,
+    removeAllFriends,
   };
 };
