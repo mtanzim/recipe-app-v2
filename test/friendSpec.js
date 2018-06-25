@@ -25,8 +25,10 @@ module.exports = function runUserApiTests(app, defUserArray, dbType = "mongo") {
   const testCreateUser = require('./commonTest/commonUserTest')(app, baseUrl).createUser;
   const testReadUser = require('./commonTest/commonUserTest')(app, baseUrl).readUser;
   const testDeleteUser = require('./commonTest/commonUserTest')(app, baseUrl).deleteUser;
+  const testCreateFriend = require('./commonTest/commonFriendTest')(app).createFriend;
 
   let userIdArr = [];
+  let friendIdArr = [];
 
   // userIdArr = ['a62efe11-4faf-4a0a-bbc2-751c56375104',
   //   '2b4ecbfe-a837-4a52-a854-ed0ffb40025c',
@@ -59,34 +61,68 @@ module.exports = function runUserApiTests(app, defUserArray, dbType = "mongo") {
         return testCreateUser(defUser)
           .then((id) => {
             userIdArr.push(id);
-            console.log(userIdArr);
+            
           })
-          .catch(err => done(err));
+          .catch(err => Promise.reject(err));
         })
-  )
-  .then(()=> done());
-});
+    )
+      .then( () => {
+        console.log(userIdArr);
+        done();
+      })
+      .catch(err => done(err));
+  });
 
 
   
     
-/*   it("READ The created users", function (done) {
-    userIdArr.forEach(userId => {
-      testReadUser(userId)
-        .then(() => console.log(userId) )
-        .catch(err => done(err));
+  it("READ The created users", function (done) {
+    Promise.all(
+      userIdArr.map( userId => {
+        return testReadUser(userId)
+          .then(() => console.log(userId))
+          .catch(err => Promise.reject(err));
+        })
+      )
+      .then(() => done())
+      .catch(err => done(err));
+  });
+
+  it("CREATE network of friends", function (done) {
+
+    let friendArr = [];
+    userIdArr.forEach ( userA => {
+      userIdArr.forEach ( userB => {
+        if (userA !== userB) friendArr.push([userA, userB]);
+      });
     });
-    done();
+
+    Promise.all(
+      friendArr.map(userCombo => {
+        return testCreateFriend(userCombo[0], userCombo[1])
+          .then((res) => friendIdArr.push(res))
+          .catch(err => Promise.reject(err));
+      })
+    )
+      .then(() => {
+        console.log(friendIdArr);
+        done();
+      })
+      .catch(err => done(err));
   });
 
   
   it("DELETE Each User", function (done) {
-    userIdArr.forEach(userId => {
-      testDeleteUser(userId)
-        .then(() => console.log(userId))
-        .catch(err => done(err));
-    });
-    done();
-  }); */
+    Promise.all(
+      userIdArr.map(userId => {
+        return testDeleteUser(userId)
+          .then(() => console.log(userId))
+          .catch( err => Promise.reject(err));
+        })
+      )
+      .then(() => done())
+      .catch(err => done(err));
+  });
+
 };
 

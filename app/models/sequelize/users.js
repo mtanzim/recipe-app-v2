@@ -64,7 +64,7 @@ module.exports = (sequelize, DataTypes) => {
         raw: true,
         replacements: [user._id, user._id],
         // model: User,
-      });
+      });   
     })
     .beforeSave((user, options) => {
       // console.log("COMING TO beforecreate!")
