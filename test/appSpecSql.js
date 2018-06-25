@@ -13,8 +13,10 @@ const testUserApi = require('./userSpec');
 // const testAuthApi = require('./authSpec');
 const testRecipeApi = require('./recipeSpec');
 const testIngApi = require('./ingSpec');
+const testFriendsApi = require('./friendSpec');
 
 const defUser = require('./helpers/defaultUserSql');
+const defUserArray = require('./helpers/defaultUserSqlArray');
 const defRecipe = require('./helpers/defaultRecipe');
 const defIng = require('./helpers/defaultIng');
 
@@ -52,6 +54,11 @@ describe("API SQL", function () {
     for (let i = 0; i < apiLoops; i++) {
       testIngApi(app, defUser, defRecipe, defIng, baseUrl);
     }
+  });
+
+
+  describe(`API.friends.sql`, function () {
+    testFriendsApi(app, defUserArray, dbType);
   });
 
 });

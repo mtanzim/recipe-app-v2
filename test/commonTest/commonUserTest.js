@@ -33,7 +33,7 @@ module.exports = (app, baseUrl='api') => {
   tester.readUser = function (userId) {
     return new Promise((resolve, reject) => {
       request(app)
-        .get(`/${baseUrl}//users/${userId}`)
+        .get(`/${baseUrl}/users/${userId}`)
         .set('Accept', 'application/json')
         .expect(200)
         .end(function (err, res) {

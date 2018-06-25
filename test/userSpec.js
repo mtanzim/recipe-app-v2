@@ -15,6 +15,7 @@ module.exports = function runUserApiTests(app, defUser, dbType="mongo") {
   (dbType === "mongo")
     ? baseUrl='api'
     : baseUrl='apisql';
+    
   (dbType === "mongo")
     ? userUpdate = { local: { email: emailUpdate } }
     : userUpdate = { email: emailUpdate };
