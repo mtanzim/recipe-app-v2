@@ -2,7 +2,7 @@
 
 ## Overview
 
-*As of 6/26/2018, this project is marked complete. The unfinished tasks will be continued after further educational pursuits*
+*As of 6/26/2018, this project is marked complete. The unfinished tasks will be continued after further educational pursuits.*
 
 Fullstack application being developed for educational purposes, using the MERN stack.
 
