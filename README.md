@@ -2,6 +2,8 @@
 
 ## Overview
 
+*As of 6/26/2018, this project is marked complete. The unfinished tasks will be continued after further education pursuits*
+
 Fullstack application being developed for educational purposes, using the MERN stack.
 
 The original app can be found here:
@@ -21,21 +23,22 @@ Take existing app and improve the app with knowledge acquired over the past proj
 
 ### Overall Improvements
 
-- [ ] Implement a friend's list feature
+- [ ] Implement a friend's list feature on front and back end
 - [ ] Implement a live chat, exercising socket IO
 
 ### Back end Improvements
 
 - [x] Updated routing strategies
 - [x] Use of es6 code/transpiling with babel
-- [x] Unit testing with Mocha
-- [ ] Improvements to async code with async/await functions in conjunction with promises
+- [x] Unit testing with Mocha for each API instance
 - [x] General code cleanup following best practices
 - [x] Improve understanding of Mongo/Mongoose
 - [x] Mocking relations with Mongoose Populate
 - [x] Usage of MySQL database in conjunction with Mongo
+- [x] Implement a friend's list feature with SQL
 - [ ] Integration of Redis for sessions storage
 - [ ] Authentication with JWT
+- [ ] Improvements to async code with async/await functions in conjunction with promises
 
 ### Front End Improvements
 
@@ -52,7 +55,10 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - Hooks and custom methods (password hashing)
   - Promise based operations
   - [Creating a friend list with an RDB](https://stackoverflow.com/questions/3058281/buddy-list-relational-database-table-design)
-  - Creating a many to many relationship with the [friend list model](./app/models/sequelize/friends.js) 
+  - Creating a many to many relationship with the [friend list model](./app/models/sequelize/friends.js)
+  - Executing raw queries as required when object functions are more cumbersome
+    - See [user model](./app/models/sequelize/users.js)
+    - See [friend sql controller](./app/controllers/sequelize/friends.controller.js)
 - Mongoose/MongoDB
   - Select clauses
   - Promise vs callbacks
@@ -72,6 +78,7 @@ Take existing app and improve the app with knowledge acquired over the past proj
   - Creating re-usable modules in describe, it blocks
   - Note to create designs that are scalable (example: adding SQL API tests required a lot of unnecessary factoring, default parameters etc.)
 - Postman Testing
+- [package.json scripts](./package.json)
 - JS/ES6
   - ES6 vs CommonJS import/export
   - Promisifying functions for improved/more readble async code

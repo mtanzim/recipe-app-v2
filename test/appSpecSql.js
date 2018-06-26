@@ -55,10 +55,13 @@ describe("API SQL", function () {
       testIngApi(app, defUser, defRecipe, defIng, baseUrl);
     }
   });
-
-
   describe(`API.friends.sql`, function () {
     testFriendsApi(app, defUserArray, dbType);
+  });
+  describe(`API.friends.sql`, function () {
+    for (let i = 0; i < apiLoops; i++) {
+      testFriendsApi(app, defUserArray, dbType);
+    }
   });
 
 });

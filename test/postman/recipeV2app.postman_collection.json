@@ -865,7 +865,7 @@
 								"header": [],
 								"body": {},
 								"url": {
-									"raw": "localhost:8081/apisql/users/bf114ce8-7471-40c8-bb54-ba9cae23abeb",
+									"raw": "localhost:8081/apisql/users/44d60e2c-1425-47a0-9e2c-6b5afc104f47",
 									"host": [
 										"localhost"
 									],
@@ -873,7 +873,65 @@
 									"path": [
 										"apisql",
 										"users",
-										"bf114ce8-7471-40c8-bb54-ba9cae23abeb"
+										"44d60e2c-1425-47a0-9e2c-6b5afc104f47"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getByEmail",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"email\":\"mtanzim@gmail.com\"\n\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/users/getByEmail",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"getByEmail"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getByUsername",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"tanzim_m\"\n\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/users/getByUsername",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"users",
+										"getByUsername"
 									]
 								}
 							},
@@ -1358,6 +1416,190 @@
 										"apisql",
 										"ing",
 										"2337f34e-891a-46d9-bf83-49f7b4b701b7"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "friends",
+					"description": "",
+					"item": [
+						{
+							"name": "getFriendHealthCheck",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/health-check",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"health-check"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checkFriendStatus",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/c156e940-9a1b-495e-af6c-66a300fdc328/76ca8735-fda4-417a-b395-0a8859b5d71a",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"c156e940-9a1b-495e-af6c-66a300fdc328",
+										"76ca8735-fda4-417a-b395-0a8859b5d71a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "createFriend",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/1ef201b0-86df-40c0-9fc4-638d10195ab1/c156e940-9a1b-495e-af6c-66a300fdc328",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"1ef201b0-86df-40c0-9fc4-638d10195ab1",
+										"c156e940-9a1b-495e-af6c-66a300fdc328"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "checkFriendList",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/dba441e3-3896-40b0-825a-ac445f21da7f",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"dba441e3-3896-40b0-825a-ac445f21da7f"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteFriend",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/c156e940-9a1b-495e-af6c-66a300fdc328/76ca8735-fda4-417a-b395-0a8859b5d71a",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"c156e940-9a1b-495e-af6c-66a300fdc328",
+										"76ca8735-fda4-417a-b395-0a8859b5d71a"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteFriendList",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"username\":\"xxxxx\",\n\t\"email\": \"xzczx234234c@gmail.com\",\n\t\"password\": \"2324234234\"\n}"
+								},
+								"url": {
+									"raw": "localhost:8081/apisql/friends/1ef201b0-86df-40c0-9fc4-638d10195ab1",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"apisql",
+										"friends",
+										"1ef201b0-86df-40c0-9fc4-638d10195ab1"
 									]
 								}
 							},

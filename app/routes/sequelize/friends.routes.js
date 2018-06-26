@@ -40,7 +40,7 @@ module.exports = (sqlClient) => {
   router.route('/:idA/:idB')
     .get((req, res, next) => {
       checkFriendStatus(req.params.idA, req.params.idB)
-        .then(friends => res.json(friends))
+        .then(friends => friends ? res.json(friends) : next(new Error('User is not a friend!')))
         .catch(err => next(err));
     })
     .delete((req, res, next) => {
