@@ -17,6 +17,7 @@ The following repositories will be used for guidance:
 - <https://github.com/mtanzim/nodeJSExpressEssentials>
 - <https://github.com/mtanzim/nodeJSEssentialTraining>
 - <https://github.com/mtanzim/fcc-advanced-node-tm>
+- <https://github.com/mtanzim/boilerplate-mochachai>
 
 ### Objectives
 
