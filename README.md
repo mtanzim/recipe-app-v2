@@ -16,8 +16,22 @@ The following repositories will be used for guidance:
 - <https://github.com/mtanzim/databasesForNode>
 - <https://github.com/mtanzim/nodeJSExpressEssentials>
 - <https://github.com/mtanzim/nodeJSEssentialTraining>
+
+
+The following additional Freecodecamp lessons are to be used as reference:
+
 - <https://github.com/mtanzim/fcc-advanced-node-tm>
 - <https://github.com/mtanzim/boilerplate-mochachai>
+- <https://github.com/mtanzim/fcc-infosec-challenges-tm>
+- <https://github.com/mtanzim/fcc-bcrypt-lessons-tm>
+- <https://github.com/mtanzim/fcc-socketio-challenges-tm>
+
+The following Freecode challenges were completed with a focus on information security and testing:
+
+- <https://github.com/mtanzim/boilerplate-project-stockchecker>
+- <https://github.com/mtanzim/boilerplate-project-library>
+- <https://github.com/mtanzim/boilerplate-project-issuetracker>
+- <https://github.com/mtanzim/boilerplate-project-metricimpconverter>
 
 ### Objectives
 
