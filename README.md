@@ -32,6 +32,7 @@ The following Freecode challenges were completed with a focus on information sec
 - <https://github.com/mtanzim/boilerplate-project-library>
 - <https://github.com/mtanzim/boilerplate-project-issuetracker>
 - <https://github.com/mtanzim/boilerplate-project-metricimpconverter>
+- <https://github.com/mtanzim/boilerplate-project-messageboard>
 
 ### Objectives
 
