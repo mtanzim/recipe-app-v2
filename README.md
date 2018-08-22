@@ -26,7 +26,7 @@ The following additional Freecodecamp lessons are to be used as reference:
 - <https://github.com/mtanzim/fcc-bcrypt-lessons-tm>
 - <https://github.com/mtanzim/fcc-socketio-challenges-tm>
 
-The following Freecode challenges were completed with a focus on information security and testing:
+The following Freecodecamp challenges were completed with a focus on information security and testing:
 
 - <https://github.com/mtanzim/boilerplate-project-stockchecker>
 - <https://github.com/mtanzim/boilerplate-project-library>
@@ -34,7 +34,7 @@ The following Freecode challenges were completed with a focus on information sec
 - <https://github.com/mtanzim/boilerplate-project-metricimpconverter>
 - <https://github.com/mtanzim/boilerplate-project-messageboard>
 
-The following Freecode challenges were completed with a focus on React:
+The following Freecodecamp challenges were completed with a focus on React:
 
 - <https://github.com/mtanzim/fcc-frontend-reactmdpreviewer>
 - <https://github.com/mtanzim/fcc-frontend-drumkit>
