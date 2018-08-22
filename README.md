@@ -34,6 +34,12 @@ The following Freecode challenges were completed with a focus on information sec
 - <https://github.com/mtanzim/boilerplate-project-metricimpconverter>
 - <https://github.com/mtanzim/boilerplate-project-messageboard>
 
+The following Freecode challenges were completed with a focus on React:
+
+- <https://github.com/mtanzim/fcc-frontend-reactmdpreviewer>
+- <https://github.com/mtanzim/fcc-frontend-drumkit>
+
+
 ### Objectives
 
 Take existing app and improve the app with knowledge acquired over the past projects.
